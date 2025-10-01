@@ -1,0 +1,74 @@
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.synctex.gz(busy)
+*.toc
+*.lot
+*.lof
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.ist
+*.acn
+*.acr
+*.alg
+*.glg
+*.xdy
+
+# LaTeX cache and temporary files
+*.figlist
+*.makefile
+*.fmf
+*.mtc*
+*.maf
+*.ptc
+*.upa
+*.upb
+*.nav
+*.snm
+*.vrb
+
+# Build directory
+build/
+
+# Generated PDFs (keep only source .tex files)
+*.pdf
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary test files
+test-*.aux
+test-*.log
+test-*.fdb_latexmk
+test-*.fls
+test-*.synctex.gz
