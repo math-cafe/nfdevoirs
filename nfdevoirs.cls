@@ -4,13 +4,65 @@
 % ============================================================================
 % OPTIONS DE CLASSE
 % ============================================================================
+
+% Options de correction
 \newif\if@correction
 \@correctionfalse
 \newif\if@correctionfin
 \@correctionfinfalse
 
+% Système de thèmes extensible
+\newif\if@themenb
+\@themenbfalse
+\newif\if@thememoderne
+\@thememodernetrue  % thème par défaut
+\newif\if@themeorange
+\@themeorangefalse
+\newif\if@themevert
+\@themevertfalse
+\newif\if@themeviolet
+\@themevioletfalse
+
 \DeclareOption{correction}{\@correctiontrue}
 \DeclareOption{correctionfin}{\@correctionfintrue}
+
+% Options de thèmes avec gestion mutuelle exclusive
+\DeclareOption{theme=nb}{%
+  \@themenbtrue%
+  \@thememodernefalse%
+  \@themeorangefalse%
+  \@themevertfalse%
+  \@themevioletfalse%
+}
+\DeclareOption{theme=moderne}{%
+  \@thememodernetrue%
+  \@themenbfalse%
+  \@themeorangefalse%
+  \@themevertfalse%
+  \@themevioletfalse%
+}
+\DeclareOption{theme=orange}{%
+  \@themeorangetrue%
+  \@thememodernefalse%
+  \@themenbfalse%
+  \@themevertfalse%
+  \@themevioletfalse%
+}
+\DeclareOption{theme=vert}{%
+  \@themeverttrue%
+  \@thememodernefalse%
+  \@themenbfalse%
+  \@themeorangefalse%
+  \@themevioletfalse%
+}
+\DeclareOption{theme=violet}{%
+  \@themeviolettrue%
+  \@thememodernefalse%
+  \@themenbfalse%
+  \@themeorangefalse%
+  \@themevertfalse%
+}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 
@@ -43,14 +95,62 @@
   bottom=15mm
 }
 
-% Couleurs modernes
-\definecolor{nfblue}{RGB}{41,128,185}
-\definecolor{nfbluebg}{RGB}{236,240,245}
-\definecolor{nfgray}{RGB}{100,100,100}
+% ============================================================================
+% SYSTÈME DE THÈMES - Palettes conditionnelles
+% ============================================================================
+
+\if@themenb
+  % Thème Noir & Blanc - Optimisé pour impression monochrome
+  \definecolor{nfcolpartie}{RGB}{0,0,0}          % Noir pur (contraste maximum)
+  \definecolor{nfcolexercice}{RGB}{89,89,89}     % Gris foncé (hiérarchie claire)
+  \definecolor{nfcolpoints}{RGB}{128,128,128}    % Gris moyen (information secondaire)
+  \definecolor{nfcolaccent}{RGB}{150,150,150}    % Gris clair (texte discret)
+  \definecolor{nfcolbglight}{RGB}{240,240,240}   % Gris très clair (arrière-plans)
+\else\if@thememoderne
+  % Thème Moderne - Palette couleur harmonieuse (défaut)
+  \definecolor{nfcolpartie}{RGB}{41,128,185}     % Bleu principal (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{102,126,234}  % Indigo (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{100,116,139}    % Bleu-gris slate (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{236,240,245}   % Arrière-plan bleu clair (corrections)
+\else\if@themeorange
+  % Thème Orange - Palette chaleureuse et énergique
+  \definecolor{nfcolpartie}{RGB}{230,126,34}     % Orange principal (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{211,84,0}     % Orange foncé (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris neutre (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{183,149,11}     % Ambre (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{254,249,231}   % Crème très clair (arrière-plans)
+\else\if@themevert
+  % Thème Vert - Palette nature et écologique
+  \definecolor{nfcolpartie}{RGB}{39,130,67}      % Vert sapin foncé (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{88,181,115}   % Vert menthe (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris neutre (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{101,116,68}     % Vert-brun (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{240,248,242}   % Vert très clair (arrière-plans)
+\else\if@themeviolet
+  % Thème Violet - Palette créative et moderne
+  \definecolor{nfcolpartie}{RGB}{107,70,193}     % Violet profond (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{142,126,234}  % Violet clair (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris neutre (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{123,104,137}    % Prune (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{248,246,255}   % Lavande très clair (arrière-plans)
+\else
+  % Fallback - Thème moderne par défaut si aucun thème détecté
+  \definecolor{nfcolpartie}{RGB}{41,128,185}     % Bleu principal
+  \definecolor{nfcolexercice}{RGB}{102,126,234}  % Indigo
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris
+  \definecolor{nfcolaccent}{RGB}{100,116,139}    % Bleu-gris slate
+  \definecolor{nfcolbglight}{RGB}{236,240,245}   % Arrière-plan bleu clair
+\fi\fi\fi\fi\fi
+
+% Note: Pour ajouter un nouveau thème, suivre ces étapes :
+% 1. Ajouter \newif\if@themeNOUVEAU dans les options de classe
+% 2. Ajouter \DeclareOption{theme=NOUVEAU} avec gestion mutuelle exclusive
+% 3. Ajouter un bloc \else\if@themeNOUVEAU avec la palette de couleurs
 
 % Configuration des listes avec puces modernes
-\setlist[itemize,1]{label={\color{nfblue}$\bullet$}, leftmargin=*}
-\setlist[itemize,2]{label={\color{nfblue}$\circ$}, leftmargin=*}
+\setlist[itemize,1]{label={\color{nfcolpartie}$\bullet$}, leftmargin=*}
+\setlist[itemize,2]{label={\color{nfcolpartie}$\circ$}, leftmargin=*}
 
 % Configuration tcolorbox
 \tcbuselibrary{skins,breakable}
@@ -104,7 +204,7 @@
   \hfill%
   \makebox[2.5cm][r]{%
     \fontsize{#1}{#1}\selectfont
-    \color{nfgray}%
+    \color{nfcolpoints}%
     \ifnum#2>0 /#2\fi%
     \ifnum#3>0 \space +#3\fi%
   }%
@@ -129,7 +229,7 @@
   \begin{minipage}[t]{2.5cm}
     \raggedleft
     \textbf{%
-      \color{nfgray}%
+      \color{nfcolpoints}%
       \ifnum#1>0 /#1\fi%
       \ifnum#2>0 \space +#2\fi%
     }
@@ -168,13 +268,13 @@
   % Affichage du titre avec les points (structure en deux colonnes)
   \noindent
   \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-    {\Large\textbf{\arabic{nfexercice}. #1}}
+    {\Large\textbf{\color{nfcolexercice}\arabic{nfexercice}. #1}}
   \end{minipage}%
   \hfill
   \begin{minipage}[t]{2.5cm}
     \raggedleft
     {\Large\textbf{%
-      \color{nfgray}%
+      \color{nfcolpoints}%
       \edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}}%
       \edef\tempbonus{\nfgetexobonus{\roman{nfexerciceabs}}}%
       \ifnum\temppts>0 /\temppts\fi%
@@ -227,14 +327,14 @@
   % Affichage du titre avec les points (structure en deux colonnes)
   \noindent
   \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-    {\LARGE\textbf{Partie \Roman{nfpartie}%
+    {\LARGE\textbf{\color{nfcolpartie}Partie \Roman{nfpartie}%
     \ifstrempty{#1}{}{\ : #1}}}
   \end{minipage}%
   \hfill
   \begin{minipage}[t]{2.5cm}
     \raggedleft
     {\LARGE\textbf{%
-      \color{nfgray}%
+      \color{nfcolpoints}%
       \edef\temppts{\nfgetpartiepts{\roman{nfpartie}}}%
       \edef\tempbonus{\nfgetpartiebonus{\roman{nfpartie}}}%
       \ifnum\temppts>0 /\temppts\fi%
@@ -271,21 +371,21 @@
     \begin{tcolorbox}[
       enhanced,
       breakable,
-      colback=nfbluebg,
-      colframe=nfblue,
+      colback=nfcolbglight,
+      colframe=nfcolpartie,
       arc=3pt,
       boxrule=1pt,
       left=5pt,
       right=5pt,
       top=5pt,
       bottom=5pt,
-      title={\small\textcolor{nfblue}{✓ Correction}},
+      title={\small\textcolor{nfcolpartie}{✓ Correction}},
       fonttitle=\bfseries,
-      coltitle=nfblue,
+      coltitle=nfcolpartie,
       attach boxed title to top left={yshift=-2mm, xshift=5mm},
       boxed title style={
         colback=white,
-        colframe=nfblue,
+        colframe=nfcolpartie,
         boxrule=1pt,
         arc=2pt
       }
@@ -320,8 +420,8 @@
         \begin{tcolorbox}[
           enhanced,
           breakable,
-          colback=nfbluebg,
-          colframe=nfblue,
+          colback=nfcolbglight,
+          colframe=nfcolpartie,
           arc=3pt,
           boxrule=1pt,
           left=5pt,
@@ -346,10 +446,10 @@
   
   % En-tête avec titre et infos
   \begin{center}
-    {\Huge\bfseries\color{nfblue}\@title}
+    {\Huge\bfseries\color{nfcolpartie}\@title}
     
     \vspace{0.3cm}
-    {\color{nfblue}\rule{0.6\textwidth}{2pt}}
+    {\color{nfcolpartie}\rule{0.6\textwidth}{2pt}}
     \vspace{0.5cm}
     
     \begin{minipage}{0.45\textwidth}
@@ -368,7 +468,7 @@
   \begin{center}
     \begin{minipage}[t]{0.3\textwidth}
       \centering
-      \textbf{\color{nfblue}Barème} \\[0.2cm]
+      \textbf{\color{nfcolpartie}Barème} \\[0.2cm]
       \textbf{\nftotalpts\ points}%
       \ifnum\nftotalbonus>0
         \ + \textbf{\nftotalbonus\ bonus}%
@@ -382,7 +482,7 @@
     \ifstrempty{\@nfduree}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
-        \textbf{\color{nfblue}Durée} \\[0.2cm]
+        \textbf{\color{nfcolpartie}Durée} \\[0.2cm]
         \textbf{\@nfduree}
       \end{minipage}%
       \hfill
@@ -390,7 +490,7 @@
     \ifstrempty{\@nfdate}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
-        \textbf{\color{nfblue}Date} \\[0.2cm]
+        \textbf{\color{nfcolpartie}Date} \\[0.2cm]
         \textbf{\@nfdate}
       \end{minipage}%
     }
@@ -402,7 +502,7 @@
   \begin{tcolorbox}[
     enhanced,
     colback=white,
-    colframe=nfblue,
+    colframe=nfcolpartie,
     boxrule=1.5pt,
     arc=2pt,
     left=10pt,
@@ -411,14 +511,14 @@
     bottom=8pt,
     height=45mm,
   ]
-    \textbf{\color{nfblue}Note et observations :}
+    \textbf{\color{nfcolpartie}Note et observations :}
     \vspace{2.3cm}
   \end{tcolorbox}
   
   \vspace{0.5cm}
   
   % Section Consignes
-  {\large\textbf{\color{nfblue}Consignes pour l'épreuve}}
+  {\large\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}
   \vspace{0.2cm}
   
   \begin{itemize}[leftmargin=*, itemsep=3pt]
@@ -437,14 +537,14 @@
   \vspace{0.5cm}
   
   % Section Conseils
-  {\large\textbf{\color{nfblue}Conseils pour réussir}}
+  {\large\textbf{\color{nfcolpartie}Conseils pour réussir}}
   \vspace{0.2cm}
   
   \begin{itemize}[leftmargin=*, itemsep=3pt]
     \item \textbf{Prenez connaissance de l'ensemble du sujet} avant de commencer pour comprendre la structure et identifier les compétences à mobiliser.
     
     \item \textbf{Lisez attentivement les énoncés} pour bien cerner les capacités testées%
-    \ifstrempty{\@nfeasteregg}{.}{\ {\color{nfgray}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
+    \ifstrempty{\@nfeasteregg}{.}{\ {\color{nfcolaccent}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
     
     \item \textbf{Gérez votre temps} : recherche sur brouillon, rédaction soignée, puis relecture.
     

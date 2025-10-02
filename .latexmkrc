@@ -37,8 +37,8 @@ $clean_ext = 'synctex.gz synctex.gz(busy) run.xml tex.bak bbl bcf fdb_latexmk ru
 # ============================================================================
 # MODE WATCH (compilation continue)
 # ============================================================================
-# Active le mode preview continu par défaut (make watch)
-$preview_continuous_mode = 1;
+# Mode preview continu (activé seulement par make watch)
+# $preview_continuous_mode = 1;
 
 # Limite le nombre de compilations pour éviter les boucles infinies
 $max_repeat = 5;
