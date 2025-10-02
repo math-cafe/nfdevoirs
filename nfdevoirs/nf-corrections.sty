@@ -67,27 +67,59 @@
     \ifnum\value{nfcorrection}>0
       \clearpage
       \section*{\faClipboardCheck\ Corrections}
-      % Boucle pour afficher toutes les corrections stockées
+
+      % Variables pour suivre la hiérarchie
+      \def\nfcurrentpartie{}%
+      \def\nfcurrentexercice{}%
+
+      % Boucle principale pour afficher les corrections avec hiérarchie
       \count@=1\relax
       \loop\ifnum\count@<\numexpr\value{nfcorrection}+1\relax
-        \noindent\textbf{\faLayerGroup\ Partie \csname nfcorr\the\count@ partie\endcsname, %
-        \faEdit\ Exercice \csname nfcorr\the\count@ exo\endcsname, %
-        \faQuestionCircle\ Question \csname nfcorr\the\count@ quest\endcsname}
-        \begin{tcolorbox}[
-          enhanced,
-          breakable,
-          colback=nfcolbglight,
-          colframe=nfcolpartie,
-          arc=3pt,
-          boxrule=1pt,
-          left=5pt,
-          right=5pt,
-          top=5pt,
-          bottom=5pt,
-        ]
-        \csname nfcorr\the\count@ body\endcsname
-        \end{tcolorbox}
-        \medskip
+        % Récupérer les infos de la correction actuelle
+        \edef\nfthispartie{\csname nfcorr\the\count@ partie\endcsname}%
+        \edef\nfthisexercice{\csname nfcorr\the\count@ exo\endcsname}%
+        \edef\nfthisquestion{\csname nfcorr\the\count@ quest\endcsname}%
+
+        % Afficher titre de partie si changement
+        \ifx\nfcurrentpartie\nfthispartie\else
+          \vspace{1em}%
+          {\Large\textbf{\color{nfcolpartie}\faLayerGroup\ Partie \nfthispartie}}%
+          \vspace{0.5em}%
+          \let\nfcurrentpartie\nfthispartie%
+          \def\nfcurrentexercice{}% Reset exercice
+        \fi
+
+        % Afficher titre d'exercice si changement
+        \ifx\nfcurrentexercice\nfthisexercice\else
+          \vspace{0.5em}%
+          \noindent\hspace{1em}{\large\textbf{\color{nfcolexercice}\faEdit\ Exercice \nfthisexercice}}%
+          \vspace{0.3em}%
+          \let\nfcurrentexercice\nfthisexercice%
+        \fi
+
+        % Afficher la question et sa correction
+        \noindent\hspace{2em}\textbf{\color{nfcolpoints}\faCheck\ Question \nfthisquestion}%
+        \vspace{0.2em}%
+
+        \noindent\hspace{2em}%
+        \begin{minipage}{\dimexpr\textwidth-2em\relax}
+          \begin{tcolorbox}[
+            enhanced,
+            breakable,
+            colback=nfcolbglight,
+            colframe=nfcolpartie,
+            arc=3pt,
+            boxrule=1pt,
+            left=5pt,
+            right=5pt,
+            top=5pt,
+            bottom=5pt,
+          ]
+          \csname nfcorr\the\count@ body\endcsname
+          \end{tcolorbox}
+        \end{minipage}%
+
+        \vspace{0.3em}%
         \advance\count@ by 1\relax
       \repeat
     \fi
