@@ -1,0 +1,75 @@
+% ============================================================================
+% nf-themes.sty - Système de thèmes pour la classe nfdevoirs
+% Contient le système extensible de thèmes et toutes les palettes de couleurs
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-themes}[2025/10/02 Système de thèmes nfdevoirs]
+
+% ============================================================================
+% SYSTÈME DE THÈMES - Palettes conditionnelles
+% ============================================================================
+
+\if@themenb
+  % Thème Noir & Blanc - Optimisé pour impression monochrome
+  \definecolor{nfcolpartie}{RGB}{0,0,0}          % Noir pur (contraste maximum)
+  \definecolor{nfcolexercice}{RGB}{89,89,89}     % Gris foncé (hiérarchie claire)
+  \definecolor{nfcolpoints}{RGB}{128,128,128}    % Gris moyen (information secondaire)
+  \definecolor{nfcolaccent}{RGB}{150,150,150}    % Gris clair (texte discret)
+  \definecolor{nfcolbglight}{RGB}{240,240,240}   % Gris très clair (arrière-plans)
+\else\if@thememoderne
+  % Thème Moderne - Palette couleur harmonieuse (défaut)
+  \definecolor{nfcolpartie}{RGB}{41,128,185}     % Bleu principal (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{102,126,234}  % Indigo (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{100,116,139}    % Bleu-gris slate (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{236,240,245}   % Arrière-plan bleu clair (corrections)
+\else\if@themeorange
+  % Thème Orange - Palette chaleureuse et énergique
+  \definecolor{nfcolpartie}{RGB}{230,126,34}     % Orange principal (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{211,84,0}     % Orange foncé (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris neutre (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{183,149,11}     % Ambre (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{254,249,231}   % Crème très clair (arrière-plans)
+\else\if@themevert
+  % Thème Vert - Palette nature et écologique
+  \definecolor{nfcolpartie}{RGB}{39,130,67}      % Vert sapin foncé (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{88,181,115}   % Vert menthe (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris neutre (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{101,116,68}     % Vert-brun (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{240,248,242}   % Vert très clair (arrière-plans)
+\else\if@themeviolet
+  % Thème Violet - Palette créative et moderne
+  \definecolor{nfcolpartie}{RGB}{107,70,193}     % Violet profond (titres de parties)
+  \definecolor{nfcolexercice}{RGB}{142,126,234}  % Violet clair (titres d'exercices)
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris neutre (affichage des points)
+  \definecolor{nfcolaccent}{RGB}{123,104,137}    % Prune (texte secondaire)
+  \definecolor{nfcolbglight}{RGB}{248,246,255}   % Lavande très clair (arrière-plans)
+\else
+  % Fallback - Thème moderne par défaut si aucun thème détecté
+  \definecolor{nfcolpartie}{RGB}{41,128,185}     % Bleu principal
+  \definecolor{nfcolexercice}{RGB}{102,126,234}  % Indigo
+  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris
+  \definecolor{nfcolaccent}{RGB}{100,116,139}    % Bleu-gris slate
+  \definecolor{nfcolbglight}{RGB}{236,240,245}   % Arrière-plan bleu clair
+\fi\fi\fi\fi\fi
+
+% ============================================================================
+% DOCUMENTATION POUR L'AJOUT DE NOUVEAUX THÈMES
+% ============================================================================
+%
+% Pour ajouter un nouveau thème, suivre ces étapes :
+% 1. Dans nfdevoirs.cls : Ajouter \newif\if@themeNOUVEAU dans les options de classe
+% 2. Dans nfdevoirs.cls : Ajouter \DeclareOption{theme=NOUVEAU} avec gestion mutuelle exclusive
+% 3. Dans ce fichier : Ajouter un bloc \else\if@themeNOUVEAU avec la palette de couleurs
+%
+% Structure de palette recommandée :
+% - nfcolpartie : Couleur principale (la plus foncée, titres de parties)
+% - nfcolexercice : Couleur secondaire (titres d'exercices)
+% - nfcolpoints : Gris neutre pour lisibilité (généralement RGB{100,100,100})
+% - nfcolaccent : Couleur d'accent pour texte secondaire
+% - nfcolbglight : Arrière-plan très clair pour les boîtes
+%
+% ============================================================================
+
+\endinput

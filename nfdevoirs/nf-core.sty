@@ -1,0 +1,101 @@
+% ============================================================================
+% nf-core.sty - Module de base pour la classe nfdevoirs
+% Contient les compteurs, variables globales et utilitaires de base
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-core}[2025/10/02 Module de base nfdevoirs]
+
+% ============================================================================
+% COMPTEURS
+% ============================================================================
+\newcounter{nfpartie}
+\newcounter{nfexercice}[nfpartie]
+\newcounter{nfquestion}[nfexercice]
+
+% Compteurs de points
+\newcounter{nfptsquestion}
+\newcounter{nfbonusquestion}
+\newcounter{nfptsexercice}
+\newcounter{nfbonusexercice}
+\newcounter{nfptspartie}
+\newcounter{nfbonuspartie}
+\newcounter{nfptsdevoir}
+\newcounter{nfbonusdevoir}
+
+% Pour stocker les totaux finaux (lus depuis .aux)
+\def\nftotalpts{0}
+\def\nftotalbonus{0}
+
+% ============================================================================
+% VARIABLES GLOBALES POUR LA PAGE DE GARDE
+% ============================================================================
+\newcommand{\@nfcalculatrice}{}
+\newcommand{\@nfclasse}{}
+\newcommand{\@nfdate}{}
+\newcommand{\@nfnom}{}
+\newcommand{\@nfeasteregg}{}
+\newcommand{\@nfcitation}{}
+\newcommand{\@nfauteur}{}
+\newcommand{\@nfduree}{}
+
+% ============================================================================
+% COMPTEURS POUR LES ENVIRONNEMENTS
+% ============================================================================
+\newcounter{nfexerciceabs} % Compteur absolu pour identifier les exercices
+\newcounter{nfcorrection}  % Compteur global pour numéroter les corrections
+
+% ============================================================================
+% MACROS AUXILIAIRES POUR LA RÉCUPÉRATION DES POINTS
+% ============================================================================
+
+% Macro auxiliaire pour récupérer les points sauvegardés (avec valeur par défaut)
+\newcommand{\nfgetexopts}[1]{%
+  \ifcsname nfexo#1pts\endcsname
+    \csname nfexo#1pts\endcsname
+  \else
+    0%
+  \fi
+}
+
+\newcommand{\nfgetexobonus}[1]{%
+  \ifcsname nfexo#1bonus\endcsname
+    \csname nfexo#1bonus\endcsname
+  \else
+    0%
+  \fi
+}
+
+\newcommand{\nfgetpartiepts}[1]{%
+  \ifcsname nfpartie#1pts\endcsname
+    \csname nfpartie#1pts\endcsname
+  \else
+    0%
+  \fi
+}
+
+\newcommand{\nfgetpartiebonus}[1]{%
+  \ifcsname nfpartie#1bonus\endcsname
+    \csname nfpartie#1bonus\endcsname
+  \else
+    0%
+  \fi
+}
+
+% ============================================================================
+% SYSTÈME DE STOCKAGE DES TOTAUX (deux passes via .aux)
+% ============================================================================
+
+% Commande pour écrire les totaux dans le .aux
+\newcommand{\nfwritetotaux}{%
+  \if@filesw
+    \immediate\write\@auxout{%
+      \string\gdef\string\nftotalpts{\the\value{nfptsdevoir}}%
+    }%
+    \immediate\write\@auxout{%
+      \string\gdef\string\nftotalbonus{\the\value{nfbonusdevoir}}%
+    }%
+  \fi
+}
+
+\endinput

@@ -1,0 +1,57 @@
+% ============================================================================
+% nf-layout.sty - Mise en page et configuration visuelle pour nfdevoirs
+% Contient la géométrie, en-têtes, pieds de page et configuration des listes
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-layout}[2025/10/02 Mise en page nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS POUR LA MISE EN PAGE
+% ============================================================================
+\RequirePackage{geometry}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
+\RequirePackage{enumitem}
+
+% ============================================================================
+% CONFIGURATION DE LA PAGE
+% ============================================================================
+\geometry{
+  top=10mm,
+  left=10mm,
+  right=10mm,
+  bottom=15mm
+}
+
+% ============================================================================
+% CONFIGURATION DES EN-TÊTES ET PIEDS DE PAGE
+% ============================================================================
+\pagestyle{fancy}
+\fancyhf{} % Efface tout
+\fancyfoot[C]{\textbf{\thepage/\pageref{LastPage}}} % Numéro de page format "n/total"
+\renewcommand{\headrulewidth}{0pt} % Pas de ligne d'en-tête
+\renewcommand{\footrulewidth}{0pt} % Pas de ligne de pied de page
+
+% ============================================================================
+% CONFIGURATION DES LISTES AVEC PUCES MODERNES
+% ============================================================================
+\setlist[itemize,1]{label={\color{nfcolpartie}$\bullet$}, leftmargin=*}
+\setlist[itemize,2]{label={\color{nfcolpartie}$\circ$}, leftmargin=*}
+
+% ============================================================================
+% COMMANDES D'AFFICHAGE DES POINTS
+% ============================================================================
+
+% Affichage des points à droite du titre (dans le flux de texte)
+\newcommand{\nfaffichepts}[3]{% #1=taille, #2=pts, #3=bonus
+  \hfill%
+  \makebox[2.5cm][r]{%
+    \fontsize{#1}{#1}\selectfont
+    \color{nfcolpoints}%
+    \ifnum#2>0 /#2\fi%
+    \ifnum#3>0 \space +#3\fi%
+  }%
+}
+
+\endinput

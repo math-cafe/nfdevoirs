@@ -1,0 +1,96 @@
+% ============================================================================
+% nf-corrections.sty - Système de corrections pour nfdevoirs
+% Contient l'environnement correction et les modes inline/fin
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-corrections}[2025/10/02 Système de corrections nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{tcolorbox}
+\RequirePackage{environ}
+
+% Configuration tcolorbox pour les corrections
+\tcbuselibrary{skins,breakable}
+
+% ============================================================================
+% ENVIRONNEMENT CORRECTION
+% ============================================================================
+\NewEnviron{correction}{%
+  \if@correction
+    % Mode inline : afficher directement
+    \begin{tcolorbox}[
+      enhanced,
+      breakable,
+      colback=nfcolbglight,
+      colframe=nfcolpartie,
+      arc=3pt,
+      boxrule=1pt,
+      left=5pt,
+      right=5pt,
+      top=5pt,
+      bottom=5pt,
+      title={\small\textcolor{nfcolpartie}{✓ Correction}},
+      fonttitle=\bfseries,
+      coltitle=nfcolpartie,
+      attach boxed title to top left={yshift=-2mm, xshift=5mm},
+      boxed title style={
+        colback=white,
+        colframe=nfcolpartie,
+        boxrule=1pt,
+        arc=2pt
+      }
+    ]
+    \BODY
+    \end{tcolorbox}
+  \fi
+  \if@correctionfin
+    % Mode fin : stocker chaque correction dans sa propre macro
+    \stepcounter{nfcorrection}%
+    % Stocker les infos de localisation
+    \expandafter\xdef\csname nfcorr\the\value{nfcorrection}partie\endcsname{\Roman{nfpartie}}%
+    \expandafter\xdef\csname nfcorr\the\value{nfcorrection}exo\endcsname{\arabic{nfexercice}}%
+    \expandafter\xdef\csname nfcorr\the\value{nfcorrection}quest\endcsname{\arabic{nfquestion}}%
+    % Stocker le contenu de la correction
+    \expandafter\global\expandafter\let\csname nfcorr\the\value{nfcorrection}body\endcsname\BODY
+  \fi
+}
+
+% ============================================================================
+% COMMANDE POUR AFFICHER TOUTES LES CORRECTIONS EN FIN DE DOCUMENT
+% ============================================================================
+\newcommand{\nfaffichercorrections}{%
+  \if@correctionfin
+    \ifnum\value{nfcorrection}>0
+      \clearpage
+      \section*{Corrections}
+      % Boucle pour afficher toutes les corrections stockées
+      \count@=1\relax
+      \loop\ifnum\count@<\numexpr\value{nfcorrection}+1\relax
+        \noindent\textbf{Partie \csname nfcorr\the\count@ partie\endcsname, %
+        Exercice \csname nfcorr\the\count@ exo\endcsname, %
+        Question \csname nfcorr\the\count@ quest\endcsname}
+        \begin{tcolorbox}[
+          enhanced,
+          breakable,
+          colback=nfcolbglight,
+          colframe=nfcolpartie,
+          arc=3pt,
+          boxrule=1pt,
+          left=5pt,
+          right=5pt,
+          top=5pt,
+          bottom=5pt,
+        ]
+        \csname nfcorr\the\count@ body\endcsname
+        \end{tcolorbox}
+        \medskip
+        \advance\count@ by 1\relax
+      \repeat
+    \fi
+  \fi
+}
+
+\endinput

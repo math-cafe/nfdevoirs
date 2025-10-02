@@ -1,0 +1,165 @@
+% ============================================================================
+% nf-pagegarde.sty - Page de garde et citation finale pour nfdevoirs
+% Contient la génération de la page de garde et la citation de fin
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-pagegarde}[2025/10/02 Page de garde nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{tcolorbox}
+\RequirePackage{etoolbox}
+\RequirePackage{enumitem}
+
+% ============================================================================
+% PAGE DE GARDE
+% ============================================================================
+\newcommand{\nfpagegarde}{%
+  \thispagestyle{empty}%
+
+  % En-tête avec titre et infos
+  \begin{center}
+    {\Huge\bfseries\color{nfcolpartie}\@title}
+
+    \vspace{0.3cm}
+    {\color{nfcolpartie}\rule{0.6\textwidth}{2pt}}
+    \vspace{0.5cm}
+
+    \begin{minipage}{0.45\textwidth}
+      {\large\textbf{Nom :} \@nfnom}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+      \raggedleft
+      {\large\textbf{Classe :} \@nfclasse}
+    \end{minipage}
+  \end{center}
+
+  \vspace{0.8cm}
+
+  % Section Informations (Barème / Durée / Date)
+  \begin{center}
+    \begin{minipage}[t]{0.3\textwidth}
+      \centering
+      \textbf{\color{nfcolpartie}Barème} \\[0.2cm]
+      \textbf{\nftotalpts\ points}%
+      \ifnum\nftotalbonus>0
+        \ + \textbf{\nftotalbonus\ bonus}%
+      \fi \\
+      \ifnum\nftotalpts=20
+      \else
+        \textit{\small note convertie sur 20 points}
+      \fi
+    \end{minipage}%
+    \hfill
+    \ifstrempty{\@nfduree}{}{%
+      \begin{minipage}[t]{0.3\textwidth}
+        \centering
+        \textbf{\color{nfcolpartie}Durée} \\[0.2cm]
+        \textbf{\@nfduree}
+      \end{minipage}%
+      \hfill
+    }%
+    \ifstrempty{\@nfdate}{}{%
+      \begin{minipage}[t]{0.3\textwidth}
+        \centering
+        \textbf{\color{nfcolpartie}Date} \\[0.2cm]
+        \textbf{\@nfdate}
+      \end{minipage}%
+    }
+  \end{center}
+
+  \vspace{0.5cm}
+
+  % Boîte pour la note (vide, à remplir à la main)
+  \begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=nfcolpartie,
+    boxrule=1.5pt,
+    arc=2pt,
+    left=10pt,
+    right=10pt,
+    top=8pt,
+    bottom=8pt,
+    height=45mm,
+  ]
+    \textbf{\color{nfcolpartie}Note et observations :}
+    \vspace{2.3cm}
+  \end{tcolorbox}
+
+  \vspace{0.5cm}
+
+  % Section Consignes
+  {\large\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}
+  \vspace{0.2cm}
+
+  \begin{itemize}[leftmargin=*, itemsep=3pt]
+    \item L'usage de la calculatrice est \textbf{\@nfcalculatrice}.
+    \item Aucun document, support de cours ou formulaire n'est admis.
+    \item Cette évaluation est \textbf{strictement individuelle}. Toute communication est prohibée.
+    \item L'intégralité des exercices doit être traitée. L'ordre de traitement est laissé à votre appréciation, sous réserve que chaque exercice soit traité sans interruption.
+    \item Des pénalités (1 point chacune sur la note finale) seront appliquées pour :
+    \begin{itemize}[itemsep=2pt]
+      \item Rédaction de qualité insuffisante
+      \item Terminologie ou notation mathématique inappropriées
+      \item Non-respect des consignes d'exécution
+    \end{itemize}
+  \end{itemize}
+
+  \vspace{0.5cm}
+
+  % Section Conseils
+  {\large\textbf{\color{nfcolpartie}Conseils pour réussir}}
+  \vspace{0.2cm}
+
+  \begin{itemize}[leftmargin=*, itemsep=3pt]
+    \item \textbf{Prenez connaissance de l'ensemble du sujet} avant de commencer pour comprendre la structure et identifier les compétences à mobiliser.
+
+    \item \textbf{Lisez attentivement les énoncés} pour bien cerner les capacités testées%
+    \ifstrempty{\@nfeasteregg}{.}{\ {\color{nfcolaccent}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
+
+    \item \textbf{Gérez votre temps} : recherche sur brouillon, rédaction soignée, puis relecture.
+
+    \item \textbf{Utilisez un brouillon.} Les élèves qui organisent leur travail sur brouillon obtiennent systématiquement de meilleurs résultats : moins d'erreurs, rédaction plus claire, meilleure gestion du temps.
+  \end{itemize}
+
+  \vspace{0.3cm}
+
+  \begin{center}
+    \textit{Une copie propre et bien organisée témoigne de votre rigueur mathématique.}
+  \end{center}
+
+  \newpage
+}
+
+% ============================================================================
+% CITATION FINALE
+% ============================================================================
+\newcommand{\nfcitationfin}{%
+  \vfill
+  \begin{center}
+    \rule{0.5\textwidth}{0.4pt}
+
+    \vspace{0.5cm}
+
+    {\Large\textbf{Fin du devoir}}
+
+    \vspace{1cm}
+
+    \ifstrempty{\@nfcitation}{}{%
+      \parbox{0.8\textwidth}{%
+        \centering
+        \textit{\@nfcitation}
+
+        \vspace{0.3cm}
+
+        \ifstrempty{\@nfauteur}{}{\textbf{\@nfauteur}}
+      }%
+    }
+  \end{center}
+}
+
+\endinput

@@ -1,0 +1,169 @@
+% ============================================================================
+% nf-environments.sty - Environnements principaux pour nfdevoirs
+% Contient les environnements devoir, partie, exercice, question
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-environments}[2025/10/02 Environnements nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{xparse}
+\RequirePackage{environ}
+\RequirePackage{etoolbox}
+\RequirePackage{keyval}
+
+% ============================================================================
+% ENVIRONNEMENT QUESTION
+% ============================================================================
+\NewEnviron{question}[2]{%
+  % #1 = points barème, #2 = points bonus
+  \stepcounter{nfquestion}%
+  \setcounter{nfptsquestion}{#1}%
+  \setcounter{nfbonusquestion}{#2}%
+  \addtocounter{nfptsexercice}{#1}%
+  \addtocounter{nfbonusexercice}{#2}%
+  % Structure en deux colonnes : contenu + points
+  \noindent
+  \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+    \textbf{\arabic{nfquestion})} \BODY
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{2.5cm}
+    \raggedleft
+    \textbf{%
+      \color{nfcolpoints}%
+      \ifnum#1>0 /#1\fi%
+      \ifnum#2>0 \space +#2\fi%
+    }
+  \end{minipage}%
+  \par\medskip
+}
+
+% ============================================================================
+% ENVIRONNEMENT EXERCICE
+% ============================================================================
+\NewDocumentEnvironment{exercice}{m}{%
+  % #1 = titre
+  \stepcounter{nfexercice}%
+  \stepcounter{nfexerciceabs}%
+  \setcounter{nfptsexercice}{0}%
+  \setcounter{nfbonusexercice}{0}%
+  \vspace{1em}%
+  % Affichage du titre avec les points (structure en deux colonnes)
+  \noindent
+  \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+    {\Large\textbf{\color{nfcolexercice}\arabic{nfexercice}. #1}}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{2.5cm}
+    \raggedleft
+    {\Large\textbf{%
+      \color{nfcolpoints}%
+      \edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}}%
+      \edef\tempbonus{\nfgetexobonus{\roman{nfexerciceabs}}}%
+      \ifnum\temppts>0 /\temppts\fi%
+      \ifnum\tempbonus>0 \space +\tempbonus\fi%
+    }}
+  \end{minipage}%
+  \par\medskip
+}{%
+  % Sauvegarde des totaux dans le .aux pour la prochaine compilation
+  \if@filesw
+    \immediate\write\@auxout{%
+      \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}pts\string\endcsname{\the\value{nfptsexercice}}%
+    }%
+    \immediate\write\@auxout{%
+      \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}bonus\string\endcsname{\the\value{nfbonusexercice}}%
+    }%
+  \fi
+  % Ajout aux totaux de la partie
+  \addtocounter{nfptspartie}{\value{nfptsexercice}}%
+  \addtocounter{nfbonuspartie}{\value{nfbonusexercice}}%
+  \vspace{1em}%
+}
+
+% ============================================================================
+% ENVIRONNEMENT PARTIE
+% ============================================================================
+\NewDocumentEnvironment{partie}{m}{%
+  % #1 = titre
+  \stepcounter{nfpartie}%
+  \setcounter{nfptspartie}{0}%
+  \setcounter{nfbonuspartie}{0}%
+  \vspace{2em}%
+  % Affichage du titre avec les points (structure en deux colonnes)
+  \noindent
+  \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+    {\LARGE\textbf{\color{nfcolpartie}Partie \Roman{nfpartie}%
+    \ifstrempty{#1}{}{\ : #1}}}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{2.5cm}
+    \raggedleft
+    {\LARGE\textbf{%
+      \color{nfcolpoints}%
+      \edef\temppts{\nfgetpartiepts{\roman{nfpartie}}}%
+      \edef\tempbonus{\nfgetpartiebonus{\roman{nfpartie}}}%
+      \ifnum\temppts>0 /\temppts\fi%
+      \ifnum\tempbonus>0 \space +\tempbonus\fi%
+    }}
+  \end{minipage}%
+  \par\bigskip
+}{%
+  % Sauvegarde des totaux dans le .aux pour la prochaine compilation
+  \if@filesw
+    \immediate\write\@auxout{%
+      \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}pts\string\endcsname{\the\value{nfptspartie}}%
+    }%
+    \immediate\write\@auxout{%
+      \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}bonus\string\endcsname{\the\value{nfbonuspartie}}%
+    }%
+  \fi
+  % Ajout aux totaux du devoir
+  \addtocounter{nfptsdevoir}{\value{nfptspartie}}%
+  \addtocounter{nfbonusdevoir}{\value{nfbonuspartie}}%
+  \vspace{2em}%
+}
+
+% ============================================================================
+% ENVIRONNEMENT DEVOIR
+% ============================================================================
+\newif\if@nfindevoirenv
+\@nfindevoirenvfalse
+
+\NewDocumentEnvironment{devoir}{m}{%
+  \@nfindevoirenvtrue
+  % Parsing des options avec pgfkeys
+  \setkeys{nfdevoir}{#1}%
+  % Réinitialisation des compteurs
+  \setcounter{nfpartie}{0}%
+  \setcounter{nfptsdevoir}{0}%
+  \setcounter{nfbonusdevoir}{0}%
+  % Génération de la page de garde (avec totaux depuis .aux)
+  \nfpagegarde
+}{%
+  % À la fin du devoir
+  % 1. Écriture des totaux dans .aux pour la prochaine compilation
+  \nfwritetotaux
+  % 2. Affichage de la citation finale
+  \nfcitationfin
+  % 3. Affichage des corrections si mode correctionfin
+  \nfaffichercorrections
+  \@nfindevoirenvfalse
+}
+
+% ============================================================================
+% CONFIGURATION DES CLÉS POUR L'ENVIRONNEMENT DEVOIR
+% ============================================================================
+\define@key{nfdevoir}{calculatrice}{\renewcommand{\@nfcalculatrice}{#1}}
+\define@key{nfdevoir}{classe}{\renewcommand{\@nfclasse}{#1}}
+\define@key{nfdevoir}{date}{\renewcommand{\@nfdate}{#1}}
+\define@key{nfdevoir}{nom}{\renewcommand{\@nfnom}{#1}}
+\define@key{nfdevoir}{easteregg}{\renewcommand{\@nfeasteregg}{#1}}
+\define@key{nfdevoir}{citation}{\renewcommand{\@nfcitation}{#1}}
+\define@key{nfdevoir}{auteur}{\renewcommand{\@nfauteur}{#1}}
+\define@key{nfdevoir}{duree}{\renewcommand{\@nfduree}{#1}}
+
+\endinput
