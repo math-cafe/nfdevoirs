@@ -13,6 +13,7 @@
 \RequirePackage{environ}
 \RequirePackage{etoolbox}
 \RequirePackage{keyval}
+\RequirePackage{fontawesome5}
 
 % ============================================================================
 % ENVIRONNEMENT QUESTION
@@ -54,7 +55,7 @@
   % Affichage du titre avec les points (structure en deux colonnes)
   \noindent
   \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-    {\Large\textbf{\color{nfcolexercice}\arabic{nfexercice}. #1}}
+    {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
   \end{minipage}%
   \hfill
   \begin{minipage}[t]{2.5cm}
@@ -96,7 +97,7 @@
   % Affichage du titre avec les points (structure en deux colonnes)
   \noindent
   \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-    {\LARGE\textbf{\color{nfcolpartie}Partie \Roman{nfpartie}%
+    {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ Partie \Roman{nfpartie}%
     \ifstrempty{#1}{}{\ : #1}}}
   \end{minipage}%
   \hfill

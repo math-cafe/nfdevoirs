@@ -12,6 +12,7 @@
 \RequirePackage{tcolorbox}
 \RequirePackage{etoolbox}
 \RequirePackage{enumitem}
+\RequirePackage{fontawesome5}
 
 % ============================================================================
 % PAGE DE GARDE
@@ -43,7 +44,7 @@
   \begin{center}
     \begin{minipage}[t]{0.3\textwidth}
       \centering
-      \textbf{\color{nfcolpartie}Barème} \\[0.2cm]
+      \textbf{\color{nfcolpartie}\faTrophy\ Barème} \\[0.2cm]
       \textbf{\nftotalpts\ points}%
       \ifnum\nftotalbonus>0
         \ + \textbf{\nftotalbonus\ bonus}%
@@ -57,7 +58,7 @@
     \ifstrempty{\@nfduree}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
-        \textbf{\color{nfcolpartie}Durée} \\[0.2cm]
+        \textbf{\color{nfcolpartie}\faClock\ Durée} \\[0.2cm]
         \textbf{\@nfduree}
       \end{minipage}%
       \hfill
@@ -65,7 +66,7 @@
     \ifstrempty{\@nfdate}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
-        \textbf{\color{nfcolpartie}Date} \\[0.2cm]
+        \textbf{\color{nfcolpartie}\faCalendar\ Date} \\[0.2cm]
         \textbf{\@nfdate}
       \end{minipage}%
     }
@@ -97,11 +98,11 @@
   \vspace{0.2cm}
 
   \begin{itemize}[leftmargin=*, itemsep=3pt]
-    \item L'usage de la calculatrice est \textbf{\@nfcalculatrice}.
-    \item Aucun document, support de cours ou formulaire n'est admis.
-    \item Cette évaluation est \textbf{strictement individuelle}. Toute communication est prohibée.
-    \item L'intégralité des exercices doit être traitée. L'ordre de traitement est laissé à votre appréciation, sous réserve que chaque exercice soit traité sans interruption.
-    \item Des pénalités (1 point chacune sur la note finale) seront appliquées pour :
+    \item \faCalculator\ L'usage de la calculatrice est \textbf{\@nfcalculatrice}.
+    \item \faBan\ Aucun document, support de cours ou formulaire n'est admis.
+    \item \faUserCheck\ Cette évaluation est \textbf{strictement individuelle}. Toute communication est prohibée.
+    \item \faListOl\ Tous les exercices doivent être traités. Vous pouvez choisir l'ordre, mais chaque exercice doit être terminé avant de passer au suivant.
+    \item \faExclamationTriangle\ Un point sera retiré de la note finale pour chacun des manquements suivants :
     \begin{itemize}[itemsep=2pt]
       \item Rédaction de qualité insuffisante
       \item Terminologie ou notation mathématique inappropriées
@@ -123,13 +124,13 @@
 
     \item \textbf{Gérez votre temps} : recherche sur brouillon, rédaction soignée, puis relecture.
 
-    \item \textbf{Utilisez un brouillon.} Les élèves qui organisent leur travail sur brouillon obtiennent systématiquement de meilleurs résultats : moins d'erreurs, rédaction plus claire, meilleure gestion du temps.
+    \item \textbf{Utilisez un brouillon.} L'utilisation d'un brouillon améliore significativement la qualité de la rédaction et la gestion du temps.
   \end{itemize}
 
   \vspace{0.3cm}
 
   \begin{center}
-    \textit{Une copie propre et bien organisée témoigne de votre rigueur mathématique.}
+    \textit{La clarté de la présentation facilite l'évaluation de votre raisonnement.}
   \end{center}
 
   \newpage

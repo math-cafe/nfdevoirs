@@ -11,6 +11,7 @@
 % ============================================================================
 \RequirePackage{tcolorbox}
 \RequirePackage{environ}
+\RequirePackage{fontawesome5}
 
 % Configuration tcolorbox pour les corrections
 \tcbuselibrary{skins,breakable}
@@ -32,7 +33,7 @@
       right=5pt,
       top=5pt,
       bottom=5pt,
-      title={\small\textcolor{nfcolpartie}{✓ Correction}},
+      title={\small\textcolor{nfcolpartie}{\faCheck\ Correction}},
       fonttitle=\bfseries,
       coltitle=nfcolpartie,
       attach boxed title to top left={yshift=-2mm, xshift=5mm},
@@ -65,13 +66,13 @@
   \if@correctionfin
     \ifnum\value{nfcorrection}>0
       \clearpage
-      \section*{Corrections}
+      \section*{\faClipboardCheck\ Corrections}
       % Boucle pour afficher toutes les corrections stockées
       \count@=1\relax
       \loop\ifnum\count@<\numexpr\value{nfcorrection}+1\relax
-        \noindent\textbf{Partie \csname nfcorr\the\count@ partie\endcsname, %
-        Exercice \csname nfcorr\the\count@ exo\endcsname, %
-        Question \csname nfcorr\the\count@ quest\endcsname}
+        \noindent\textbf{\faLayerGroup\ Partie \csname nfcorr\the\count@ partie\endcsname, %
+        \faEdit\ Exercice \csname nfcorr\the\count@ exo\endcsname, %
+        \faQuestionCircle\ Question \csname nfcorr\the\count@ quest\endcsname}
         \begin{tcolorbox}[
           enhanced,
           breakable,
