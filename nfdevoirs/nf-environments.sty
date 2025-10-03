@@ -18,13 +18,21 @@
 % ============================================================================
 % ENVIRONNEMENT QUESTION
 % ============================================================================
-\NewEnviron{question}[2]{%
-  % #1 = points barème, #2 = points bonus
+
+% Configuration des clés pour l'environnement question
+\define@key{nfquestion}{points}{\setcounter{nfptsquestion}{#1}}
+\define@key{nfquestion}{bonus}{\setcounter{nfbonusquestion}{#1}}
+
+\NewEnviron{question}[1]{%
+  % Valeurs par défaut
   \stepcounter{nfquestion}%
-  \setcounter{nfptsquestion}{#1}%
-  \setcounter{nfbonusquestion}{#2}%
-  \addtocounter{nfptsexercice}{#1}%
-  \addtocounter{nfbonusexercice}{#2}%
+  \setcounter{nfptsquestion}{0}%
+  \setcounter{nfbonusquestion}{0}%
+  % Parse des options key-value
+  \setkeys{nfquestion}{#1}%
+  % Ajout aux totaux de l'exercice
+  \addtocounter{nfptsexercice}{\value{nfptsquestion}}%
+  \addtocounter{nfbonusexercice}{\value{nfbonusquestion}}%
   % Structure en deux colonnes : contenu + points
   \noindent
   \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
@@ -35,8 +43,8 @@
     \raggedleft
     \textbf{%
       \color{nfcolpoints}%
-      \ifnum#1>0 /#1\fi%
-      \ifnum#2>0 \space +#2\fi%
+      \ifnum\value{nfptsquestion}>0 /\the\value{nfptsquestion}\fi%
+      \ifnum\value{nfbonusquestion}>0 \space +\the\value{nfbonusquestion}\fi%
     }
   \end{minipage}%
   \par\medskip
