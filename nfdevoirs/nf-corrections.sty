@@ -53,7 +53,7 @@
     % Stocker les infos de localisation
     \expandafter\xdef\csname nfcorr\the\value{nfcorrection}partie\endcsname{\Roman{nfpartie}}%
     \expandafter\xdef\csname nfcorr\the\value{nfcorrection}exo\endcsname{\arabic{nfexercice}}%
-    \expandafter\xdef\csname nfcorr\the\value{nfcorrection}quest\endcsname{\arabic{nfquestion}}%
+    \expandafter\xdef\csname nfcorr\the\value{nfcorrection}quest\endcsname{\alph{nfquestion}}%
     % Stocker le contenu de la correction
     \expandafter\global\expandafter\let\csname nfcorr\the\value{nfcorrection}body\endcsname\BODY
   \fi
