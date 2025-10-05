@@ -2,9 +2,13 @@
 
 Historique des versions et évolutions de la classe nfdevoirs.
 
-## [2.1.0] - 2025-10-05
+## [2.0.0] - 2025-10-05
 
-### 🎨 Bandeau d'établissement configurable et système d'auteur enrichi
+### 🎨 Breaking Changes - Syntaxe moderne et bandeau configurable
+
+**Breaking Changes** :
+- **Syntaxe questions** : `\begin{question}{points=3, bonus=2}` remplace `\begin{question}{3}{2}`
+- **Option auteur** : Maintenant pour l'enseignant (bandeau), plus pour la citation
 
 #### Ajouté
 - **Nouvelles options de configuration** :
@@ -35,7 +39,7 @@ Historique des versions et évolutions de la classe nfdevoirs.
 
 ---
 
-## [2.0.0] - 2025-10-02
+## [1.3.1] - 2025-10-02
 
 ### 🔄 Restructuration majeure - Architecture modulaire
 
