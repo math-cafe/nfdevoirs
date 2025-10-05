@@ -5,7 +5,9 @@ Merci de votre intérêt pour contribuer à **nfdevoirs** ! Ce guide vous aidera
 ## 🎯 Types de contributions recherchées
 
 - **Nouveaux thèmes** : Palettes de couleurs adaptées à différents contextes
-- **Améliorations fonctionnelles** : Nouveaux environnements, options, fonctionnalités
+- **Améliorations du bandeau** : Nouveaux layouts, options de positionnement
+- **Syntaxe moderne** : Extensions du système key-value pour les environnements
+- **Indicateurs visuels** : Systèmes de difficulté, notation, feedback
 - **Corrections de bugs** : Problèmes de compilation, affichage, ou comportement
 - **Documentation** : Amélioration du README, exemples, tutoriels
 - **Tests** : Nouveaux fichiers de test pour valider les fonctionnalités
@@ -46,6 +48,9 @@ nfdevoirs/
 |----------|-------------------|-------------------|
 | **Nouveau thème** | `nf-themes.sty` + `nfdevoirs.cls` | Palette + option |
 | **Nouvel environnement** | `nf-environments.sty` | Environnements |
+| **Syntaxe key-value** | `nf-environments.sty` | Options des environnements |
+| **Bandeau établissement** | `nf-pagegarde.sty` + `nf-core.sty` | Layout + variables |
+| **Indicateurs difficulté** | `nf-environments.sty` | Affichage étoiles |
 | **Modification mise en page** | `nf-layout.sty` | Géométrie, en-têtes |
 | **Système de points** | `nf-core.sty` | Compteurs, calculs |
 | **Corrections** | `nf-corrections.sty` | Modes d'affichage |
@@ -102,14 +107,25 @@ make build FILE=test-simple
 sed -i 's/correctionfin/correction/' test-simple.tex
 make build FILE=test-simple
 
+# Test bandeau établissement (différentes positions)
+sed -i 's/bandeaupos={bas}/bandeaupos={haut}/' test-simple.tex
+make build FILE=test-simple
+sed -i 's/bandeaupos={haut}/bandeaupos={aucun}/' test-simple.tex
+make build FILE=test-simple
+
+# Test syntaxe key-value questions
+# Vérifier que points=X, bonus=Y, niveau=Z fonctionnent
+
 # Nettoyage
 make clean
 ```
 
 ### Vérifications visuelles
 - ✅ **Page de garde** : Informations bien placées, couleurs cohérentes
+- ✅ **Bandeau établissement** : Layout 3 colonnes équilibré, positionnement correct
 - ✅ **Hiérarchie** : Contraste visible entre parties/exercices/questions
 - ✅ **Points** : Affichage correct dans la colonne droite
+- ✅ **Indicateurs difficulté** : Étoiles lisibles et bien positionnées
 - ✅ **Corrections** : Lisibilité des boîtes, couleurs appropriées
 - ✅ **Impression N&B** : Vérifier que les niveaux de gris sont distincts
 

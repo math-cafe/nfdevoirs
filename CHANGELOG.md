@@ -2,6 +2,39 @@
 
 Historique des versions et évolutions de la classe nfdevoirs.
 
+## [2.1.0] - 2025-10-05
+
+### 🎨 Bandeau d'établissement configurable et système d'auteur enrichi
+
+#### Ajouté
+- **Nouvelles options de configuration** :
+  - `auteur={M. Dupont}` : Nom de l'enseignant (affiché dans le bandeau)
+  - `matiere={Mathématiques}` : Matière enseignée (affiché dans le bandeau)
+  - `bandeaupos={haut|bas|aucun}` : Position du bandeau (défaut: bas)
+
+- **Bandeau d'établissement en trois colonnes** :
+  - **Gauche (33%)** : Logo + Établissement (justifié à gauche)
+  - **Centre (33%)** : Année scolaire (centré)
+  - **Droite (33%)** : Auteur + Matière (justifié à droite)
+
+- **Syntaxe key-value pour questions** :
+  - `\begin{question}{points=3, bonus=2, niveau=4}` (remplace les paramètres positionnels)
+  - **Indicateur de difficulté** : Système 5 étoiles avec FontAwesome5
+  - Niveaux 1-5 avec étoiles pleines/vides colorées
+
+#### Amélioré
+- **Design équilibré** : Trois sections égales pour un aspect professionnel
+- **Gestion intelligente** : Adaptation automatique avec/sans logo
+- **Flexibilité de placement** : Bandeau en haut, bas ou absent selon les besoins
+
+#### Corrigé
+- **Séparation des rôles** : Option `auteur` pour l'enseignant, citation avec auteur intégré
+- **Corrections non-breakable** : Résolution des problèmes de saut de page
+- **Typography améliorée** : Titres de parties au format "I. Titre" (vs "Partie I : Titre")
+- **Gestion d'options vides** : Expansion robuste avec `\expandafter` pour tous les champs
+
+---
+
 ## [2.0.0] - 2025-10-02
 
 ### 🔄 Restructuration majeure - Architecture modulaire

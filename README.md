@@ -6,6 +6,8 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 
 - **Architecture modulaire** : Code organisé en 6 modules spécialisés
 - **Système de thèmes** : 5 palettes de couleurs (moderne, nb, orange, vert, violet)
+- **Bandeau d'établissement** : Design 3 colonnes configurable (haut/bas/aucun)
+- **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 5 étoiles
 - **Corrections flexibles** : Mode inline ou regroupées en fin de document
 - **Page de garde automatique** : Génération complète avec consignes et conseils
 - **Gestion des points** : Calcul automatique et affichage hiérarchique
@@ -62,17 +64,22 @@ Nécessite :
 
 \begin{document}
 \begin{devoir}{
-  calculatrice=oui,
+  calculatrice=true,
   classe={1STMG 2},
   date={27 septembre 2024},
+  auteur={M. Dupont},
+  matiere={Mathématiques},
+  etablissement={LPO Alfred Mézières},
+  logo={assets/logo.png},
+  anscol=25,
+  bandeaupos={bas},
   easteregg={hypothénuse},
-  citation={La citation ici},
-  auteur={Galilée}
+  citation={La citation ici --- Auteur de la citation}
 }
 
 \begin{partie}{Titre de la partie}
   \begin{exercice}{Titre de l'exercice}
-    \begin{question}{3}{0}  % 3 pts barème, 0 bonus
+    \begin{question}{points=3, bonus=2, niveau=4}
       Énoncé de la question...
     \end{question}
   \end{exercice}
@@ -116,7 +123,7 @@ Nécessite :
 \begin{devoir}{options}
   \begin{partie}{Titre de la partie}
     \begin{exercice}{Titre de l'exercice}
-      \begin{question}{points_bareme}{points_bonus}
+      \begin{question}{points=3, bonus=2, niveau=4}
         Énoncé de la question...
       \end{question}
       \begin{correction}
@@ -128,13 +135,29 @@ Nécessite :
 ```
 
 ### Options de l'environnement devoir
-- `calculatrice` : Autorisation calculatrice (ex: "autorisée", "interdite")
+
+#### Informations de base
 - `classe` : Nom de la classe (ex: "1STMG 2")
 - `date` : Date du devoir
 - `duree` : Durée de l'épreuve (ex: "1H30")
+- `calculatrice` : true/false ou texte libre
+
+#### Bandeau d'établissement
+- `auteur` : Nom de l'enseignant (ex: "M. Dupont")
+- `matiere` : Matière enseignée (ex: "Mathématiques")
+- `etablissement` : Nom de l'établissement
+- `logo` : Chemin vers le logo (ex: "assets/logo.png")
+- `anscol` : Année scolaire (25 → 2025-2026, 1990 → 1990-1991)
+- `bandeaupos` : Position (haut/bas/aucun, défaut: bas)
+
+#### Éléments optionnels
 - `easteregg` : Mot bonus à écrire en haut de copie
-- `citation` : Citation en fin de devoir
-- `auteur` : Auteur de la citation
+- `citation` : Citation en fin de devoir (avec auteur intégré si besoin)
+
+### Options de l'environnement question
+- `points` : Points barème (ex: points=3)
+- `bonus` : Points bonus (ex: bonus=2)
+- `niveau` : Difficulté 1-5 étoiles (ex: niveau=4)
 
 ## Fonctionnalités avancées
 
