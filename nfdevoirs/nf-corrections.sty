@@ -24,7 +24,7 @@
     % Mode inline : afficher directement
     \begin{tcolorbox}[
       enhanced,
-      breakable,
+      breakable=false,
       colback=nfcolbglight,
       colframe=nfcolpartie,
       arc=3pt,
@@ -97,15 +97,12 @@
           \let\nfcurrentexercice\nfthisexercice%
         \fi
 
-        % Afficher la question et sa correction
-        \noindent\hspace{2em}\textbf{\color{nfcolpoints}\faCheck\ Question \nfthisquestion}%
-        \vspace{0.2em}%
-
+        % Afficher la correction avec titre intégré
         \noindent\hspace{2em}%
         \begin{minipage}{\dimexpr\textwidth-2em\relax}
           \begin{tcolorbox}[
             enhanced,
-            breakable,
+            breakable=false,
             colback=nfcolbglight,
             colframe=nfcolpartie,
             arc=3pt,
@@ -114,6 +111,16 @@
             right=5pt,
             top=5pt,
             bottom=5pt,
+            title={\small\textcolor{nfcolpartie}{\faCheck\ Correction question \nfthisquestion}},
+            fonttitle=\bfseries,
+            coltitle=nfcolpartie,
+            attach boxed title to top left={yshift=-2mm, xshift=5mm},
+            boxed title style={
+              colback=white,
+              colframe=nfcolpartie,
+              boxrule=1pt,
+              arc=2pt
+            }
           ]
           \csname nfcorr\the\count@ body\endcsname
           \end{tcolorbox}

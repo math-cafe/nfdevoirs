@@ -124,8 +124,8 @@
   % Affichage du titre avec les points (structure en deux colonnes)
   \noindent
   \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-    {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ Partie \Roman{nfpartie}%
-    \ifstrempty{#1}{}{\ : #1}}}
+    {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
+    \ifstrempty{#1}{}{ #1}}}
   \end{minipage}%
   \hfill
   \begin{minipage}[t]{2.5cm}
