@@ -18,87 +18,52 @@
 % BANDEAU ÉTABLISSEMENT (VERSION COMPACTE)
 % ============================================================================
 \newcommand{\nfbandeau}{%
-  \expandafter\ifstrempty\expandafter{\@nfetablissement}{%
-    \expandafter\ifstrempty\expandafter{\@nflogo}{%
-      \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-        % Seule l'année scolaire
-        \begin{center}
-          {\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}
-        \end{center}
-      }%
-    }{%
-      % Logo avec ou sans texte/année
-      \begin{center}
-        \begin{minipage}[c]{0.15\textwidth}
-          \centering
-          \includegraphics[height=1.2cm]{\@nflogo}
-        \end{minipage}%
-        \hfill
-        \begin{minipage}[c]{0.8\textwidth}
-          \raggedleft
-          \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
-            {\textbf{\@nfetablissement}}%
-            \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
-              \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - }%
-            }%
-            \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
-          }%
-          \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
-            {\@nfmatiere}%
-            \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - \@nfauteur}%
-            \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
-          }%
-          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-            {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
-          }%
-        \end{minipage}
-      \end{center}
-    }%
-  }{%
-    % Établissement sans logo
-    \expandafter\ifstrempty\expandafter{\@nflogo}{%
-      \begin{center}
-        {\textbf{\@nfetablissement}}%
-        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
-          \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - }%
-        }%
-        \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
-        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
-          {\@nfmatiere}%
-          \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - \@nfauteur}%
-          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
-        }%
-        \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-          {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
-        }%
-      \end{center}
-    }{%
-      % Établissement avec logo
-      \begin{center}
-        \begin{minipage}[c]{0.15\textwidth}
-          \centering
-          \includegraphics[height=1.2cm]{\@nflogo}
-        \end{minipage}%
-        \hfill
-        \begin{minipage}[c]{0.8\textwidth}
-          \raggedleft
+  % Design en trois colonnes égales (33% chacune)
+  \begin{center}
+    \begin{minipage}[c]{0.33\textwidth}
+      % GAUCHE : Logo + Établissement (justifié à gauche)
+      \raggedright
+      \expandafter\ifstrempty\expandafter{\@nflogo}{%
+        % Pas de logo : établissement centré verticalement
+        \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
+          \vspace{0.3cm}%
           {\textbf{\@nfetablissement}}%
-          \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
-            \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - }%
-          }%
-          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
-          \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
-            {\@nfmatiere}%
-            \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - \@nfauteur}%
-            \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
-          }%
-          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-            {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
-          }%
-        \end{minipage}
-      \end{center}
-    }%
-  }%
+        }%
+      }{%
+        % Avec logo : logo au-dessus, établissement en-dessous
+        \includegraphics[height=1cm]{\@nflogo}%
+        \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
+          \\[0.1cm]{\textbf{\@nfetablissement}}%
+        }%
+      }%
+    \end{minipage}%
+    \begin{minipage}[c]{0.33\textwidth}
+      % CENTRE : Année scolaire (centré horizontalement et verticalement)
+      \centering
+      \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+        \vspace{0.3cm}%
+        {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+      }%
+    \end{minipage}%
+    \begin{minipage}[c]{0.33\textwidth}
+      % DROITE : Auteur + Matière (justifié à droite)
+      \raggedleft
+      \expandafter\ifstrempty\expandafter{\@nfauteur}{%
+        % Pas d'auteur, seulement matière
+        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+          \vspace{0.3cm}%
+          {\@nfmatiere}%
+        }%
+      }{%
+        % Avec auteur : auteur au-dessus, matière en-dessous
+        \vspace{0.1cm}%
+        {\@nfauteur}%
+        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+          \\[0.1cm]{\@nfmatiere}%
+        }%
+      }%
+    \end{minipage}
+  \end{center}
 }
 
 % ============================================================================
