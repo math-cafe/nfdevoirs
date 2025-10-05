@@ -147,6 +147,64 @@
     \textit{La clarté de la présentation facilite l'évaluation de votre raisonnement.}
   \end{center}
 
+  \vfill
+
+  % Section établissement avec logo et année scolaire
+  \expandafter\ifstrempty\expandafter{\@nfetablissement}{%
+    \expandafter\ifstrempty\expandafter{\@nflogo}{%
+      \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+        % Seule l'année scolaire
+        \begin{center}
+          {\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}
+        \end{center}
+      }%
+    }{%
+      % Logo avec ou sans texte/année
+      \begin{center}
+        \begin{minipage}[c]{0.2\textwidth}
+          \centering
+          \includegraphics[height=1.5cm]{\@nflogo}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.75\textwidth}
+          \raggedleft
+          \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
+            {\large\textbf{\@nfetablissement}}\\[0.2cm]%
+          }%
+          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+            {\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+          }%
+        \end{minipage}
+      \end{center}
+    }%
+  }{%
+    % Établissement sans logo
+    \expandafter\ifstrempty\expandafter{\@nflogo}{%
+      \begin{center}
+        {\large\textbf{\@nfetablissement}}%
+        \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+          \\[0.2cm]{\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+        }%
+      \end{center}
+    }{%
+      % Établissement avec logo
+      \begin{center}
+        \begin{minipage}[c]{0.2\textwidth}
+          \centering
+          \includegraphics[height=1.5cm]{\@nflogo}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.75\textwidth}
+          \raggedleft
+          {\large\textbf{\@nfetablissement}}%
+          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+            \\[0.2cm]{\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+          }%
+        \end{minipage}
+      \end{center}
+    }%
+  }
+
   \newpage
 }
 
