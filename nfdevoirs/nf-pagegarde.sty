@@ -67,7 +67,109 @@
 }
 
 % ============================================================================
-% PAGE DE GARDE
+% PAGE DE GARDE MINIMALISTE (pour contrôles courts)
+% ============================================================================
+\newcommand{\nfpagegardeminimale}{%
+  \thispagestyle{empty}%
+
+  % Bandeau simplifié (sans logo)
+  \begin{center}
+    \begin{minipage}[c]{0.33\textwidth}
+      % GAUCHE : Établissement (sans logo)
+      \raggedright
+      \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
+        {\textbf{\@nfetablissement}}%
+      }%
+    \end{minipage}%
+    \begin{minipage}[c]{0.33\textwidth}
+      % CENTRE : Année scolaire
+      \centering
+      \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+        {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+      }%
+    \end{minipage}%
+    \begin{minipage}[c]{0.33\textwidth}
+      % DROITE : Auteur + Matière
+      \raggedleft
+      \expandafter\ifstrempty\expandafter{\@nfauteur}{%
+        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+          {\@nfmatiere}%
+        }%
+      }{%
+        {\@nfauteur}%
+        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+          \\[0.1cm]{\@nfmatiere}%
+        }%
+      }%
+    \end{minipage}
+  \end{center}
+
+  \vspace{0.3cm}
+
+  % Titre simple (sans ligne de séparation)
+  \begin{center}
+    {\Large\bfseries\color{nfcolpartie}\@nftypedevoir\ : \@title}
+  \end{center}
+
+  \vspace{0.3cm}
+
+  % Nom et classe sur une ligne
+  \begin{center}
+    \begin{minipage}{0.45\textwidth}
+      {\textbf{Nom :} \@nfnom}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+      \raggedleft
+      \expandafter\ifstrempty\expandafter{\@nfclasse}{}{{\textbf{Classe :} \@nfclasse}}
+    \end{minipage}
+  \end{center}
+
+  \vspace{0.3cm}
+
+  % Section Informations compacte
+  \begin{center}
+    \expandafter\ifstrempty\expandafter{\@nfduree}{}{%
+      \textbf{\color{nfcolpartie}\faClock\ \@nfduree} \quad
+    }%
+    \textbf{\color{nfcolpartie}\faTrophy\ \nftotalpts\ points}%
+    \ifnum\nftotalbonus>0
+      \ + \textbf{\nftotalbonus\ bonus}%
+    \fi%
+    \expandafter\ifstrempty\expandafter{\@nfdate}{}{ \quad \textbf{\color{nfcolpartie}\faCalendar\ \@nfdate}}
+  \end{center}
+
+  \vspace{0.3cm}
+
+  % Boîte pour la note (2cm de haut)
+  \begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=nfcolpartie,
+    boxrule=1.5pt,
+    arc=2pt,
+    left=10pt,
+    right=10pt,
+    top=8pt,
+    bottom=8pt,
+    height=2cm,
+  ]
+    \textbf{\color{nfcolpartie}Note et observations :}
+  \end{tcolorbox}
+
+  \vspace{0.3cm}
+
+  % Trait séparateur
+  \begin{center}
+    {\color{nfcolpartie}\rule{0.8\textwidth}{1pt}}
+  \end{center}
+
+  \vspace{0.3cm}
+  % Pas de \newpage - le devoir commence directement après
+}
+
+% ============================================================================
+% PAGE DE GARDE COMPLÈTE
 % ============================================================================
 \newcommand{\nfpagegarde}{%
   \thispagestyle{empty}%
@@ -140,7 +242,12 @@
     \expandafter\ifstrempty\expandafter{\@nfdate}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
-        \textbf{\color{nfcolpartie}\faCalendar\ Date} \\[0.2cm]
+        % Adaptation du label selon le type de devoir
+        \expandafter\ifstrequal\expandafter{\@nftypedevoir}{DM}{%
+          \textbf{\color{nfcolpartie}\faCalendar\ Remise} \\[0.2cm]
+        }{%
+          \textbf{\color{nfcolpartie}\faCalendar\ Date} \\[0.2cm]
+        }%
         \textbf{\@nfdate}
       \end{minipage}%
     }

@@ -2,6 +2,50 @@
 
 Historique des versions et évolutions de la classe nfdevoirs.
 
+## [2.1.0] - 2025-10-05
+
+### 🎉 Système de types de devoirs automatiques
+
+#### Ajouté
+- **Système de types de devoirs** avec comportements automatiques :
+  - `type=DS` : Devoir Surveillé (défaut) - Page de garde complète
+  - `type=EVA` : Évaluation - Page de garde complète
+  - `type=CONT` : Contrôle court - Page de garde minimaliste
+  - `type=DM` : Devoir Maison - Page de garde complète, date = remise
+
+- **Page de garde minimaliste** pour contrôles courts (CONT) :
+  - Bandeau simplifié sans logo
+  - Titre simple sans ligne de séparation
+  - Section informations compacte avec icônes
+  - Boîte pour notes de 2cm de hauteur
+  - Trait séparateur, puis début direct du devoir (pas de `\newpage`)
+
+- **Adaptation automatique** selon le type :
+  - **DS/EVA** : Page de garde complète avec consignes détaillées
+  - **CONT** : Page de garde compacte pour économiser l'espace
+  - **DM** : Page complète avec "Remise" au lieu de "Date"
+
+#### Technique
+- **Variables de configuration** :
+  - `\@nftypedevoir` : Type de devoir avec défaut DS
+  - `\@nfpagegardetype` : Type de page de garde (complete/minimale)
+
+- **Logique de type automatique** :
+  - Fonction `\nfapplytypedefaults` avec conditionnels imbriqués
+  - Configuration automatique du type de page de garde selon le type
+  - Override possible avec option `pagegarde=minimale|complete`
+
+- **Implémentation modulaire** :
+  - Extension de `nf-core.sty` pour les nouvelles variables
+  - Extension de `nf-environments.sty` pour la logique de types
+  - Extension de `nf-pagegarde.sty` pour la page garde minimaliste
+
+#### Évolutions futures
+- Type `QCM` prévu pour les devoirs de style baccalauréat
+- Architecture extensible pour de nouveaux types
+
+---
+
 ## [2.0.0] - 2025-10-05
 
 ### 🎨 Breaking Changes - Syntaxe moderne et bandeau configurable

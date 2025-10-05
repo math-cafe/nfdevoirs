@@ -64,9 +64,11 @@ Nécessite :
 
 \begin{document}
 \begin{devoir}{
+  type=DS,
   calculatrice=true,
   classe={1STMG 2},
   date={27 septembre 2024},
+  duree={2H},
   auteur={M. Dupont},
   matiere={Mathématiques},
   etablissement={LPO Alfred Mézières},
@@ -136,10 +138,17 @@ Nécessite :
 
 ### Options de l'environnement devoir
 
+#### Type de devoir
+- `type` : Type de devoir avec comportements automatiques
+  - `DS` : Devoir Surveillé (défaut) - Page de garde complète
+  - `EVA` : Évaluation - Page de garde complète
+  - `CONT` : Contrôle court - Page de garde minimaliste
+  - `DM` : Devoir Maison - Page de garde complète, date = remise
+
 #### Informations de base
 - `classe` : Nom de la classe (ex: "1STMG 2")
-- `date` : Date du devoir
-- `duree` : Durée de l'épreuve (ex: "1H30")
+- `date` : Date du devoir (ou date de remise pour DM)
+- `duree` : Durée de l'épreuve (ex: "1H30", optionnel pour DM)
 - `calculatrice` : true/false ou texte libre
 
 #### Bandeau d'établissement
@@ -150,7 +159,8 @@ Nécessite :
 - `anscol` : Année scolaire (25 → 2025-2026, 1990 → 1990-1991)
 - `bandeaupos` : Position (haut/bas/aucun, défaut: bas)
 
-#### Éléments optionnels
+#### Configuration avancée
+- `pagegarde` : Force le type de page de garde (complete/minimale)
 - `easteregg` : Mot bonus à écrire en haut de copie
 - `citation` : Citation en fin de devoir (avec auteur intégré si besoin)
 
@@ -158,6 +168,45 @@ Nécessite :
 - `points` : Points barème (ex: points=3)
 - `bonus` : Points bonus (ex: bonus=2)
 - `niveau` : Difficulté 1-5 étoiles (ex: niveau=4)
+
+## Exemples par type de devoir
+
+### Devoir Surveillé (DS)
+```latex
+\begin{devoir}{
+  type=DS,
+  classe={1STMG 2},
+  date={15 octobre 2024},
+  duree={2H},
+  calculatrice=true,
+  auteur={M. Dupont},
+  matiere={Mathématiques}
+}
+```
+
+### Contrôle court (CONT)
+```latex
+\begin{devoir}{
+  type=CONT,
+  classe={1STMG 2},
+  date={8 octobre 2024},
+  duree={20 min},
+  calculatrice=false,
+  auteur={M. Dupont}
+}
+```
+
+### Devoir Maison (DM)
+```latex
+\begin{devoir}{
+  type=DM,
+  classe={1STMG 2},
+  date={25 octobre 2024},
+  calculatrice=true,
+  auteur={M. Dupont},
+  matiere={Mathématiques}
+}
+```
 
 ## Fonctionnalités avancées
 
@@ -167,11 +216,9 @@ Nécessite :
 - Système de double compilation pour l'affichage correct des totaux
 
 ### Page de garde automatique
-- Titre et informations élève/classe
-- Section barème avec conversion sur 20 si nécessaire
-- Durée et date de l'épreuve
-- Boîte vide pour notes de l'enseignant
-- Consignes standardisées et conseils pédagogiques
+- **Page de garde complète** (DS, EVA, DM) : Titre, informations élève/classe, section barème avec conversion sur 20, durée et date, boîte pour notes, consignes détaillées et conseils
+- **Page de garde minimaliste** (CONT) : Format compact sans page de saut, titre simple, informations essentielles, boîte 2cm pour notes
+- Adaptation automatique selon le type de devoir
 - Intégration optionnelle d'easter egg
 
 ### Système de corrections

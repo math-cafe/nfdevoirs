@@ -170,7 +170,12 @@
   \setcounter{nfptsdevoir}{0}%
   \setcounter{nfbonusdevoir}{0}%
   % Génération de la page de garde (avec totaux depuis .aux)
-  \nfpagegarde
+  % Choix du type de page de garde selon @nfpagegardetype
+  \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
+    \nfpagegardeminimale
+  }{%
+    \nfpagegarde
+  }
 }{%
   % À la fin du devoir
   % 1. Écriture des totaux dans .aux pour la prochaine compilation
@@ -198,5 +203,37 @@
 \define@key{nfdevoir}{anscol}{\renewcommand{\@nfanscol}{#1}}
 \define@key{nfdevoir}{matiere}{\renewcommand{\@nfmatiere}{#1}}
 \define@key{nfdevoir}{bandeaupos}{\renewcommand{\@nfbandeaupos}{#1}}
+\define@key{nfdevoir}{type}{\renewcommand{\@nftypedevoir}{#1}\nfapplytypedefaults{#1}}
+\define@key{nfdevoir}{pagegarde}{\renewcommand{\@nfpagegardetype}{#1}}
+
+% ============================================================================
+% LOGIQUE DES TYPES DE DEVOIRS
+% ============================================================================
+
+% Fonction qui applique les comportements par défaut selon le type
+\newcommand{\nfapplytypedefaults}[1]{%
+  \expandafter\ifstrequal\expandafter{#1}{DS}{%
+    % DS : Devoir Surveillé - page garde complète
+    \renewcommand{\@nfpagegardetype}{complete}%
+  }{%
+    \expandafter\ifstrequal\expandafter{#1}{EVA}{%
+      % EVA : Évaluation - page garde complète comme DS
+      \renewcommand{\@nfpagegardetype}{complete}%
+    }{%
+      \expandafter\ifstrequal\expandafter{#1}{CONT}{%
+        % CONT : Contrôle court - page garde minimaliste
+        \renewcommand{\@nfpagegardetype}{minimale}%
+      }{%
+        \expandafter\ifstrequal\expandafter{#1}{DM}{%
+          % DM : Devoir Maison - page garde complète, logique spéciale
+          \renewcommand{\@nfpagegardetype}{complete}%
+        }{%
+          % Type inconnu : comportement par défaut DS
+          \renewcommand{\@nfpagegardetype}{complete}%
+        }%
+      }%
+    }%
+  }%
+}
 
 \endinput
