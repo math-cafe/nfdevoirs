@@ -75,16 +75,28 @@
   % Bandeau en haut si demandé
   \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
     \nfbandeau
-    \vspace{0.5cm}
+    \vspace{0.3cm}  % Réduit de 0.5cm à 0.3cm
   }{}
 
-  % En-tête avec titre et infos
+  % En-tête avec titre et infos (adaptatif selon bandeau)
   \begin{center}
-    {\Huge\bfseries\color{nfcolpartie}\@title}
+    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+      {\LARGE\bfseries\color{nfcolpartie}\@title}  % LARGE vs Huge
+    }{%
+      {\Huge\bfseries\color{nfcolpartie}\@title}
+    }
 
-    \vspace{0.3cm}
+    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+      \vspace{0.2cm}  % Réduit
+    }{%
+      \vspace{0.3cm}
+    }
     {\color{nfcolpartie}\rule{0.6\textwidth}{2pt}}
-    \vspace{0.5cm}
+    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+      \vspace{0.3cm}  % Réduit
+    }{%
+      \vspace{0.5cm}
+    }
 
     \begin{minipage}{0.45\textwidth}
       {\large\textbf{Nom :} \@nfnom}
@@ -96,7 +108,11 @@
     \end{minipage}
   \end{center}
 
-  \vspace{0.8cm}
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    \vspace{0.5cm}  % Réduit de 0.8cm
+  }{%
+    \vspace{0.8cm}
+  }
 
   % Section Informations (Barème / Durée / Date)
   \begin{center}
@@ -130,9 +146,19 @@
     }
   \end{center}
 
-  \vspace{0.5cm}
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    \vspace{0.3cm}  % Réduit de 0.5cm
+  }{%
+    \vspace{0.5cm}
+  }
 
   % Boîte pour la note (vide, à remplir à la main)
+  % Définir la hauteur selon la position du bandeau
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    \def\nfhauteurboite{35mm}  % Réduit de 45mm
+  }{%
+    \def\nfhauteurboite{45mm}
+  }
   \begin{tcolorbox}[
     enhanced,
     colback=white,
@@ -143,16 +169,24 @@
     right=10pt,
     top=8pt,
     bottom=8pt,
-    height=45mm,
+    height=\nfhauteurboite,
   ]
     \textbf{\color{nfcolpartie}Note et observations :}
     \vspace{2.3cm}
   \end{tcolorbox}
 
-  \vspace{0.5cm}
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    \vspace{0.3cm}  % Réduit de 0.5cm
+  }{%
+    \vspace{0.5cm}
+  }
 
-  % Section Consignes
-  {\large\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}
+  % Section Consignes (taille adaptative)
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    {\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}  % Sans \large
+  }{%
+    {\large\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}
+  }
   \vspace{0.2cm}
 
   \begin{itemize}[leftmargin=*, itemsep=3pt]
@@ -182,10 +216,18 @@
     \end{itemize}
   \end{itemize}
 
-  \vspace{0.5cm}
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    \vspace{0.3cm}  % Réduit de 0.5cm
+  }{%
+    \vspace{0.5cm}
+  }
 
-  % Section Conseils
-  {\large\textbf{\color{nfcolpartie}Conseils pour réussir}}
+  % Section Conseils (taille adaptative)
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    {\textbf{\color{nfcolpartie}Conseils pour réussir}}  % Sans \large
+  }{%
+    {\large\textbf{\color{nfcolpartie}Conseils pour réussir}}
+  }
   \vspace{0.2cm}
 
   \begin{itemize}[leftmargin=*, itemsep=3pt]
@@ -210,11 +252,14 @@
     \vfill
     \nfbandeau
   }{%
-    % Si ce n'est ni haut ni bas, on ne met rien (aucun)
-    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{aucun}{}{%
-      % Par défaut (si option invalide), on met en bas
-      \vfill
-      \nfbandeau
+    % Si c'est "haut", on ne met rien ici (déjà affiché en haut)
+    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{}{%
+      % Si c'est "aucun", on ne met rien non plus
+      \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{aucun}{}{%
+        % Par défaut (si option invalide), on met en bas
+        \vfill
+        \nfbandeau
+      }%
     }%
   }
 
