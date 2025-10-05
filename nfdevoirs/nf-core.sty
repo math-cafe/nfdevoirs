@@ -39,6 +39,20 @@
 \newcommand{\@nfcitation}{}
 \newcommand{\@nfauteur}{}
 \newcommand{\@nfduree}{}
+\newcommand{\@nfetablissement}{}
+\newcommand{\@nflogo}{}
+\newcommand{\@nfanscol}{}
+\newcommand{\@nfmatiere}{}
+\newcommand{\@nfbandeaupos}{bas}
+
+% Commande pour formater l'année scolaire
+\newcommand{\nfformatanscol}[1]{%
+  \ifnum#1<100
+    \the\numexpr2000+#1\relax-\the\numexpr2000+#1+1\relax%
+  \else
+    \the\numexpr#1\relax-\the\numexpr#1+1\relax%
+  \fi
+}
 
 % ============================================================================
 % COMPTEURS POUR LES ENVIRONNEMENTS

@@ -15,10 +15,103 @@
 \RequirePackage{fontawesome5}
 
 % ============================================================================
+% BANDEAU ÉTABLISSEMENT (VERSION COMPACTE)
+% ============================================================================
+\newcommand{\nfbandeau}{%
+  \expandafter\ifstrempty\expandafter{\@nfetablissement}{%
+    \expandafter\ifstrempty\expandafter{\@nflogo}{%
+      \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+        % Seule l'année scolaire
+        \begin{center}
+          {\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}
+        \end{center}
+      }%
+    }{%
+      % Logo avec ou sans texte/année
+      \begin{center}
+        \begin{minipage}[c]{0.15\textwidth}
+          \centering
+          \includegraphics[height=1.2cm]{\@nflogo}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.8\textwidth}
+          \raggedleft
+          \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
+            {\textbf{\@nfetablissement}}%
+            \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+              \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - }%
+            }%
+            \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
+          }%
+          \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+            {\@nfmatiere}%
+            \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - \@nfauteur}%
+            \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
+          }%
+          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+            {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+          }%
+        \end{minipage}
+      \end{center}
+    }%
+  }{%
+    % Établissement sans logo
+    \expandafter\ifstrempty\expandafter{\@nflogo}{%
+      \begin{center}
+        {\textbf{\@nfetablissement}}%
+        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+          \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - }%
+        }%
+        \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
+        \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+          {\@nfmatiere}%
+          \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - \@nfauteur}%
+          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
+        }%
+        \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+          {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+        }%
+      \end{center}
+    }{%
+      % Établissement avec logo
+      \begin{center}
+        \begin{minipage}[c]{0.15\textwidth}
+          \centering
+          \includegraphics[height=1.2cm]{\@nflogo}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.8\textwidth}
+          \raggedleft
+          {\textbf{\@nfetablissement}}%
+          \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+            \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - }%
+          }%
+          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
+          \expandafter\ifstrempty\expandafter{\@nfmatiere}{}{%
+            {\@nfmatiere}%
+            \expandafter\ifstrempty\expandafter{\@nfauteur}{}{ - \@nfauteur}%
+            \expandafter\ifstrempty\expandafter{\@nfanscol}{}{ \\[0.1cm]}%
+          }%
+          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
+            {\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
+          }%
+        \end{minipage}
+      \end{center}
+    }%
+  }%
+}
+
+% ============================================================================
 % PAGE DE GARDE
 % ============================================================================
 \newcommand{\nfpagegarde}{%
   \thispagestyle{empty}%
+
+  % Bandeau en haut si demandé
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+    \nfbandeau
+    \vspace{0.5cm}
+  }{}
 
   % En-tête avec titre et infos
   \begin{center}
@@ -147,61 +240,16 @@
     \textit{La clarté de la présentation facilite l'évaluation de votre raisonnement.}
   \end{center}
 
-  \vfill
-
-  % Section établissement avec logo et année scolaire
-  \expandafter\ifstrempty\expandafter{\@nfetablissement}{%
-    \expandafter\ifstrempty\expandafter{\@nflogo}{%
-      \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-        % Seule l'année scolaire
-        \begin{center}
-          {\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}
-        \end{center}
-      }%
-    }{%
-      % Logo avec ou sans texte/année
-      \begin{center}
-        \begin{minipage}[c]{0.2\textwidth}
-          \centering
-          \includegraphics[height=1.5cm]{\@nflogo}
-        \end{minipage}%
-        \hfill
-        \begin{minipage}[c]{0.75\textwidth}
-          \raggedleft
-          \expandafter\ifstrempty\expandafter{\@nfetablissement}{}{%
-            {\large\textbf{\@nfetablissement}}\\[0.2cm]%
-          }%
-          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-            {\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
-          }%
-        \end{minipage}
-      \end{center}
-    }%
+  % Bandeau en bas si demandé (défaut)
+  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{bas}{%
+    \vfill
+    \nfbandeau
   }{%
-    % Établissement sans logo
-    \expandafter\ifstrempty\expandafter{\@nflogo}{%
-      \begin{center}
-        {\large\textbf{\@nfetablissement}}%
-        \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-          \\[0.2cm]{\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
-        }%
-      \end{center}
-    }{%
-      % Établissement avec logo
-      \begin{center}
-        \begin{minipage}[c]{0.2\textwidth}
-          \centering
-          \includegraphics[height=1.5cm]{\@nflogo}
-        \end{minipage}%
-        \hfill
-        \begin{minipage}[c]{0.75\textwidth}
-          \raggedleft
-          {\large\textbf{\@nfetablissement}}%
-          \expandafter\ifstrempty\expandafter{\@nfanscol}{}{%
-            \\[0.2cm]{\large\textbf{Année scolaire \nfformatanscol{\@nfanscol}}}%
-          }%
-        \end{minipage}
-      \end{center}
+    % Si ce n'est ni haut ni bas, on ne met rien (aucun)
+    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{aucun}{}{%
+      % Par défaut (si option invalide), on met en bas
+      \vfill
+      \nfbandeau
     }%
   }
 
