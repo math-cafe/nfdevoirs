@@ -34,7 +34,7 @@
     \hfill
     \begin{minipage}{0.45\textwidth}
       \raggedleft
-      {\large\textbf{Classe :} \@nfclasse}
+      \expandafter\ifstrempty\expandafter{\@nfclasse}{}{{\large\textbf{Classe :} \@nfclasse}}
     \end{minipage}
   \end{center}
 
@@ -55,7 +55,7 @@
       \fi
     \end{minipage}%
     \hfill
-    \ifstrempty{\@nfduree}{}{%
+    \expandafter\ifstrempty\expandafter{\@nfduree}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
         \textbf{\color{nfcolpartie}\faClock\ Durée} \\[0.2cm]
@@ -63,7 +63,7 @@
       \end{minipage}%
       \hfill
     }%
-    \ifstrempty{\@nfdate}{}{%
+    \expandafter\ifstrempty\expandafter{\@nfdate}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
         \textbf{\color{nfcolpartie}\faCalendar\ Date} \\[0.2cm]
@@ -98,7 +98,21 @@
   \vspace{0.2cm}
 
   \begin{itemize}[leftmargin=*, itemsep=3pt]
-    \item \faCalculator\ L'usage de la calculatrice est \textbf{\@nfcalculatrice}.
+    \item \faCalculator\ L'usage de la calculatrice est \textbf{%
+      \expandafter\ifstrempty\expandafter{\@nfcalculatrice}{%
+        strictement interdit%
+      }{%
+        \expandafter\ifstrequal\expandafter{\@nfcalculatrice}{true}{%
+          autorisé en mode examen%
+        }{%
+          \expandafter\ifstrequal\expandafter{\@nfcalculatrice}{false}{%
+            strictement interdit%
+          }{%
+            \@nfcalculatrice%
+          }%
+        }%
+      }%
+    }.
     \item \faBan\ Aucun document, support de cours ou formulaire n'est admis.
     \item \faUserCheck\ Cette évaluation est \textbf{strictement individuelle}. Toute communication est prohibée.
     \item \faListOl\ Tous les exercices doivent être traités. Vous pouvez choisir l'ordre, mais chaque exercice doit être terminé avant de passer au suivant.
@@ -120,7 +134,7 @@
     \item \textbf{Prenez connaissance de l'ensemble du sujet} avant de commencer pour comprendre la structure et identifier les compétences à mobiliser.
 
     \item \textbf{Lisez attentivement les énoncés} pour bien cerner les capacités testées%
-    \ifstrempty{\@nfeasteregg}{.}{\ {\color{nfcolaccent}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
+    \expandafter\ifstrempty\expandafter{\@nfeasteregg}{.}{\ {\color{nfcolaccent}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
 
     \item \textbf{Gérez votre temps} : recherche sur brouillon, rédaction soignée, puis relecture.
 
@@ -150,14 +164,14 @@
 
     \vspace{1cm}
 
-    \ifstrempty{\@nfcitation}{}{%
+    \expandafter\ifstrempty\expandafter{\@nfcitation}{}{%
       \parbox{0.8\textwidth}{%
         \centering
         \textit{\@nfcitation}
 
         \vspace{0.3cm}
 
-        \ifstrempty{\@nfauteur}{}{\textbf{\@nfauteur}}
+        \expandafter\ifstrempty\expandafter{\@nfauteur}{}{\textbf{\@nfauteur}}
       }%
     }
   \end{center}
