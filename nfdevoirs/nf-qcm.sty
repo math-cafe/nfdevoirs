@@ -1,0 +1,211 @@
+% ============================================================================
+% nf-qcm.sty - Environnement QCM pour nfdevoirs
+% Contient l'environnement qcm avec choix multiples et styles variés
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-qcm}[2025/10/06 Environnement QCM nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{environ}
+\RequirePackage{keyval}
+\RequirePackage{etoolbox}
+\RequirePackage{fontawesome5}
+\RequirePackage{multicol}
+\RequirePackage{amsmath}
+\RequirePackage{suffix}
+
+% ============================================================================
+% VARIABLES GLOBALES POUR QCM
+% ============================================================================
+
+% Variables pour les options QCM
+\newcommand{\@nfqcmpoints}{1}
+\newcommand{\@nfqcmbonus}{0}
+\newcommand{\@nfqcmniveau}{1}
+\newcommand{\@nfqcmstyle}{case}  % case, alpha, mix
+\newcommand{\@nfqcmcol}{1}       % nombre de colonnes
+
+% Compteur pour les choix dans un QCM
+\newcounter{nfqcmchoix}
+
+% Liste pour stocker les bonnes réponses du QCM actuel
+\newcommand{\@nfqcmbonnesreponses}{}
+
+% ============================================================================
+% CONFIGURATION DES CLÉS POUR L'ENVIRONNEMENT QCM
+% ============================================================================
+\define@key{nfqcm}{points}{\renewcommand{\@nfqcmpoints}{#1}}
+\define@key{nfqcm}{bonus}{\renewcommand{\@nfqcmbonus}{#1}}
+\define@key{nfqcm}{niveau}{\renewcommand{\@nfqcmniveau}{#1}}
+\define@key{nfqcm}{style}{\renewcommand{\@nfqcmstyle}{#1}}
+\define@key{nfqcm}{col}{\renewcommand{\@nfqcmcol}{#1}}
+
+% ============================================================================
+% HELPERS POUR LES STYLES DE CHOIX
+% ============================================================================
+
+%% Génère le symbole pour un choix selon le style
+\newcommand{\nfqcmgetsymbole}[2]{%
+  % #1 = numéro du choix (1,2,3...)
+  % #2 = style (case, alpha, mix)
+  \expandafter\ifstrequal\expandafter{#2}{case}{%
+    $\square$\space
+  }{%
+    \expandafter\ifstrequal\expandafter{#2}{alpha}{%
+      \setcounter{tmpcounter}{#1}\alph{tmpcounter})\space
+    }{%
+      \expandafter\ifstrequal\expandafter{#2}{mix}{%
+        $\square$\space\setcounter{tmpcounter}{#1}\alph{tmpcounter})\space
+      }{%
+        % Style par défaut: case
+        $\square$\space
+      }%
+    }%
+  }%
+}
+
+% Compteur temporaire pour la conversion alphabétique
+\newcounter{tmpcounter}
+
+%% Ajoute une bonne réponse à la liste
+\newcommand{\nfqcmajouterbonnereponse}[1]{%
+  \ifx\@nfqcmbonnesreponses\empty
+    \xdef\@nfqcmbonnesreponses{#1}%
+  \else
+    \xdef\@nfqcmbonnesreponses{\@nfqcmbonnesreponses, #1}%
+  \fi
+}
+
+% ============================================================================
+% COMMANDES POUR LES PROPOSITIONS
+% ============================================================================
+
+%% \proposition{texte} - Proposition normale
+\newcommand{\proposition}[1]{%
+  \stepcounter{nfqcmchoix}%
+  \noindent\nfqcmgetsymbole{\value{nfqcmchoix}}{\@nfqcmstyle}#1\par%
+  \vspace{0.2em}%
+}
+
+%% \proposition*{texte} - Bonne réponse (proposition correcte)
+\WithSuffix\newcommand\proposition*[1]{%
+  \stepcounter{nfqcmchoix}%
+  % Ajouter cette réponse à la liste des bonnes réponses
+  \setcounter{tmpcounter}{\value{nfqcmchoix}}%
+  \nfqcmajouterbonnereponse{\alph{tmpcounter}}%
+  \noindent\nfqcmgetsymbole{\value{nfqcmchoix}}{\@nfqcmstyle}#1\par%
+  \vspace{0.2em}%
+}
+
+% ============================================================================
+% ENVIRONNEMENT QCM PRINCIPAL
+% ============================================================================
+
+%% Variable pour gérer les colonnes multiples dans QCM
+\newif\if@nfqcmdansmulticol
+\@nfqcmdansmulticolfalse
+
+%% Début de l'environnement QCM
+\NewEnviron{qcm}[1]{%
+  % Parsing des options
+  \setkeys{nfqcm}{#1}%
+
+  % Réinitialisation pour ce QCM
+  \setcounter{nfqcmchoix}{0}%
+  \renewcommand{\@nfqcmbonnesreponses}{}%
+
+  % Mise à jour des points (même logique que question)
+  \setcounter{nfptsquestion}{\@nfqcmpoints}%
+  \setcounter{nfbonusquestion}{\@nfqcmbonus}%
+  \setcounter{nfniveauquestion}{\@nfqcmniveau}%
+  \addtocounter{nfptsexercice}{\value{nfptsquestion}}%
+  \addtocounter{nfbonusexercice}{\value{nfbonusquestion}}%
+
+  % Incrémentation du compteur de questions
+  \stepcounter{nfquestion}%
+
+  % Structure conditionnelle : masquée en mode correction=only
+  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+    % Mode only : ne pas afficher le contenu du QCM
+  }{%
+    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
+      % Mode sans barème : contenu sur toute la largeur
+      \noindent
+      \textbf{\alph{nfquestion})} \BODY
+      \par\medskip
+    }{%
+      % Mode avec barème : structure en deux colonnes (même que question)
+      \noindent
+      \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+        \textbf{\alph{nfquestion})} \BODY
+      \end{minipage}%
+      \hfill
+      \begin{minipage}[t]{2.5cm}
+        \raggedleft
+        \textbf{%
+          \color{nfcolpoints}%
+          \ifnum\value{nfptsquestion}>0 /\the\value{nfptsquestion}\fi%
+          \ifnum\value{nfbonusquestion}>0 \space +\the\value{nfbonusquestion}\fi%
+        }
+        \nfafficheniveau{\value{nfniveauquestion}}
+      \end{minipage}%
+      \par\medskip
+    }%
+  }%
+
+  % Espace final après le QCM
+  \vspace{3mm}
+}
+
+% ============================================================================
+% ENVIRONNEMENT CHOIX POUR LES PROPOSITIONS
+% ============================================================================
+
+%% Environnement choix pour englober toutes les propositions
+\NewEnviron{choix}{%
+  
+  % Démarrer les colonnes multiples si nécessaire
+  \ifnum\@nfqcmcol>1
+    \begin{multicols}{\@nfqcmcol}
+    \@nfqcmdansmulticoltrue
+  \fi
+
+  % Afficher le contenu (les propositions)
+\vspace{1mm}
+  \BODY
+
+  % Fermer les colonnes multiples si nécessaire
+  \if@nfqcmdansmulticol
+    \end{multicols}
+    \@nfqcmdansmulticolfalse
+  \fi
+}
+
+% ============================================================================
+% INTÉGRATION AVEC LE SYSTÈME DE CORRECTIONS
+% ============================================================================
+
+%% Variable pour savoir si on vient de terminer un QCM
+\newif\if@nfapresqcm
+\@nfapresqcmfalse
+
+%% Commande pour afficher les bonnes réponses en début de correction
+\newcommand{\nfqcmafficherbonnesreponses}{%
+  \if@nfapresqcm
+    \ifx\@nfqcmbonnesreponses\empty\else
+      \noindent\textbf{Bonne(s) réponse(s) :} \@nfqcmbonnesreponses
+
+      \vspace{0.3em}
+    \fi
+  \fi
+}
+
+%% Hook pour marquer qu'on sort d'un QCM
+\AtEndEnvironment{qcm}{%
+  \@nfapresqcmtrue% Marquer qu'on vient de terminer un QCM
+}
+
+\endinput

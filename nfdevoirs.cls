@@ -100,6 +100,7 @@
 \RequirePackage{nfdevoirs/nf-layout}
 % Environnements principaux
 \RequirePackage{nfdevoirs/nf-question}
+\RequirePackage{nfdevoirs/nf-qcm}
 \RequirePackage{nfdevoirs/nf-exercice}
 \RequirePackage{nfdevoirs/nf-partie}
 \RequirePackage{nfdevoirs/nf-devoir}

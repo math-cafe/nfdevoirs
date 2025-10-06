@@ -17,6 +17,9 @@
 % Configuration tcolorbox pour les corrections
 \tcbuselibrary{skins,breakable}
 
+% Commande par défaut pour QCM (sera redéfinie si nf-qcm est chargé)
+\providecommand{\nfqcmafficherbonnesreponses}{}
+
 % ============================================================================
 % ENVIRONNEMENT CORRECTION
 % ============================================================================
@@ -46,6 +49,8 @@
         arc=2pt
       }
     ]
+    % Affichage des bonnes réponses si on vient d'un QCM
+    \nfqcmafficherbonnesreponses
     \BODY
     \end{tcolorbox}
   }{%
@@ -100,6 +105,8 @@
           arc=2pt
         }
       ]
+      % Affichage des bonnes réponses si on vient d'un QCM
+      \nfqcmafficherbonnesreponses
       \BODY
       \end{tcolorbox}
     }{}%
