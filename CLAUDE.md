@@ -66,8 +66,15 @@ Génère une page de garde professionnelle avec :
 - Viewer PDF evince (pour make view/watch)
 - --shell-escape activé pour les fonctionnalités LaTeX avancées
 
-## Options de classe
+## Options de classe et correction
 
+**Nouveau système (recommandé)** : Configuration dans l'environnement devoir
+- `correction=none` - Aucune correction affichée (défaut)
+- `correction=inline` - Corrections après chaque question
+- `correction=end` - Corrections regroupées en fin
+- `correction=only` - Uniquement les corrections avec titre enrichi, sans page de garde ni énoncé
+
+**Ancien système (déprécié mais maintenu)** :
 - `correction` - Affiche les corrections inline après chaque question : `\documentclass[correction]{nfdevoirs}`
 - `correctionfin` - Regroupe toutes les corrections en fin de document : `\documentclass[correctionfin]{nfdevoirs}`
 

@@ -5,7 +5,7 @@
 % OPTIONS DE CLASSE
 % ============================================================================
 
-% Options de correction
+% Options de correction (compatibilité + nouveau système)
 \newif\if@correction
 \@correctionfalse
 \newif\if@correctionfin
@@ -23,8 +23,20 @@
 \newif\if@themeviolet
 \@themevioletfalse
 
-\DeclareOption{correction}{\@correctiontrue}
-\DeclareOption{correctionfin}{\@correctionfintrue}
+% Variable pour le nouveau système de correction
+\newcommand{\@nfcorrection}{none} % none, inline, end, only
+
+% Options de correction (avec migration douce)
+\DeclareOption{correction}{%
+  \@correctiontrue%
+  \renewcommand{\@nfcorrection}{inline}%
+  \PackageWarning{nfdevoirs}{Option 'correction' depreciee. Utilisez 'correction=inline' dans les options du devoir}%
+}
+\DeclareOption{correctionfin}{%
+  \@correctionfintrue%
+  \renewcommand{\@nfcorrection}{end}%
+  \PackageWarning{nfdevoirs}{Option 'correctionfin' depreciee. Utilisez 'correction=end' dans les options du devoir}%
+}
 
 % Options de thèmes avec gestion mutuelle exclusive
 \DeclareOption{theme=nb}{%

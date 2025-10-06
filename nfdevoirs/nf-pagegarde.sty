@@ -132,11 +132,14 @@
     \expandafter\ifstrempty\expandafter{\@nfduree}{}{%
       \textbf{\color{nfcolpartie}\faClock\ \@nfduree} \quad
     }%
-    \textbf{\color{nfcolpartie}\faTrophy\ \nftotalpts\ points}%
-    \ifnum\nftotalbonus>0
-      \ + \textbf{\nftotalbonus\ bonus}%
-    \fi%
-    \expandafter\ifstrempty\expandafter{\@nfdate}{}{ \quad \textbf{\color{nfcolpartie}\faCalendar\ \@nfdate}}
+    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{}{%
+      \textbf{\color{nfcolpartie}\faTrophy\ \nftotalpts\ points}%
+      \ifnum\nftotalbonus>0
+        \ + \textbf{\nftotalbonus\ bonus}%
+      \fi%
+      \expandafter\ifstrempty\expandafter{\@nfdate}{}{\ \quad}%
+    }%
+    \expandafter\ifstrempty\expandafter{\@nfdate}{}{\textbf{\color{nfcolpartie}\faCalendar\ \@nfdate}}
   \end{center}
 
   \vspace{0.3cm}
@@ -218,19 +221,21 @@
 
   % Section Informations (Barème / Durée / Date)
   \begin{center}
-    \begin{minipage}[t]{0.3\textwidth}
-      \centering
-      \textbf{\color{nfcolpartie}\faTrophy\ Barème} \\[0.2cm]
-      \textbf{\nftotalpts\ points}%
-      \ifnum\nftotalbonus>0
-        \ + \textbf{\nftotalbonus\ bonus}%
-      \fi \\
-      \ifnum\nftotalpts=20
-      \else
-        \textit{\small note convertie sur 20 points}
-      \fi
-    \end{minipage}%
-    \hfill
+    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{}{%
+      \begin{minipage}[t]{0.3\textwidth}
+        \centering
+        \textbf{\color{nfcolpartie}\faTrophy\ Barème} \\[0.2cm]
+        \textbf{\nftotalpts\ points}%
+        \ifnum\nftotalbonus>0
+          \ + \textbf{\nftotalbonus\ bonus}%
+        \fi \\
+        \ifnum\nftotalpts=20
+        \else
+          \textit{\small note convertie sur 20 points}
+        \fi
+      \end{minipage}%
+      \hfill
+    }
     \expandafter\ifstrempty\expandafter{\@nfduree}{}{%
       \begin{minipage}[t]{0.3\textwidth}
         \centering
@@ -377,23 +382,28 @@
 % CITATION FINALE
 % ============================================================================
 \newcommand{\nfcitationfin}{%
-  \vfill
-  \begin{center}
-    \rule{0.5\textwidth}{0.4pt}
+  % Ne pas afficher en mode correction=only
+  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+    % Mode only : ne rien afficher
+  }{%
+    \vfill
+    \begin{center}
+      \rule{0.5\textwidth}{0.4pt}
 
-    \vspace{0.5cm}
+      \vspace{0.5cm}
 
-    {\Large\textbf{Fin du devoir}}
+      {\Large\textbf{Fin du devoir}}
 
-    \vspace{1cm}
+      \vspace{1cm}
 
-    \expandafter\ifstrempty\expandafter{\@nfcitation}{}{%
-      \parbox{0.8\textwidth}{%
-        \centering
-        \textit{\@nfcitation}
-      }%
-    }
-  \end{center}
+      \expandafter\ifstrempty\expandafter{\@nfcitation}{}{%
+        \parbox{0.8\textwidth}{%
+          \centering
+          \textit{\@nfcitation}
+        }%
+      }
+    \end{center}
+  }%
 }
 
 \endinput

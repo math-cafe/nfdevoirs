@@ -95,15 +95,29 @@ Nécessite :
 
 ### Modes de correction
 
-- `correction` : Affiche les corrections inline (après chaque question)
-  ```latex
-  \documentclass[correction]{nfdevoirs}
-  ```
+**Nouveau système (recommandé) :**
+- `correction=none` : Aucune correction affichée (défaut)
+- `correction=inline` : Corrections affichées après chaque question
+- `correction=end` : Toutes les corrections regroupées en fin de document
+- `correction=only` : Affiche uniquement les corrections avec titre du devoir, sans page de garde ni énoncé
 
-- `correctionfin` : Regroupe toutes les corrections en fin de document
-  ```latex
-  \documentclass[correctionfin]{nfdevoirs}
-  ```
+```latex
+% Dans les options du devoir
+\begin{devoir}{
+  correction=inline,
+  type=DS,
+  classe={1STMG 2}
+}
+```
+
+**Ancien système (déprécié, mais maintenu pour compatibilité) :**
+- `correction` : Équivalent à `correction=inline`
+- `correctionfin` : Équivalent à `correction=end`
+
+```latex
+\documentclass[correction]{nfdevoirs}        % Déprécié
+\documentclass[correctionfin]{nfdevoirs}     % Déprécié
+```
 
 ### Thèmes visuels
 
@@ -161,6 +175,7 @@ Nécessite :
 
 #### Configuration avancée
 - `pagegarde` : Force le type de page de garde (complete/minimale)
+- `correction` : Mode d'affichage des corrections (none/inline/end/only)
 - `easteregg` : Mot bonus à écrire en haut de copie
 - `citation` : Citation en fin de devoir (avec auteur intégré si besoin)
 
@@ -222,9 +237,13 @@ Nécessite :
 - Intégration optionnelle d'easter egg
 
 ### Système de corrections
+- **Mode none** : Aucune correction affichée (défaut)
 - **Mode inline** : Corrections affichées directement après chaque question
-- **Mode fin** : Toutes les corrections regroupées en fin avec référencement automatique
+- **Mode end** : Toutes les corrections regroupées en fin avec référencement automatique
+- **Mode only** : Affiche uniquement les corrections avec titre du devoir enrichi, sans page de garde ni énoncé
 - Boîtes colorées avec style cohérent selon le thème choisi
+- Migration douce : anciens modes `correction` et `correctionfin` maintenus avec avertissements
+- Titre contextualisé en mode `only` : "Corrections -- [Titre du devoir]"
 
 ## Installation et compilation
 

@@ -2,6 +2,38 @@
 
 Historique des versions et évolutions de la classe nfdevoirs.
 
+## [2.2.0] - 2025-10-06
+
+### 🔄 Évolution du système de corrections
+
+#### Ajouté
+- **Nouveau système key-value pour les corrections** :
+  - `correction=none` : Aucune correction affichée (nouveau défaut)
+  - `correction=inline` : Corrections après chaque question (équivalent à l'ancien `correction`)
+  - `correction=end` : Corrections regroupées en fin (équivalent à l'ancien `correctionfin`)
+  - `correction=only` : Affiche uniquement les corrections, sans page de garde ni énoncé
+
+- **Migration douce** :
+  - Anciens modes `correction` et `correctionfin` maintenus avec avertissements de dépréciation
+  - Messages d'avertissement explicites pour guider la migration
+  - Compatibilité complète préservée
+
+#### Amélioré
+- **Configuration dans l'environnement devoir** : Option `correction` au niveau du document
+- **Mode correction=only** : Optimisé pour les feuilles de correction pures
+- **Affichage amélioré** : Titres de correction enrichis avec localisation (Partie, Exercice, Question)
+- **Titre contextualisé** : Mode `only` affiche "Corrections -- [Titre du devoir]" pour plus de clarté
+- **Masquage complet** : Mode `only` masque tout contenu d'exercice et "Fin du devoir"
+- **Documentation** : Instructions complètes pour la migration
+
+#### Technique
+- **Variable unifiée** : `\@nfcorrection` remplace les booléens multiples
+- **Conditionnels robustes** : Système `\expandafter\ifstrequal` pour tous les modes
+- **Migration transparente** : Anciens booléens préservés pour la compatibilité
+- **Avertissements intégrés** : `\PackageWarning` pour guider les utilisateurs
+- **Environnement exercice modernisé** : `\NewEnviron` avec `\setbox` pour masquage en mode `only`
+- **Titre dynamique** : Utilisation de `\@title` pour enrichir le mode `only`
+
 ## [2.1.0] - 2025-10-05
 
 ### 🎉 Système de types de devoirs automatiques
