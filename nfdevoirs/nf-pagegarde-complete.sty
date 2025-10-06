@@ -136,40 +136,60 @@
     \vspace{0.5cm}
   }
 
-  % Section Consignes (taille adaptative)
+  % Section Consignes (taille adaptative et contenu selon type)
   \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
-    {\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}  % Sans \large
+    {\textbf{\color{nfcolpartie}Consignes pour \expandafter\ifstrequal\expandafter{\@nftypedevoir}{DM}{le devoir maison}{l'épreuve}}}  % Sans \large
   }{%
-    {\large\textbf{\color{nfcolpartie}Consignes pour l'épreuve}}
+    {\large\textbf{\color{nfcolpartie}Consignes pour \expandafter\ifstrequal\expandafter{\@nftypedevoir}{DM}{le devoir maison}{l'épreuve}}}
   }
   \vspace{0.2cm}
 
-  \begin{itemize}[leftmargin=*, itemsep=3pt]
-    \item \faCalculator\ L'usage de la calculatrice est \textbf{%
-      \expandafter\ifstrempty\expandafter{\@nfcalculatrice}{%
-        strictement interdit%
-      }{%
-        \expandafter\ifstrequal\expandafter{\@nfcalculatrice}{true}{%
-          autorisé en mode examen%
+  \expandafter\ifstrequal\expandafter{\@nftypedevoir}{DM}{%
+    % Consignes spécifiques aux DM
+    \begin{itemize}[leftmargin=*, itemsep=3pt]
+      \item \faCalendarCheck\ \textbf{Date de remise impérative :} \@nfdate. Tout retard entraîne une pénalité.
+      \item \faUsers\ \textbf{Collaboration autorisée} mais le travail rendu doit être \textbf{strictement personnel}. Vous pouvez demander de l'aide mais devez rédiger vos propres solutions.
+      \item \faBook\ \textbf{Ressources autorisées :} cours, exercices, internet, logiciels. Les calculatrices et outils numériques sont librement utilisables.
+      \item \faQuoteLeft\ \textbf{Sources à citer :} si vous utilisez une aide extérieure (site web, personne, etc.), mentionnez-la clairement.
+      \item \faPaperPlane\ \textbf{Remise du devoir :} sur papier, en classe, le jour indiqué. Aucune remise numérique ou par email ne sera acceptée.
+      \item \faListOl\ Tous les exercices doivent être traités. Vous pouvez choisir l'ordre, mais soignez la présentation de chaque partie.
+      \item \faExclamationTriangle\ Un point sera retiré de la note finale pour chacun des manquements suivants :
+      \begin{itemize}[itemsep=2pt]
+        \item Rédaction de qualité insuffisante (exigence renforcée pour un DM)
+        \item Terminologie ou notation mathématique inappropriées
+        \item Non-respect des consignes d'exécution
+        \item Absence de sources citées en cas d'aide extérieure
+      \end{itemize}
+    \end{itemize}
+  }{%
+    % Consignes pour les DS/EVA (existantes)
+    \begin{itemize}[leftmargin=*, itemsep=3pt]
+      \item \faCalculator\ L'usage de la calculatrice est \textbf{%
+        \expandafter\ifstrempty\expandafter{\@nfcalculatrice}{%
+          strictement interdit%
         }{%
-          \expandafter\ifstrequal\expandafter{\@nfcalculatrice}{false}{%
-            strictement interdit%
+          \expandafter\ifstrequal\expandafter{\@nfcalculatrice}{true}{%
+            autorisé en mode examen%
           }{%
-            \@nfcalculatrice%
+            \expandafter\ifstrequal\expandafter{\@nfcalculatrice}{false}{%
+              strictement interdit%
+            }{%
+              \@nfcalculatrice%
+            }%
           }%
         }%
-      }%
-    }.
-    \item \faBan\ Aucun document, support de cours ou formulaire n'est admis.
-    \item \faUserCheck\ Cette évaluation est \textbf{strictement individuelle}. Toute communication est prohibée.
-    \item \faListOl\ Tous les exercices doivent être traités. Vous pouvez choisir l'ordre, mais chaque exercice doit être terminé avant de passer au suivant.
-    \item \faExclamationTriangle\ Un point sera retiré de la note finale pour chacun des manquements suivants :
-    \begin{itemize}[itemsep=2pt]
-      \item Rédaction de qualité insuffisante
-      \item Terminologie ou notation mathématique inappropriées
-      \item Non-respect des consignes d'exécution
+      }.
+      \item \faBan\ Aucun document, support de cours ou formulaire n'est admis.
+      \item \faUserCheck\ Cette évaluation est \textbf{strictement individuelle}. Toute communication est prohibée.
+      \item \faListOl\ Tous les exercices doivent être traités. Vous pouvez choisir l'ordre, mais chaque exercice doit être terminé avant de passer au suivant.
+      \item \faExclamationTriangle\ Un point sera retiré de la note finale pour chacun des manquements suivants :
+      \begin{itemize}[itemsep=2pt]
+        \item Rédaction de qualité insuffisante
+        \item Terminologie ou notation mathématique inappropriées
+        \item Non-respect des consignes d'exécution
+      \end{itemize}
     \end{itemize}
-  \end{itemize}
+  }
 
   \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
     \vspace{0.3cm}  % Réduit de 0.5cm
@@ -177,30 +197,35 @@
     \vspace{0.5cm}
   }
 
-  % Section Conseils (taille adaptative)
-  \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
-    {\textbf{\color{nfcolpartie}Conseils pour réussir}}  % Sans \large
+  % Section Conseils (masquée pour les DM, visible pour DS/EVA)
+  \expandafter\ifstrequal\expandafter{\@nftypedevoir}{DM}{%
+    % Pas de section conseils pour les DM
   }{%
-    {\large\textbf{\color{nfcolpartie}Conseils pour réussir}}
+    % Section Conseils pour DS/EVA (taille adaptative)
+    \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{haut}{%
+      {\textbf{\color{nfcolpartie}Conseils pour réussir}}  % Sans \large
+    }{%
+      {\large\textbf{\color{nfcolpartie}Conseils pour réussir}}
+    }
+    \vspace{0.2cm}
+
+    \begin{itemize}[leftmargin=*, itemsep=3pt]
+      \item \textbf{Prenez connaissance de l'ensemble du sujet} avant de commencer pour comprendre la structure et identifier les compétences à mobiliser.
+
+      \item \textbf{Lisez attentivement les énoncés} pour bien cerner les capacités testées%
+      \expandafter\ifstrempty\expandafter{\@nfeasteregg}{.}{\ {\color{nfcolaccent}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
+
+      \item \textbf{Gérez votre temps} : recherche sur brouillon, rédaction soignée, puis relecture.
+
+      \item \textbf{Utilisez un brouillon.} L'utilisation d'un brouillon améliore significativement la qualité de la rédaction et la gestion du temps.
+    \end{itemize}
+
+    \vspace{0.3cm}
+
+    \begin{center}
+      \textit{La clarté de la présentation facilite l'évaluation de votre raisonnement.}
+    \end{center}
   }
-  \vspace{0.2cm}
-
-  \begin{itemize}[leftmargin=*, itemsep=3pt]
-    \item \textbf{Prenez connaissance de l'ensemble du sujet} avant de commencer pour comprendre la structure et identifier les compétences à mobiliser.
-
-    \item \textbf{Lisez attentivement les énoncés} pour bien cerner les capacités testées%
-    \expandafter\ifstrempty\expandafter{\@nfeasteregg}{.}{\ {\color{nfcolaccent}\textit{(un point bonus vous attend si vous écrivez « \@nfeasteregg » en haut de votre copie)}}.}
-
-    \item \textbf{Gérez votre temps} : recherche sur brouillon, rédaction soignée, puis relecture.
-
-    \item \textbf{Utilisez un brouillon.} L'utilisation d'un brouillon améliore significativement la qualité de la rédaction et la gestion du temps.
-  \end{itemize}
-
-  \vspace{0.3cm}
-
-  \begin{center}
-    \textit{La clarté de la présentation facilite l'évaluation de votre raisonnement.}
-  \end{center}
 
   % Bandeau en bas si demandé (défaut)
   \expandafter\ifstrequal\expandafter{\@nfbandeaupos}{bas}{%
