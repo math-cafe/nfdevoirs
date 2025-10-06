@@ -346,6 +346,97 @@ Le projet a évolué d'une classe simple vers un écosystème modulaire professi
 
 ---
 
+## 🛣️ Stratégie de développement futur
+
+### Phase 6 : Consolidation et robustesse (v2.5) - Janvier 2026
+
+**Objectif principal** : Zéro bug critique en production, fiabilité pédagogique garantie
+
+#### 🚨 Corrections critiques prioritaires
+- **Validation des paramètres**
+  - Contrôle points négatifs, niveaux > 5, types invalides
+  - Messages d'erreur explicites avec `\PackageError`
+  - Protection contre données malformées
+
+- **Fallback système totaux**
+  - Valeurs par défaut si fichier .aux corrompu
+  - Récupération gracieuse des erreurs compilation
+  - Système de cache alternatif moins fragile
+
+- **Refactoring conditionnels**
+  - Migration `\expandafter` imbriqués vers `pgfkeys`
+  - Code plus maintenable et extensible
+  - Réduction complexité cyclomatique
+
+#### 🧪 Tests et validation
+- Suite de tests pour tous types de devoirs
+- Tests de régression pour totaux de points
+- Validation automatique des PDFs générés
+- Tests avec données corrompues/invalides
+
+### Phase 7 : Modernisation technique (v3.0) - Juin 2026
+
+**Objectif** : Architecture de nouvelle génération, API simplifiée
+
+#### 🏗️ Refactoring architectural majeur
+- **API unifiée** avec `pgfkeys` pour toutes les options
+- **Système de cache intelligent** remplaçant dépendance .aux
+- **Mode debug intégré** avec traces compilation détaillées
+- **Gestionnaire de thèmes** simplifié
+
+#### 🎯 Fonctionnalités avancées
+- **Type QCM** format baccalauréat avec grille réponses
+- **Templates préconfigurés** par type d'établissement
+- **Export métadonnées** JSON pour outils externes
+- **Système de plugins** pour extensions tierces
+
+### Phase 8 : Écosystème étendu (v4.0) - 2027
+
+**Objectif** : Plateforme complète édition devoirs mathématiques
+
+#### 🌐 Intégrations et formats
+- **Export multi-formats** : HTML, Word, Moodle
+- **Interface web** création devoirs collaborative
+- **Base de données** exercices réutilisables
+- **Connecteurs ENT** (Espaces Numériques Travail)
+
+#### 🤝 Communauté et adoption
+- **Package CTAN** officiel et maintenu
+- **Plugin Overleaf** pour édition collaborative
+- **API REST** pour systèmes gestion scolaire
+- **Formation enseignants** et documentation vidéo
+
+---
+
+## 🎯 Stratégie d'amélioration immédiate
+
+### Pourquoi cette priorisation ?
+
+#### 1. **Robustesse d'abord** (Phase 6)
+- **Impact pédagogique critique** : Un barème faux = catastrophe en classe
+- **Confiance utilisateurs** : Fiabilité = adoption massive
+- **Base solide** : Nécessaire avant fonctionnalités avancées
+
+#### 2. **Modernisation technique** (Phase 7)
+- **Maintenabilité long terme** : Code LaTeX complexe difficile à maintenir
+- **Extensibilité** : pgfkeys + architecture propre = ajouts faciles
+- **Performance** : Cache intelligent = compilation plus rapide
+
+#### 3. **Écosystème** (Phase 8)
+- **Adoption large** : Intégrations = utilisation institutionnelle
+- **Pérennité** : Communauté active = projet vivant
+- **Innovation** : Plateforme = nouveaux usages pédagogiques
+
+### Métriques de succès par phase
+
+| Phase | Métrique clé | Objectif |
+|-------|--------------|----------|
+| **6 - Robustesse** | Bugs critiques | 0 |
+| **7 - Modernisation** | Temps compilation | < 2s |
+| **8 - Écosystème** | Établissements utilisateurs | 50+ |
+
+---
+
 ## 💼 Stratégie de maintenance
 
 ### Versions LTS (Long Term Support)

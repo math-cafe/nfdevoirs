@@ -4,13 +4,25 @@ Merci de votre intérêt pour contribuer à **nfdevoirs** ! Ce guide vous aidera
 
 ## 🎯 Types de contributions recherchées
 
+### 🚨 **Priorité CRITIQUE** - Robustesse (v2.5)
+- **Validation des paramètres** : Protection contre points négatifs, niveaux > 5
+- **Fallback système totaux** : Récupération gracieuse si fichier .aux corrompu
+- **Refactoring conditionnels** : Migration `\expandafter` vers `pgfkeys`
+- **Messages d'erreur explicites** : `\PackageError` avec diagnostics clairs
+- **Tests de régression** : Suite de tests automatisée
+
+### ✨ **Nouvelles fonctionnalités**
 - **Nouveaux thèmes** : Palettes de couleurs adaptées à différents contextes
-- **Améliorations du bandeau** : Nouveaux layouts, options de positionnement
-- **Syntaxe moderne** : Extensions du système key-value pour les environnements
-- **Indicateurs visuels** : Systèmes de difficulté, notation, feedback
-- **Corrections de bugs** : Problèmes de compilation, affichage, ou comportement
-- **Documentation** : Amélioration du README, exemples, tutoriels
-- **Tests** : Nouveaux fichiers de test pour valider les fonctionnalités
+- **Système QCM étendu** : Type baccalauréat avec grille réponses
+- **Templates préconfigurés** : Par type d'établissement ou niveau
+- **Mode debug avancé** : Traces compilation détaillées
+- **Export métadonnées** : JSON pour intégration outils externes
+
+### 🛠️ **Améliorations existantes**
+- **Bandeau établissement** : Nouveaux layouts, options positionnement
+- **Syntaxe moderne** : Extensions système key-value pour environnements
+- **Indicateurs visuels** : Systèmes difficulté, notation, feedback
+- **Documentation** : Amélioration README, exemples, tutoriels
 
 ## 🚀 Démarrage rapide
 
@@ -28,33 +40,153 @@ make build FILE=test-simple  # Test de compilation
 
 ## 📁 Architecture du projet
 
-### Structure modulaire
+### Structure modulaire (13 modules)
 ```
 nfdevoirs/
-├── nfdevoirs.cls           # ⚠️  Classe principale (options et imports)
-├── nfdevoirs/              # 📦 Modules spécialisés
-│   ├── nf-core.sty         # 🔧 Compteurs, variables, utilitaires
-│   ├── nf-themes.sty       # 🎨 Système de thèmes et palettes
-│   ├── nf-layout.sty       # 📐 Mise en page, géométrie
-│   ├── nf-environments.sty # 🏗️  Environnements principaux
-│   ├── nf-corrections.sty  # ✅ Système de corrections
-│   └── nf-pagegarde.sty    # 📄 Page de garde et citation
-└── test-simple.tex         # 🧪 Document de test
+├── nfdevoirs.cls                    # ⚠️  Classe principale (options et imports)
+├── nfdevoirs/                       # 📦 Modules spécialisés
+│   ├── nf-core.sty                  # 🔧 Compteurs, variables, utilitaires
+│   ├── nf-themes.sty                # 🎨 Système de thèmes (5 palettes)
+│   ├── nf-layout.sty                # 📐 Mise en page, géométrie
+│   ├── nf-question.sty              # ❓ Environnement question classique
+│   ├── nf-qcm.sty                   # ☑️  Système QCM (3 styles + colonnes)
+│   ├── nf-exercice.sty              # 📋 Environnement exercice
+│   ├── nf-partie.sty                # 📂 Environnement partie
+│   ├── nf-devoir.sty                # 📄 Environnement devoir principal
+│   ├── nf-correction-base.sty       # ✅ Logique de corrections
+│   ├── nf-correction-display.sty    # 📋 Affichage corrections en fin
+│   ├── nf-bandeau.sty               # 🏢 Bandeau établissement
+│   ├── nf-pagegarde-minimale.sty    # 📑 Page garde compacte (CONT)
+│   ├── nf-pagegarde-complete.sty    # 📄 Page garde complète (DS/EVA/DM)
+│   └── nf-citations.sty             # 💬 Citations inspirantes
+└── test-simple.tex                  # 🧪 Document de test
 ```
 
 ### Où contribuer selon votre objectif
 
-| Objectif | Module à modifier | Fichiers concernés |
-|----------|-------------------|-------------------|
+| Objectif | Module principal | Fichiers concernés |
+|----------|------------------|-------------------|
+| **🚨 Validation paramètres** | `nf-core.sty` | Fonctions de validation |
+| **🚨 Fallback totaux** | `nf-core.sty` | Système de cache alternatif |
+| **🚨 Refactoring conditionnels** | `nf-devoir.sty` | Migration vers pgfkeys |
 | **Nouveau thème** | `nf-themes.sty` + `nfdevoirs.cls` | Palette + option |
-| **Nouvel environnement** | `nf-environments.sty` | Environnements |
-| **Syntaxe key-value** | `nf-environments.sty` | Options des environnements |
-| **Bandeau établissement** | `nf-pagegarde.sty` + `nf-core.sty` | Layout + variables |
-| **Indicateurs difficulté** | `nf-environments.sty` | Affichage étoiles |
-| **Modification mise en page** | `nf-layout.sty` | Géométrie, en-têtes |
+| **QCM étendu** | `nf-qcm.sty` | Styles, grilles, format bac |
+| **Questions classiques** | `nf-question.sty` | Syntaxe, validation |
+| **Bandeau établissement** | `nf-bandeau.sty` + `nf-core.sty` | Layout + variables |
+| **Pages de garde** | `nf-pagegarde-*.sty` | Templates spécialisés |
 | **Système de points** | `nf-core.sty` | Compteurs, calculs |
-| **Corrections** | `nf-corrections.sty` | Modes d'affichage |
-| **Page de garde** | `nf-pagegarde.sty` | Template et styling |
+| **Corrections** | `nf-correction-*.sty` | Base + affichage |
+| **Mise en page** | `nf-layout.sty` | Géométrie, en-têtes |
+
+## 🚨 **Améliorations critiques** - Guide technique
+
+### Priorité 1 : Validation des paramètres
+
+**Problème actuel** : Aucune validation, accepte points négatifs et niveaux > 5
+```latex
+\begin{question}{points=-5, niveau=10} % Accepté !
+```
+
+**Solution à implémenter** dans `nf-core.sty` :
+```latex
+% Validation des points
+\newcommand{\nfvalidatepoints}[1]{%
+  \ifnum#1<0
+    \PackageError{nfdevoirs}{Points négatifs interdits: #1}{%
+      Les points doivent être positifs. Utiliser bonus=X pour points bonus.}%
+  \fi
+  \ifnum#1>50
+    \PackageWarning{nfdevoirs}{Points élevés: #1}{}%
+  \fi
+}
+
+% Validation des niveaux
+\newcommand{\nfvalidateniveau}[1]{%
+  \ifnum#1<1
+    \PackageError{nfdevoirs}{Niveau minimum: 1}{%
+      Le niveau doit être entre 1 et 5 étoiles.}%
+  \fi
+  \ifnum#1>5
+    \PackageError{nfdevoirs}{Niveau maximum: 5}{%
+      Le niveau doit être entre 1 et 5 étoiles.}%
+  \fi
+}
+```
+
+### Priorité 2 : Fallback système totaux
+
+**Problème actuel** : Si fichier .aux corrompu, totaux incorrects
+```latex
+\edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}} % Peut échouer
+```
+
+**Solution à implémenter** dans `nf-core.sty` :
+```latex
+% Récupération sécurisée des points
+\newcommand{\nfgetpointssafe}[1]{%
+  \ifcsname nf#1pts\endcsname
+    \csname nf#1pts\endcsname
+  \else
+    \PackageWarning{nfdevoirs}{Points manquants pour #1, utilisation de 0}%
+    0%
+  \fi
+}
+
+% Cache alternatif moins fragile
+\newcommand{\nfcachewrite}[2]{%
+  \immediate\write\@auxout{%
+    \string\global\string\@namedef{nfcache@#1}{#2}%
+  }%
+}
+```
+
+### Priorité 3 : Refactoring conditionnels
+
+**Problème actuel** : `\expandafter` imbriqués difficiles à maintenir
+```latex
+\expandafter\ifstrequal\expandafter{\@nftypedevoir}{DS}{%
+  \expandafter\ifstrequal\expandafter{\@nftypedevoir}{EVA}{%
+    % Code illisible et verbeux
+```
+
+**Solution à implémenter** dans `nf-devoir.sty` :
+```latex
+\RequirePackage{pgfkeys}
+
+% API plus propre avec pgfkeys
+\pgfkeys{
+  /nfdevoirs/.cd,
+  type/.is choice,
+  type/DS/.code={\def\@nfpagegardetype{complete}},
+  type/EVA/.code={\def\@nfpagegardetype{complete}},
+  type/CONT/.code={\def\@nfpagegardetype{minimale}},
+  type/DM/.code={\def\@nfpagegardetype{complete}},
+  type/.unknown/.code={%
+    \PackageError{nfdevoirs}{Type inconnu: \pgfkeyscurrentname}{%
+      Types supportés: DS, EVA, CONT, DM}%
+  }
+}
+```
+
+### Tests de régression obligatoires
+
+**Avant toute contribution critique**, exécuter :
+```bash
+# Test avec données invalides (doit échouer proprement)
+echo '\begin{question}{points=-1}' | lualatex # Test validation
+echo '\begin{question}{niveau=10}' | lualatex # Test validation
+
+# Test avec .aux corrompu
+rm -f test.aux
+echo 'corrupted data' > test.aux
+make build FILE=test-simple # Doit compiler avec warnings
+
+# Test tous les types
+for type in DS EVA CONT DM; do
+  sed -i "s/type=[A-Z]*/type=$type/" test-simple.tex
+  make build FILE=test-simple
+done
+```
 
 ## 🎨 Ajouter un nouveau thème
 
@@ -103,18 +235,30 @@ make build FILE=test-simple
 sed -i 's/theme=vert/theme=montheme/' test-simple.tex
 make build FILE=test-simple
 
-# Test des modes de correction
-sed -i 's/correctionfin/correction/' test-simple.tex
-make build FILE=test-simple
+# Test des modes de correction (4 modes)
+for mode in none inline end only; do
+  sed -i "s/correction=[a-z]*/correction=$mode/" test-simple.tex
+  make build FILE=test-simple
+done
 
-# Test bandeau établissement (différentes positions)
-sed -i 's/bandeaupos={bas}/bandeaupos={haut}/' test-simple.tex
-make build FILE=test-simple
-sed -i 's/bandeaupos={haut}/bandeaupos={aucun}/' test-simple.tex
-make build FILE=test-simple
+# Test bandeau établissement (toutes positions)
+for pos in haut bas aucun; do
+  sed -i "s/bandeaupos=[a-z]*/bandeaupos=$pos/" test-simple.tex
+  make build FILE=test-simple
+done
 
-# Test syntaxe key-value questions
-# Vérifier que points=X, bonus=Y, niveau=Z fonctionnent
+# Test types de devoirs complets
+for type in DS EVA CONT DM; do
+  sed -i "s/type=[A-Z]*/type=$type/" test-simple.tex
+  make build FILE=test-simple
+done
+
+# Test système QCM (3 styles + colonnes)
+# Vérifier que tous les styles QCM compilent
+for style in case alpha mix; do
+  echo "Test style QCM: $style"
+  grep -q "style=$style" test-simple.tex && echo "✓ Style $style présent"
+done
 
 # Nettoyage
 make clean
