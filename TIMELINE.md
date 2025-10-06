@@ -66,15 +66,43 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 - **Titre contextualisé** : "Corrections -- [Titre du devoir]" en mode only
 - **Masquage complet** : Suppression contenu exercice et "Fin du devoir"
 
+### Version 2.3.0 - Restructuration modulaire avancée
+- **13 modules spécialisés** : Extension de 6 à 13 modules (vs 12 initialement prévu)
+- **Maintien seuil 150 lignes** : Chaque module reste maintenable
+- **Séparation responsabilités** : Logique claire et modules autonomes
+- **Compatibilité totale** : Aucun changement d'API
+
+### Version 2.4.0 - Système QCM complet et pages garde spécialisées
+- **Module nf-qcm.sty** : Système QCM intégral avec 3 styles d'affichage
+- **Environnement choix** : `\proposition{}` et `\proposition*{}` pour réponses
+- **Support multi-colonnes** : Organisation flexible des propositions
+- **Pages garde spécialisées** : Consignes DM vs DS/EVA adaptées
+- **Intégration totale** : Même système points/niveaux/corrections que questions
+
+#### Innovation QCM
+- **3 styles** : case (☐), alpha (a,b,c,d), mix (puces)
+- **Multi-colonnes** : `col=1|2|3` pour optimiser l'espace
+- **FontAwesome5** : Cases à cocher professionnelles
+- **Unification visuelle** : Même présentation minipage que questions
+- **Tests complets** : Partie QCM dans test-simple.tex avec tous les cas
+
 ## Architecture technique finale
 
 ### Modules (.sty)
 1. **nf-core.sty** : Variables, compteurs, utilitaires base
 2. **nf-themes.sty** : 5 palettes couleurs extensibles
 3. **nf-layout.sty** : Géométrie, mise en page, fancyhdr
-4. **nf-environments.sty** : Environnements principaux avec logique types
-5. **nf-corrections.sty** : Système corrections 4 modes avec migration
-6. **nf-pagegarde.sty** : Pages garde complète/minimaliste + citation
+4. **nf-question.sty** : Environnement question avec key-value et niveaux
+5. **nf-qcm.sty** : Système QCM complet avec 3 styles et multi-colonnes
+6. **nf-exercice.sty** : Environnement exercice et gestion totaux
+7. **nf-partie.sty** : Environnement partie avec numérotation hiérarchique
+8. **nf-devoir.sty** : Environnement devoir principal et logique types
+9. **nf-correction-base.sty** : Environnement correction avec 4 modes
+10. **nf-correction-display.sty** : Affichage hiérarchique corrections en fin
+11. **nf-bandeau.sty** : Logique bandeau trois colonnes
+12. **nf-pagegarde-minimale.sty** : Page garde compacte pour CONT
+13. **nf-pagegarde-complete.sty** : Page garde complète pour DS/EVA/DM
+14. **nf-citations.sty** : Citations de fin de document
 
 ### Innovations techniques
 - **Système conditionnels robustes** : `\expandafter\ifstrequal` généralisé
@@ -82,19 +110,21 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 - **Architecture modulaire** : Séparation claire responsabilités
 - **Extensibilité** : Ajout thèmes/types via pattern établi
 
-## Bilan : De classe monolithique à système modulaire
+## Bilan : De classe monolithique à écosystème QCM
 
 - **Ligne départ** : 1 fichier 500+ lignes, syntaxe positionnelle
-- **Ligne arrivée** : 6 modules spécialisés, syntaxe moderne key-value
-- **Évolution majeure** : Système corrections classe → environnement
+- **Ligne arrivée** : 13 modules spécialisés, système QCM complet
+- **Évolution majeure** : Questions classiques + QCM avec même syntaxe
 - **Philosophie** : Migration douce, compatibilité, extensibilité
 
-### Métriques finales
-- **Fichiers** : 1 → 7 (classe + 6 modules)
+### Métriques finales Version 2.4.0
+- **Fichiers** : 1 → 14 (classe + 13 modules)
+- **Environnements** : 4 → 6 (ajout qcm + choix)
 - **Options correction** : 2 → 4 modes
 - **Thèmes** : 1 → 5 palettes
-- **Types devoirs** : Générique → 4 types spécialisés
-- **Lignes code** : ~500 → ~1200 (mais modulaire)
+- **Types devoirs** : Générique → 4 types spécialisés + pages garde adaptées
+- **Styles QCM** : 0 → 3 (case, alpha, mix)
+- **Lignes code** : ~500 → ~1500 (mais ultra-modulaire)
 
 Le projet a évolué d'une classe simple vers un écosystème modulaire professionnel pour l'édition de devoirs mathématiques.
 

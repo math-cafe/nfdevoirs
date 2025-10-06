@@ -2,16 +2,61 @@
 
 Historique des versions et évolutions de la classe nfdevoirs.
 
+## [2.4.0] - 2025-10-06
+
+### 🎉 Système QCM complet et pages de garde spécialisées
+
+#### Ajouté
+- **Système QCM intégral** avec module `nf-qcm.sty` :
+  - **Environnement `qcm`** avec syntaxe key-value : `\begin{qcm}{points=3, style=alpha, col=2, niveau=4}`
+  - **3 styles d'affichage** :
+    - `style=case` : Cases à cocher (☐) avec FontAwesome5
+    - `style=alpha` : Numérotation alphabétique (a, b, c, d)
+    - `style=mix` : Puces simples pour questions ouvertes
+  - **Support multi-colonnes** : Option `col=1|2|3` pour organiser les propositions
+  - **Environnement `choix`** avec commandes `\proposition{}` et `\proposition*{}` (bonne réponse)
+  - **Intégration complète** : Même système de points, niveaux et corrections que les questions
+
+- **Pages de garde spécialisées par type** :
+  - **DM (Devoirs Maison)** : Consignes adaptées avec collaboration autorisée, ressources, remise papier
+  - **DS/EVA** : Consignes d'examen strictes (portable, portable, calculatrice, etc.)
+  - **Masquage conditionnel** : Section "conseils" uniquement pour DS/EVA, pas pour DM
+
+#### Technique
+- **Architecture QCM** :
+  - Compteur `nfqcmchoix` pour numérotation des propositions
+  - Variable `\@nfqcmbonnesreponses` pour stockage des bonnes réponses
+  - Intégration avec le système de corrections existant via `\nfqcmafficherbonnesreponses`
+  - Même structure minipage que les questions pour affichage unifié des points
+
+- **Logique de pages de garde** :
+  - Conditionnels `\expandafter\ifstrequal` pour adaptation par type
+  - Section consignes dynamique selon le type de devoir
+  - Variables d'état pour contrôler l'affichage des sections
+
+#### Amélioré
+- **Cohérence visuelle** : QCM utilise exactement la même présentation que les questions
+- **Typography** : Espacement optimisé (3mm après QCM, retour à la ligne après énoncé)
+- **FontAwesome5** : Intégration complète avec icônes cohérentes
+- **Documentation** : Exemples complets dans test-simple.tex avec tous les styles
+
+#### Tests
+- **Partie QCM complète** dans test-simple.tex avec 3 exercices testant :
+  - Style case (1 et 2 colonnes, questions simples et multiples)
+  - Style alpha (1 et 3 colonnes, avec bonus, questions complexes)
+  - Style mix (1 et 2 colonnes, questions ensemblistes)
+
 ## [2.3.0] - 2025-10-06
 
 ### 🔄 Restructuration modulaire avancée
 
 #### Technique
-- **Architecture ultra-modulaire** : Division en 12 modules spécialisés (vs 6 précédents) :
+- **Architecture ultra-modulaire** : Division en 13 modules spécialisés (vs 6 précédents) :
   - **`nf-core.sty`** : Compteurs, variables globales, utilitaires de base
   - **`nf-themes.sty`** : Système de thèmes et palettes de couleurs
   - **`nf-layout.sty`** : Configuration de la mise en page et géométrie
   - **`nf-question.sty`** : Environnement question avec key-value et niveau de difficulté
+  - **`nf-qcm.sty`** : Système QCM complet avec 3 styles et multi-colonnes
   - **`nf-exercice.sty`** : Environnement exercice et gestion des totaux
   - **`nf-partie.sty`** : Environnement partie avec numérotation hiérarchique
   - **`nf-devoir.sty`** : Environnement devoir principal et logique des types

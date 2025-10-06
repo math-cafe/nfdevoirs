@@ -4,33 +4,42 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 
 ## Caractéristiques principales
 
-- **Architecture modulaire** : Code organisé en 6 modules spécialisés
+- **Architecture modulaire** : Code organisé en 13 modules spécialisés
+- **Questions à choix multiples (QCM)** : 3 styles d'affichage, colonnes multiples, corrections automatiques
+- **Pages de garde spécialisées** : Consignes adaptées selon le type (DS, DM, EVA)
 - **Système de thèmes** : 5 palettes de couleurs (moderne, nb, orange, vert, violet)
 - **Bandeau d'établissement** : Design 3 colonnes configurable (haut/bas/aucun)
-- **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 5 étoiles
-- **Corrections flexibles** : Mode inline ou regroupées en fin de document
-- **Page de garde automatique** : Génération complète avec consignes et conseils
-- **Gestion des points** : Calcul automatique et affichage hiérarchique
+- **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 6 étoiles
+- **Corrections flexibles** : Mode inline, en fin, ou uniquement corrections
+- **Gestion des points** : Calcul automatique et affichage hiérarchique uniforme
 - **Optimisé impression** : Compatible couleur et noir & blanc
 
 ## Structure du projet
 
 ```
 nfdevoirs/
-├── nfdevoirs.cls           # Classe principale (modulaire)
-├── nfdevoirs/              # Modules spécialisés
-│   ├── nf-core.sty         # Compteurs, variables, utilitaires
-│   ├── nf-themes.sty       # Système de thèmes (5 palettes)
-│   ├── nf-layout.sty       # Mise en page, géométrie
-│   ├── nf-environments.sty # Environnements principaux
-│   ├── nf-corrections.sty  # Système de corrections
-│   └── nf-pagegarde.sty    # Page de garde et citation
-├── test-simple.tex         # Document d'exemple
-├── .latexmkrc              # Configuration latexmk optimisée
-├── Makefile                # Automatisation de compilation
-├── CLAUDE.md               # Instructions pour Claude Code
-├── CHANGELOG.md            # Historique des versions
-└── README.md               # Ce fichier
+├── nfdevoirs.cls              # Classe principale (modulaire)
+├── nfdevoirs/                 # Modules spécialisés (13 modules)
+│   ├── nf-core.sty            # Compteurs, variables, utilitaires
+│   ├── nf-themes.sty          # Système de thèmes (5 palettes)
+│   ├── nf-layout.sty          # Mise en page, géométrie
+│   ├── nf-question.sty        # Environnement question classique
+│   ├── nf-qcm.sty             # Environnement QCM avec propositions
+│   ├── nf-exercice.sty        # Environnement exercice
+│   ├── nf-partie.sty          # Environnement partie
+│   ├── nf-devoir.sty          # Environnement devoir principal
+│   ├── nf-correction-base.sty # Logique de corrections
+│   ├── nf-correction-display.sty # Affichage des corrections
+│   ├── nf-bandeau.sty         # Bandeau établissement
+│   ├── nf-pagegarde-minimale.sty # Page de garde simple
+│   ├── nf-pagegarde-complete.sty # Page de garde avec consignes DM/DS
+│   └── nf-citations.sty       # Citations inspirantes
+├── test-simple.tex            # Document d'exemple avec QCM
+├── .latexmkrc                 # Configuration latexmk optimisée
+├── Makefile                   # Automatisation de compilation
+├── CLAUDE.md                  # Instructions pour Claude Code
+├── CHANGELOG.md               # Historique des versions
+└── README.md                  # Ce fichier
 ```
 
 ## Utilisation rapide
@@ -139,11 +148,26 @@ Nécessite :
 \begin{devoir}{options}
   \begin{partie}{Titre de la partie}
     \begin{exercice}{Titre de l'exercice}
+      % Question classique
       \begin{question}{points=3, bonus=2, niveau=4}
         Énoncé de la question...
       \end{question}
       \begin{correction}
         Correction de la question...
+      \end{correction}
+
+      % Question à choix multiples
+      \begin{qcm}{points=2, style=alpha, col=2, niveau=3}
+        Énoncé du QCM...
+        \begin{choix}
+          \proposition{Réponse A}
+          \proposition*{Réponse B correcte}
+          \proposition{Réponse C}
+          \proposition{Réponse D}
+        \end{choix}
+      \end{qcm}
+      \begin{correction}
+        Explication de la correction...
       \end{correction}
     \end{exercice}
   \end{partie}
@@ -154,10 +178,10 @@ Nécessite :
 
 #### Type de devoir
 - `type` : Type de devoir avec comportements automatiques
-  - `DS` : Devoir Surveillé (défaut) - Page de garde complète
-  - `EVA` : Évaluation - Page de garde complète
+  - `DS` : Devoir Surveillé (défaut) - Page de garde avec consignes d'examen
+  - `EVA` : Évaluation - Page de garde avec consignes d'examen
   - `CONT` : Contrôle court - Page de garde minimaliste
-  - `DM` : Devoir Maison - Page de garde complète, date = remise
+  - `DM` : Devoir Maison - Page de garde avec consignes DM spécialisées
 
 #### Informations de base
 - `classe` : Nom de la classe (ex: "1STMG 2")
