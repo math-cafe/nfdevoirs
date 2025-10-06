@@ -2,6 +2,38 @@
 
 Historique des versions et évolutions de la classe nfdevoirs.
 
+## [2.3.0] - 2025-10-06
+
+### 🔄 Restructuration modulaire avancée
+
+#### Technique
+- **Architecture ultra-modulaire** : Division en 12 modules spécialisés (vs 6 précédents) :
+  - **`nf-core.sty`** : Compteurs, variables globales, utilitaires de base
+  - **`nf-themes.sty`** : Système de thèmes et palettes de couleurs
+  - **`nf-layout.sty`** : Configuration de la mise en page et géométrie
+  - **`nf-question.sty`** : Environnement question avec key-value et niveau de difficulté
+  - **`nf-exercice.sty`** : Environnement exercice et gestion des totaux
+  - **`nf-partie.sty`** : Environnement partie avec numérotation hiérarchique
+  - **`nf-devoir.sty`** : Environnement devoir principal et logique des types
+  - **`nf-correction-base.sty`** : Environnement correction avec modes inline/end/only/none
+  - **`nf-correction-display.sty`** : Affichage hiérarchique des corrections en fin
+  - **`nf-bandeau.sty`** : Logique d'affichage du bandeau trois colonnes
+  - **`nf-pagegarde-minimale.sty`** : Page de garde compacte pour types CONT
+  - **`nf-pagegarde-complete.sty`** : Page de garde complète pour types DS/EVA/DM
+  - **`nf-citations.sty`** : Citations de fin de document
+
+#### Amélioré
+- **Maintenabilité optimisée** : Chaque module < 150 lignes (seuil respecté)
+- **Séparation des responsabilités** : Logique claire et modules autonomes
+- **Ordre de chargement** : Modules groupés par fonction (core → environnements → corrections → pages de garde)
+- **Tests de validation** : Tous les modes de correction validés après restructuration
+
+#### Maintenu
+- **Compatibilité totale** : Aucun changement d'API, fonctionnement identique
+- **Performance** : Chargement optimisé des dépendances
+
+---
+
 ## [2.2.0] - 2025-10-06
 
 ### 🔄 Évolution du système de corrections

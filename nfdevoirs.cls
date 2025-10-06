@@ -98,8 +98,18 @@
 \RequirePackage{nfdevoirs/nf-core}
 \RequirePackage{nfdevoirs/nf-themes}
 \RequirePackage{nfdevoirs/nf-layout}
-\RequirePackage{nfdevoirs/nf-environments}
-\RequirePackage{nfdevoirs/nf-corrections}
-\RequirePackage{nfdevoirs/nf-pagegarde}
+% Environnements principaux
+\RequirePackage{nfdevoirs/nf-question}
+\RequirePackage{nfdevoirs/nf-exercice}
+\RequirePackage{nfdevoirs/nf-partie}
+\RequirePackage{nfdevoirs/nf-devoir}
+% Système de corrections
+\RequirePackage{nfdevoirs/nf-correction-base}
+\RequirePackage{nfdevoirs/nf-correction-display}
+% Pages de garde et éléments visuels
+\RequirePackage{nfdevoirs/nf-bandeau}
+\RequirePackage{nfdevoirs/nf-pagegarde-minimale}
+\RequirePackage{nfdevoirs/nf-pagegarde-complete}
+\RequirePackage{nfdevoirs/nf-citations}
 
 \endinput

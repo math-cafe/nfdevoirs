@@ -1,0 +1,103 @@
+% ============================================================================
+% nf-devoir.sty - Environnement devoir pour nfdevoirs
+% Contient l'environnement devoir avec logique des types et configuration
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-devoir}[2025/10/06 Environnement devoir nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{xparse}
+\RequirePackage{etoolbox}
+\RequirePackage{keyval}
+
+% ============================================================================
+% ENVIRONNEMENT DEVOIR
+% ============================================================================
+\newif\if@nfindevoirenv
+\@nfindevoirenvfalse
+
+\NewDocumentEnvironment{devoir}{m}{%
+  \@nfindevoirenvtrue
+  % Parsing des options avec pgfkeys
+  \setkeys{nfdevoir}{#1}%
+  % Réinitialisation des compteurs
+  \setcounter{nfpartie}{0}%
+  \setcounter{nfptsdevoir}{0}%
+  \setcounter{nfbonusdevoir}{0}%
+  % Génération de la page de garde (sauf mode correction=only)
+  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+    % Mode only : pas de page de garde
+  }{%
+    % Choix du type de page de garde selon @nfpagegardetype
+    \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
+      \nfpagegardeminimale
+    }{%
+      \nfpagegarde
+    }%
+  }
+}{%
+  % À la fin du devoir
+  % 1. Écriture des totaux dans .aux pour la prochaine compilation
+  \nfwritetotaux
+  % 2. Affichage de la citation finale
+  \nfcitationfin
+  % 3. Affichage des corrections si mode correctionfin
+  \nfaffichercorrections
+  \@nfindevoirenvfalse
+}
+
+% ============================================================================
+% CONFIGURATION DES CLÉS POUR L'ENVIRONNEMENT DEVOIR
+% ============================================================================
+\define@key{nfdevoir}{calculatrice}{\renewcommand{\@nfcalculatrice}{#1}}
+\define@key{nfdevoir}{classe}{\renewcommand{\@nfclasse}{#1}}
+\define@key{nfdevoir}{date}{\renewcommand{\@nfdate}{#1}}
+\define@key{nfdevoir}{nom}{\renewcommand{\@nfnom}{#1}}
+\define@key{nfdevoir}{easteregg}{\renewcommand{\@nfeasteregg}{#1}}
+\define@key{nfdevoir}{citation}{\renewcommand{\@nfcitation}{#1}}
+\define@key{nfdevoir}{auteur}{\renewcommand{\@nfauteur}{#1}}
+\define@key{nfdevoir}{duree}{\renewcommand{\@nfduree}{#1}}
+\define@key{nfdevoir}{etablissement}{\renewcommand{\@nfetablissement}{#1}}
+\define@key{nfdevoir}{logo}{\renewcommand{\@nflogo}{#1}}
+\define@key{nfdevoir}{anscol}{\renewcommand{\@nfanscol}{#1}}
+\define@key{nfdevoir}{matiere}{\renewcommand{\@nfmatiere}{#1}}
+\define@key{nfdevoir}{bandeaupos}{\renewcommand{\@nfbandeaupos}{#1}}
+\define@key{nfdevoir}{type}{\renewcommand{\@nftypedevoir}{#1}\nfapplytypedefaults{#1}}
+\define@key{nfdevoir}{pagegarde}{\renewcommand{\@nfpagegardetype}{#1}}
+\define@key{nfdevoir}{bareme}{\renewcommand{\@nfbareme}{#1}}
+\define@key{nfdevoir}{correction}{\renewcommand{\@nfcorrection}{#1}}
+
+% ============================================================================
+% LOGIQUE DES TYPES DE DEVOIRS
+% ============================================================================
+
+% Fonction qui applique les comportements par défaut selon le type
+\newcommand{\nfapplytypedefaults}[1]{%
+  \expandafter\ifstrequal\expandafter{#1}{DS}{%
+    % DS : Devoir Surveillé - page garde complète
+    \renewcommand{\@nfpagegardetype}{complete}%
+  }{%
+    \expandafter\ifstrequal\expandafter{#1}{EVA}{%
+      % EVA : Évaluation - page garde complète comme DS
+      \renewcommand{\@nfpagegardetype}{complete}%
+    }{%
+      \expandafter\ifstrequal\expandafter{#1}{CONT}{%
+        % CONT : Contrôle court - page garde minimaliste
+        \renewcommand{\@nfpagegardetype}{minimale}%
+      }{%
+        \expandafter\ifstrequal\expandafter{#1}{DM}{%
+          % DM : Devoir Maison - page garde complète, logique spéciale
+          \renewcommand{\@nfpagegardetype}{complete}%
+        }{%
+          % Type inconnu : comportement par défaut DS
+          \renewcommand{\@nfpagegardetype}{complete}%
+        }%
+      }%
+    }%
+  }%
+}
+
+\endinput

@@ -1,0 +1,76 @@
+% ============================================================================
+% nf-exercice.sty - Environnement exercice pour nfdevoirs
+% Contient l'environnement exercice avec gestion des totaux
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-exercice}[2025/10/06 Environnement exercice nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{environ}
+\RequirePackage{etoolbox}
+\RequirePackage{fontawesome5}
+
+% ============================================================================
+% ENVIRONNEMENT EXERCICE
+% ============================================================================
+\NewEnviron{exercice}[1]{%
+  % #1 = titre
+  \stepcounter{nfexercice}%
+  \stepcounter{nfexerciceabs}%
+  \setcounter{nfptsexercice}{0}%
+  \setcounter{nfbonusexercice}{0}%
+
+  % Mode correction=only : ne pas afficher le contenu de l'exercice
+  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+    % Mode only : traiter le contenu pour les compteurs mais dans une boîte invisible
+    \setbox0=\vbox{\BODY}% Exécute le contenu dans une boîte qui ne sera pas affichée
+  }{%
+    % Modes normaux : afficher le titre et le contenu
+    \vspace{1em}%
+    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
+      % Mode sans barème : titre sur toute la largeur
+      \noindent
+      {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
+      \par\medskip
+    }{%
+      % Mode avec barème : structure en deux colonnes
+      \noindent
+      \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+        {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
+      \end{minipage}%
+      \hfill
+      \begin{minipage}[t]{2.5cm}
+        \raggedleft
+        {\Large\textbf{%
+          \color{nfcolpoints}%
+          \edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}}%
+          \edef\tempbonus{\nfgetexobonus{\roman{nfexerciceabs}}}%
+          \ifnum\temppts>0 /\temppts\fi%
+          \ifnum\tempbonus>0 \space +\tempbonus\fi%
+        }}
+      \end{minipage}%
+      \par\medskip
+    }%
+    % Afficher le contenu de l'exercice
+    \BODY
+    \vspace{1em}%
+  }%
+
+  % Sauvegarde des totaux dans le .aux pour la prochaine compilation
+  \if@filesw
+    \immediate\write\@auxout{%
+      \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}pts\string\endcsname{\the\value{nfptsexercice}}%
+    }%
+    \immediate\write\@auxout{%
+      \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}bonus\string\endcsname{\the\value{nfbonusexercice}}%
+    }%
+  \fi
+  % Ajout aux totaux de la partie
+  \addtocounter{nfptspartie}{\value{nfptsexercice}}%
+  \addtocounter{nfbonuspartie}{\value{nfbonusexercice}}%
+}
+
+\endinput

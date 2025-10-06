@@ -1,0 +1,42 @@
+% ============================================================================
+% nf-citations.sty - Citations finales pour nfdevoirs
+% Gestion de la fin de devoir et citations inspirantes
+% ============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nfdevoirs/nf-citations}[2025/10/06 Citations finales nfdevoirs]
+
+% ============================================================================
+% PACKAGES REQUIS
+% ============================================================================
+\RequirePackage{etoolbox}
+
+% ============================================================================
+% CITATION FINALE
+% ============================================================================
+\newcommand{\nfcitationfin}{%
+  % Ne pas afficher en mode correction=only
+  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+    % Mode only : ne rien afficher
+  }{%
+    \vfill
+    \begin{center}
+      \rule{0.5\textwidth}{0.4pt}
+
+      \vspace{0.5cm}
+
+      {\Large\textbf{Fin du devoir}}
+
+      \vspace{1cm}
+
+      \expandafter\ifstrempty\expandafter{\@nfcitation}{}{%
+        \parbox{0.8\textwidth}{%
+          \centering
+          \textit{\@nfcitation}
+        }%
+      }
+    \end{center}
+  }%
+}
+
+\endinput
