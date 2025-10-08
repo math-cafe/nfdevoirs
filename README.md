@@ -4,7 +4,7 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 
 ## Caractéristiques principales
 
-- **Architecture modulaire** : Code organisé en 6 modules spécialisés
+- **Architecture modulaire** : Code organisé en 16 modules spécialisés
 - **Système de thèmes** : 5 palettes de couleurs (moderne, nb, orange, vert, violet)
 - **Bandeau d'établissement** : Design 3 colonnes configurable (haut/bas/aucun)
 - **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 5 étoiles
@@ -18,13 +18,23 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 ```
 nfdevoirs/
 ├── nfdevoirs.cls           # Classe principale (modulaire)
-├── nfdevoirs/              # Modules spécialisés
-│   ├── nf-core.sty         # Compteurs, variables, utilitaires
-│   ├── nf-themes.sty       # Système de thèmes (5 palettes)
-│   ├── nf-layout.sty       # Mise en page, géométrie
-│   ├── nf-environments.sty # Environnements principaux
-│   ├── nf-corrections.sty  # Système de corrections
-│   └── nf-pagegarde.sty    # Page de garde et citation
+├── nfdevoirs/                     # Modules spécialisés (16 modules)
+│   ├── nf-core.sty                # Compteurs, variables, utilitaires
+│   ├── nf-themes.sty              # Système de thèmes (5 palettes)
+│   ├── nf-layout.sty              # Mise en page, géométrie
+│   ├── nf-bandeau.sty             # Bandeau d'établissement
+│   ├── nf-citations.sty           # Citations en fin de devoir
+│   ├── nf-correction-base.sty     # Base du système de corrections
+│   ├── nf-correction-display.sty  # Affichage des corrections
+│   ├── nf-corrections.sty         # Système de corrections (legacy)
+│   ├── nf-devoir.sty              # Environnement devoir principal
+│   ├── nf-environments.sty        # Environnements (legacy)
+│   ├── nf-exercice.sty            # Environnement exercice
+│   ├── nf-pagegarde.sty           # Page de garde (legacy)
+│   ├── nf-pagegarde-complete.sty  # Page de garde complète
+│   ├── nf-pagegarde-minimale.sty  # Page de garde minimaliste
+│   ├── nf-partie.sty              # Environnement partie
+│   └── nf-question.sty            # Environnement question
 ├── test-simple.tex         # Document d'exemple
 ├── .latexmkrc              # Configuration latexmk optimisée
 ├── Makefile                # Automatisation de compilation
@@ -267,14 +277,33 @@ make watch FILE=mon-devoir
 ## Développement et contribution
 
 ### Architecture modulaire
-La classe est organisée en modules indépendants pour faciliter la maintenance :
+La classe est organisée en 16 modules indépendants pour faciliter la maintenance :
 
+**Modules principaux :**
 - **nf-core.sty** : Compteurs, variables globales, utilitaires de base
 - **nf-themes.sty** : Système de thèmes et palettes de couleurs
 - **nf-layout.sty** : Configuration de la mise en page et géométrie
-- **nf-environments.sty** : Environnements principaux (devoir, partie, exercice, question)
-- **nf-corrections.sty** : Système de corrections et modes d'affichage
-- **nf-pagegarde.sty** : Génération de la page de garde et citation finale
+
+**Environnements :**
+- **nf-devoir.sty** : Environnement devoir principal avec options key-value
+- **nf-partie.sty** : Environnement partie avec numérotation
+- **nf-exercice.sty** : Environnement exercice avec gestion des points
+- **nf-question.sty** : Environnement question avec difficulté et bonus
+
+**Système de corrections :**
+- **nf-correction-base.sty** : Environnement correction de base
+- **nf-correction-display.sty** : Affichage et regroupement des corrections
+
+**Pages de garde :**
+- **nf-pagegarde-complete.sty** : Page de garde complète pour DS/EVA/DM
+- **nf-pagegarde-minimale.sty** : Page de garde compacte pour CONT
+- **nf-bandeau.sty** : Bandeau d'établissement configurable
+
+**Éléments additionnels :**
+- **nf-citations.sty** : Citations en fin de devoir
+
+**Modules legacy (compatibilité) :**
+- **nf-environments.sty**, **nf-corrections.sty**, **nf-pagegarde.sty**
 
 ### Ajout d'un nouveau thème
 Pour ajouter un thème `nouveau` :

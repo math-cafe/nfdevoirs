@@ -34,11 +34,22 @@ make log FILE=test-simple
 
 Le projet se compose de :
 
-- `nfdevoirs.cls` - Fichier de classe LaTeX principal définissant la structure, le style et les environnements
+- `nfdevoirs.cls` - Classe LaTeX principale (architecture modulaire)
+- `nfdevoirs/` - 16 modules spécialisés (.sty) pour une organisation modulaire
 - `test-simple.tex` - Document de test minimal
 - `.latexmkrc` - Configuration de compilation (LuaLaTeX, répertoire de build, viewer evince)
 - `Makefile` - Automatisation du build avec support de paramètre FILE
 - `build/` - Répertoire de sortie de compilation
+
+### Architecture modulaire
+
+La classe est organisée en 16 modules spécialisés dans `nfdevoirs/` :
+- **Modules principaux** : nf-core.sty, nf-themes.sty, nf-layout.sty
+- **Environnements** : nf-devoir.sty, nf-partie.sty, nf-exercice.sty, nf-question.sty
+- **Corrections** : nf-correction-base.sty, nf-correction-display.sty
+- **Pages de garde** : nf-pagegarde-complete.sty, nf-pagegarde-minimale.sty, nf-bandeau.sty
+- **Utilitaires** : nf-citations.sty
+- **Legacy** : nf-environments.sty, nf-corrections.sty, nf-pagegarde.sty
 
 ## Structure de la classe LaTeX
 
@@ -47,7 +58,7 @@ La classe `nfdevoirs.cls` définit des environnements spécialisés :
 - `\begin{devoir}{options}` - Conteneur principal avec métadonnées (classe, date, calculatrice, durée, etc.)
 - `\begin{partie}{titre}` - Sections du document
 - `\begin{exercice}{titre}` - Blocs d'exercices
-- `\begin{question}{points}{bonus}` - Questions individuelles avec valeurs de points
+- `\begin{question}{points=3, bonus=2, niveau=4}` - Questions individuelles avec syntaxe key-value
 - `\begin{correction}` - Corrections avec gestion inline ou en fin selon l'option de classe
 
 ### Page de garde automatique

@@ -32,13 +32,23 @@ make build FILE=test-simple  # Test de compilation
 ```
 nfdevoirs/
 ├── nfdevoirs.cls           # ⚠️  Classe principale (options et imports)
-├── nfdevoirs/              # 📦 Modules spécialisés
+├── nfdevoirs/              # 📦 Modules spécialisés (16 modules)
 │   ├── nf-core.sty         # 🔧 Compteurs, variables, utilitaires
 │   ├── nf-themes.sty       # 🎨 Système de thèmes et palettes
 │   ├── nf-layout.sty       # 📐 Mise en page, géométrie
-│   ├── nf-environments.sty # 🏗️  Environnements principaux
-│   ├── nf-corrections.sty  # ✅ Système de corrections
-│   └── nf-pagegarde.sty    # 📄 Page de garde et citation
+│   ├── nf-bandeau.sty      # 🏢 Bandeau d'établissement
+│   ├── nf-citations.sty    # 💬 Citations de fin de document
+│   ├── nf-correction-base.sty      # ✅ Base du système de corrections
+│   ├── nf-correction-display.sty   # 📋 Affichage des corrections
+│   ├── nf-devoir.sty       # 📝 Environnement devoir principal
+│   ├── nf-exercice.sty     # 🏋️  Environnement exercice
+│   ├── nf-partie.sty       # 📑 Environnement partie
+│   ├── nf-question.sty     # ❓ Environnement question
+│   ├── nf-pagegarde-complete.sty   # 📄 Page de garde complète
+│   ├── nf-pagegarde-minimale.sty   # 📄 Page de garde compacte
+│   ├── nf-corrections.sty  # ✅ Système de corrections (legacy)
+│   ├── nf-environments.sty # 🏗️  Environnements (legacy)
+│   └── nf-pagegarde.sty    # 📄 Page de garde (legacy)
 └── test-simple.tex         # 🧪 Document de test
 ```
 
@@ -47,14 +57,18 @@ nfdevoirs/
 | Objectif | Module à modifier | Fichiers concernés |
 |----------|-------------------|-------------------|
 | **Nouveau thème** | `nf-themes.sty` + `nfdevoirs.cls` | Palette + option |
-| **Nouvel environnement** | `nf-environments.sty` | Environnements |
-| **Syntaxe key-value** | `nf-environments.sty` | Options des environnements |
-| **Bandeau établissement** | `nf-pagegarde.sty` + `nf-core.sty` | Layout + variables |
-| **Indicateurs difficulté** | `nf-environments.sty` | Affichage étoiles |
+| **Environnement devoir** | `nf-devoir.sty` | Options key-value |
+| **Environnement question** | `nf-question.sty` | Syntaxe, difficulté |
+| **Environnement exercice** | `nf-exercice.sty` | Points, totaux |
+| **Environnement partie** | `nf-partie.sty` | Numérotation |
+| **Bandeau établissement** | `nf-bandeau.sty` + `nf-core.sty` | Layout + variables |
+| **Indicateurs difficulté** | `nf-question.sty` | Affichage étoiles |
 | **Modification mise en page** | `nf-layout.sty` | Géométrie, en-têtes |
 | **Système de points** | `nf-core.sty` | Compteurs, calculs |
-| **Corrections** | `nf-corrections.sty` | Modes d'affichage |
-| **Page de garde** | `nf-pagegarde.sty` | Template et styling |
+| **Corrections (nouveau)** | `nf-correction-base.sty` + `nf-correction-display.sty` | Modes d'affichage |
+| **Page de garde complète** | `nf-pagegarde-complete.sty` | DS/EVA/DM |
+| **Page de garde compacte** | `nf-pagegarde-minimale.sty` | CONT |
+| **Citations** | `nf-citations.sty` | Fin de document |
 
 ## 🎨 Ajouter un nouveau thème
 

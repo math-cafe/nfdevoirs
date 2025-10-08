@@ -33,7 +33,7 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 - **Optimisation impression** : Compatibilité noir & blanc
 
 ### Version 1.3.1 - Restructuration majeure
-- **Architecture modulaire** : Division en 6 modules spécialisés (.sty)
+- **Architecture modulaire** : Division en modules spécialisés (.sty) - évolution vers 16 modules
 - **Séparation des responsabilités** : Chaque module < 150 lignes
 - **Maintenabilité** : Structure claire pour évolutions futures
 - **Compatibilité préservée** : API inchangée malgré refactoring
@@ -68,13 +68,34 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 
 ## Architecture technique finale
 
-### Modules (.sty)
+### Modules (.sty) - 16 modules au total
+**Modules principaux :**
 1. **nf-core.sty** : Variables, compteurs, utilitaires base
 2. **nf-themes.sty** : 5 palettes couleurs extensibles
 3. **nf-layout.sty** : Géométrie, mise en page, fancyhdr
-4. **nf-environments.sty** : Environnements principaux avec logique types
-5. **nf-corrections.sty** : Système corrections 4 modes avec migration
-6. **nf-pagegarde.sty** : Pages garde complète/minimaliste + citation
+
+**Environnements spécialisés :**
+4. **nf-devoir.sty** : Environnement devoir principal
+5. **nf-partie.sty** : Environnement partie
+6. **nf-exercice.sty** : Environnement exercice
+7. **nf-question.sty** : Environnement question
+
+**Système de corrections :**
+8. **nf-correction-base.sty** : Base du système de corrections
+9. **nf-correction-display.sty** : Affichage des corrections
+
+**Pages de garde :**
+10. **nf-pagegarde-complete.sty** : Page de garde complète
+11. **nf-pagegarde-minimale.sty** : Page de garde compacte
+12. **nf-bandeau.sty** : Bandeau d'établissement
+
+**Éléments additionnels :**
+13. **nf-citations.sty** : Citations en fin de document
+
+**Modules legacy (compatibilité) :**
+14. **nf-environments.sty** : Environnements (legacy)
+15. **nf-corrections.sty** : Système corrections (legacy)
+16. **nf-pagegarde.sty** : Pages garde (legacy)
 
 ### Innovations techniques
 - **Système conditionnels robustes** : `\expandafter\ifstrequal` généralisé
@@ -85,12 +106,12 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 ## Bilan : De classe monolithique à système modulaire
 
 - **Ligne départ** : 1 fichier 500+ lignes, syntaxe positionnelle
-- **Ligne arrivée** : 6 modules spécialisés, syntaxe moderne key-value
+- **Ligne arrivée** : 16 modules spécialisés, syntaxe moderne key-value
 - **Évolution majeure** : Système corrections classe → environnement
 - **Philosophie** : Migration douce, compatibilité, extensibilité
 
 ### Métriques finales
-- **Fichiers** : 1 → 7 (classe + 6 modules)
+- **Fichiers** : 1 → 17 (classe + 16 modules)
 - **Options correction** : 2 → 4 modes
 - **Thèmes** : 1 → 5 palettes
 - **Types devoirs** : Générique → 4 types spécialisés

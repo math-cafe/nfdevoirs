@@ -7,7 +7,7 @@ Historique des versions et évolutions de la classe nfdevoirs.
 ### 🔄 Restructuration modulaire avancée
 
 #### Technique
-- **Architecture ultra-modulaire** : Division en 12 modules spécialisés (vs 6 précédents) :
+- **Architecture ultra-modulaire** : Division en 16 modules spécialisés (vs 6 précédents) :
   - **`nf-core.sty`** : Compteurs, variables globales, utilitaires de base
   - **`nf-themes.sty`** : Système de thèmes et palettes de couleurs
   - **`nf-layout.sty`** : Configuration de la mise en page et géométrie
@@ -21,6 +21,9 @@ Historique des versions et évolutions de la classe nfdevoirs.
   - **`nf-pagegarde-minimale.sty`** : Page de garde compacte pour types CONT
   - **`nf-pagegarde-complete.sty`** : Page de garde complète pour types DS/EVA/DM
   - **`nf-citations.sty`** : Citations de fin de document
+  - **`nf-corrections.sty`** : Système de corrections (legacy)
+  - **`nf-environments.sty`** : Environnements (legacy)
+  - **`nf-pagegarde.sty`** : Page de garde (legacy)
 
 #### Amélioré
 - **Maintenabilité optimisée** : Chaque module < 150 lignes (seuil respecté)
@@ -154,7 +157,7 @@ Historique des versions et évolutions de la classe nfdevoirs.
 **Breaking Change** : Réorganisation complète de la classe en modules spécialisés
 
 #### Ajouté
-- **Architecture modulaire** : Division en 6 modules indépendants
+- **Architecture modulaire** : Division en modules indépendants (évolution vers 16 modules)
   - `nf-core.sty` : Compteurs, variables globales, utilitaires de base
   - `nf-themes.sty` : Système de thèmes et palettes de couleurs
   - `nf-layout.sty` : Configuration de la mise en page et géométrie
