@@ -1,0 +1,39 @@
+% Test QCM avec correction inline
+\documentclass[correction]{nfdevoirs}
+
+\title{Test QCM mode inline}
+
+\begin{document}
+
+\begin{devoir}{
+    type=DS,
+    classe={Test},
+    date={Test},
+    calculatrice=true,
+    auteur={Test}
+}
+
+\begin{partie}{Test QCM inline}
+
+    \begin{exercice}{QCM avec correction inline}
+
+        \begin{qcm}{points=1, style=num}
+            Quelle est la valeur de $2+2$ ?
+            \begin{choix}
+                \proposition{3}
+                \proposition*{4}
+                \proposition{5}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            Correction du QCM inline.
+        \end{correction}
+
+    \end{exercice}
+
+\end{partie}
+
+\end{devoir}
+
+\end{document}

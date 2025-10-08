@@ -1,0 +1,63 @@
+% Test spécifique pour corrections en fin
+\documentclass{nfdevoirs}
+
+\title{Test corrections en fin}
+
+\begin{document}
+
+\begin{devoir}{
+    correction=end,
+    type=DS,
+    classe={Test},
+    date={Test},
+    calculatrice=true,
+    auteur={Test}
+}
+
+\begin{partie}{Première partie}
+
+    \begin{exercice}{Premier exercice}
+
+        \begin{question}{points=2}
+            Question 1 de la partie 1
+        \end{question}
+
+        \begin{correction}
+            Correction question 1 partie 1 - doit apparaître en fin
+        \end{correction}
+
+        \begin{qcm}{points=1, style=case}
+            QCM partie 1
+            \begin{choix}
+                \proposition{Réponse A}
+                \proposition*{Réponse B correcte}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            Correction QCM partie 1 - doit afficher "Bonne réponse : 2"
+        \end{correction}
+
+    \end{exercice}
+
+\end{partie}
+
+\begin{partie}{Deuxième partie}
+
+    \begin{exercice}{Deuxième exercice}
+
+        \begin{question}{points=3}
+            Question 1 de la partie 2
+        \end{question}
+
+        \begin{correction}
+            Correction question partie 2 - test hiérarchie
+        \end{correction}
+
+    \end{exercice}
+
+\end{partie}
+
+\end{devoir}
+
+\end{document}

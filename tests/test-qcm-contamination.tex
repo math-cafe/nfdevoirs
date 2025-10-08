@@ -1,0 +1,64 @@
+% Test spécifique pour vérifier l'absence de contamination QCM → question
+\documentclass{nfdevoirs}
+
+\title{Test contamination QCM-Question}
+
+\begin{document}
+
+\begin{devoir}{
+    type=DS,
+    classe={Test},
+    date={Test},
+    calculatrice=true,
+    auteur={Test},
+    correction=only
+}
+
+\begin{partie}{Test contamination}
+
+    \begin{exercice}{Séquence problématique}
+
+        % QCM avec correction
+        \begin{qcm}{points=1, style=num}
+            QCM : Combien font $3+3$ ?
+            \begin{choix}
+                \proposition{5}
+                \proposition*{6}
+                \proposition{7}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            $3+3 = 6$, c'est de l'addition simple.
+        \end{correction}
+
+        % Question normale avec correction
+        \begin{question}{points=1}
+            Question : Combien font $4+4$ ?
+        \end{question}
+
+        \begin{correction}
+            $4+4 = 8$
+        \end{correction}
+
+        % Autre QCM pour vérifier reset
+        \begin{qcm}{points=1, style=num}
+            Autre QCM : Combien font $5+5$ ?
+            \begin{choix}
+                \proposition{9}
+                \proposition{11}
+                \proposition*{10}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            $5+5 = 10$, toujours de l'addition.
+        \end{correction}
+
+    \end{exercice}
+
+\end{partie}
+
+\end{devoir}
+
+\end{document}

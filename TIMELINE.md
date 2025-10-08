@@ -80,7 +80,7 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 - **Intégration totale** : Même système points/niveaux/corrections que questions
 
 #### Innovation QCM
-- **3 styles** : case (☐), alpha (a,b,c,d), mix (puces)
+- **3 styles** : case (☐), num (1,2,3,4), mix (puces)
 - **Multi-colonnes** : `col=1|2|3` pour optimiser l'espace
 - **FontAwesome5** : Cases à cocher professionnelles
 - **Unification visuelle** : Même présentation minipage que questions
@@ -123,7 +123,7 @@ Chronologie du développement de la classe LaTeX nfdevoirs pour devoirs surveill
 - **Options correction** : 2 → 4 modes
 - **Thèmes** : 1 → 5 palettes
 - **Types devoirs** : Générique → 4 types spécialisés + pages garde adaptées
-- **Styles QCM** : 0 → 3 (case, alpha, mix)
+- **Styles QCM** : 0 → 3 (case, num, mix)
 - **Lignes code** : ~500 → ~1500 (mais ultra-modulaire)
 
 Le projet a évolué d'une classe simple vers un écosystème modulaire professionnel pour l'édition de devoirs mathématiques.
@@ -132,7 +132,7 @@ Le projet a évolué d'une classe simple vers un écosystème modulaire professi
 
 ## 📊 Analyse critique
 
-**Architecture modulaire excellente** : La séparation en 6 modules (`nf-core.sty`, `nf-themes.sty`, etc.) est très bien pensée. C'est du niveau professionnel avec une séparation claire des responsabilités.
+**Architecture modulaire excellente** : La séparation en 14 modules spécialisés est très bien pensée. C'est du niveau professionnel avec une séparation claire des responsabilités entre `nf-core.sty` (base), `nf-themes.sty` (couleurs), `nf-question.sty`/`nf-qcm.sty` (environnements), `nf-correction-base.sty`/`nf-correction-display.sty` (corrections), etc.
 
 **Système de types intelligent** : L'approche avec comportements automatiques (DS→complet, CONT→minimal) est élégante et répond à un vrai besoin pédagogique.
 
@@ -142,7 +142,7 @@ Le projet a évolué d'une classe simple vers un écosystème modulaire professi
 
 #### 1. **Gestion des totaux fragile**
 ```latex
-% Dans nf-environments.sty - système à double compilation
+% Dans nf-core.sty - système à double compilation
 \edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}}
 ```
 - Dépendance au fichier `.aux` pour les totaux

@@ -61,8 +61,23 @@
       \expandafter\xdef\csname nfcorr\the\value{nfcorrection}partie\endcsname{\Roman{nfpartie}}%
       \expandafter\xdef\csname nfcorr\the\value{nfcorrection}exo\endcsname{\arabic{nfexercice}}%
       \expandafter\xdef\csname nfcorr\the\value{nfcorrection}quest\endcsname{\alph{nfquestion}}%
-      % Stocker le contenu de la correction
-      \expandafter\global\expandafter\let\csname nfcorr\the\value{nfcorrection}body\endcsname\BODY
+      % Stocker le contenu de la correction avec affichage QCM si applicable
+      % Construire le préfixe QCM s'il y a des bonnes réponses
+      \ifx\@nfqcmbonnesreponses\empty
+        \def\nfqcmprefix{}%
+      \else
+        \edef\nfqcmprefix{%
+          \noexpand\noindent\noexpand\textbf{Bonne(s) réponse(s) :} \@nfqcmbonnesreponses
+          \noexpand\par\noexpand\vspace{0.3em}%
+        }%
+      \fi
+      \expandafter\xdef\csname nfcorr\the\value{nfcorrection}body\endcsname{%
+        \unexpanded\expandafter{\nfqcmprefix}%
+        \unexpanded\expandafter{\BODY}%
+        % Reset inclus dans le contenu stocké pour éviter contamination
+        \noexpand\global\noexpand\@nfapresqcmfalse
+        \noexpand\gdef\noexpand\@nfqcmbonnesreponses{}%
+      }
     }{%
       \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
         % Mode only : stocker comme pour end, sera affiché en fin sans page de garde
@@ -71,8 +86,23 @@
         \expandafter\xdef\csname nfcorr\the\value{nfcorrection}partie\endcsname{\Roman{nfpartie}}%
         \expandafter\xdef\csname nfcorr\the\value{nfcorrection}exo\endcsname{\arabic{nfexercice}}%
         \expandafter\xdef\csname nfcorr\the\value{nfcorrection}quest\endcsname{\alph{nfquestion}}%
-        % Stocker le contenu de la correction
-        \expandafter\global\expandafter\let\csname nfcorr\the\value{nfcorrection}body\endcsname\BODY
+        % Stocker le contenu de la correction avec affichage QCM si applicable
+        % Construire le préfixe QCM s'il y a des bonnes réponses
+        \ifx\@nfqcmbonnesreponses\empty
+          \def\nfqcmprefix{}%
+        \else
+          \edef\nfqcmprefix{%
+            \noexpand\noindent\noexpand\textbf{Bonne(s) réponse(s) :} \@nfqcmbonnesreponses
+            \noexpand\par\noexpand\vspace{0.3em}%
+          }%
+        \fi
+        \expandafter\xdef\csname nfcorr\the\value{nfcorrection}body\endcsname{%
+          \unexpanded\expandafter{\nfqcmprefix}%
+          \unexpanded\expandafter{\BODY}%
+          % Reset inclus dans le contenu stocké pour éviter contamination
+          \noexpand\global\noexpand\@nfapresqcmfalse
+          \noexpand\gdef\noexpand\@nfqcmbonnesreponses{}%
+        }
       }{%
         % Mode none : ne rien afficher
       }%

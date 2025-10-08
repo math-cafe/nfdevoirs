@@ -8,10 +8,10 @@ Historique des versions et évolutions de la classe nfdevoirs.
 
 #### Ajouté
 - **Système QCM intégral** avec module `nf-qcm.sty` :
-  - **Environnement `qcm`** avec syntaxe key-value : `\begin{qcm}{points=3, style=alpha, col=2, niveau=4}`
+  - **Environnement `qcm`** avec syntaxe key-value : `\begin{qcm}{points=3, style=num, col=2, niveau=4}`
   - **3 styles d'affichage** :
     - `style=case` : Cases à cocher (☐) avec FontAwesome5
-    - `style=alpha` : Numérotation alphabétique (a, b, c, d)
+    - `style=num` : Numérotation numérique (1, 2, 3, 4)
     - `style=mix` : Puces simples pour questions ouvertes
   - **Support multi-colonnes** : Option `col=1|2|3` pour organiser les propositions
   - **Environnement `choix`** avec commandes `\proposition{}` et `\proposition*{}` (bonne réponse)
@@ -43,7 +43,7 @@ Historique des versions et évolutions de la classe nfdevoirs.
 #### Tests
 - **Partie QCM complète** dans test-simple.tex avec 3 exercices testant :
   - Style case (1 et 2 colonnes, questions simples et multiples)
-  - Style alpha (1 et 3 colonnes, avec bonus, questions complexes)
+  - Style num (1 et 3 colonnes, avec bonus, questions complexes)
   - Style mix (1 et 2 colonnes, questions ensemblistes)
 
 ## [2.3.0] - 2025-10-06

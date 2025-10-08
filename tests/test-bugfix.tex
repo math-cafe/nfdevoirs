@@ -1,0 +1,79 @@
+% Test spécifique pour vérifier les corrections de bugs
+\documentclass[correction=inline]{nfdevoirs}
+
+\title{Test corrections bugs critiques}
+
+\begin{document}
+
+\begin{devoir}{
+    type=DS,
+    classe={Test},
+    date={Test},
+    calculatrice=true,
+    auteur={Test}
+}
+
+\begin{partie}{Test bugs QCM}
+
+    \begin{exercice}{Test contamination état QCM}
+
+        % QCM avec style case (test bug majeur)
+        \begin{qcm}{points=2, style=case}
+            Quelle est la bonne réponse ?
+            \begin{choix}
+                \proposition{Réponse A}
+                \proposition*{Réponse B (bonne)}
+                \proposition{Réponse C}
+                \proposition*{Réponse D (bonne)}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            Test: doit afficher "Bonnes réponses : 2, 4" et non "a, c"
+        \end{correction}
+
+        % Question classique après QCM (test bug bloquant)
+        \begin{question}{points=1}
+            Question normale après QCM
+        \end{question}
+
+        \begin{correction}
+            Test: ne doit PAS afficher les bonnes réponses du QCM précédent
+        \end{correction}
+
+        % Autre QCM style num pour vérifier
+        \begin{qcm}{points=1, style=num}
+            Autre QCM
+            \begin{choix}
+                \proposition*{Bonne réponse A}
+                \proposition{Mauvaise B}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            Test: doit afficher "Bonne réponse : 1"
+        \end{correction}
+
+    \end{exercice}
+
+    \begin{exercice}{Test niveaux difficulté}
+
+        \begin{question}{points=1, niveau=1}
+            Niveau 1 (1 étoile)
+        \end{question}
+
+        \begin{question}{points=2, niveau=3}
+            Niveau 3 (3 étoiles)
+        \end{question}
+
+        \begin{question}{points=3, niveau=5}
+            Niveau 5 (5 étoiles max)
+        \end{question}
+
+    \end{exercice}
+
+\end{partie}
+
+\end{devoir}
+
+\end{document}

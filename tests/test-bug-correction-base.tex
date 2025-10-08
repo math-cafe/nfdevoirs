@@ -1,0 +1,47 @@
+% Test ciblé pour le bug de contamination des corrections en mode only
+\documentclass{nfdevoirs}
+
+\title{Test bug correction only}
+
+\begin{document}
+
+\begin{devoir}{
+    type=DS,
+    classe={Test},
+    date={Test},
+    calculatrice=true,
+    auteur={Test},
+    correction=end
+}
+
+\begin{partie}{Détection bug correction}
+
+    \begin{exercice}{QCM suivi d'une question}
+
+        \begin{qcm}{points=1, style=num}
+            Quelle est la valeur de $2+2$ ?
+            \begin{choix}
+                \proposition{3}
+                \proposition*{4}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            Correction QCM.
+        \end{correction}
+
+        \begin{question}{points=1}
+            Quelle est la valeur de $1+1$ ?
+        \end{question}
+
+        \begin{correction}
+            $2$
+        \end{correction}
+
+    \end{exercice}
+
+\end{partie}
+
+\end{devoir}
+
+\end{document}

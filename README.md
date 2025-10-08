@@ -4,12 +4,12 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 
 ## Caractéristiques principales
 
-- **Architecture modulaire** : Code organisé en 13 modules spécialisés
+- **Architecture modulaire** : Code organisé en 14 modules spécialisés
 - **Questions à choix multiples (QCM)** : 3 styles d'affichage, colonnes multiples, corrections automatiques
 - **Pages de garde spécialisées** : Consignes adaptées selon le type (DS, DM, EVA)
 - **Système de thèmes** : 5 palettes de couleurs (moderne, nb, orange, vert, violet)
 - **Bandeau d'établissement** : Design 3 colonnes configurable (haut/bas/aucun)
-- **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 6 étoiles
+- **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 5 étoiles
 - **Corrections flexibles** : Mode inline, en fin, ou uniquement corrections
 - **Gestion des points** : Calcul automatique et affichage hiérarchique uniforme
 - **Optimisé impression** : Compatible couleur et noir & blanc
@@ -19,7 +19,7 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 ```
 nfdevoirs/
 ├── nfdevoirs.cls              # Classe principale (modulaire)
-├── nfdevoirs/                 # Modules spécialisés (13 modules)
+├── nfdevoirs/                 # Modules spécialisés (14 modules)
 │   ├── nf-core.sty            # Compteurs, variables, utilitaires
 │   ├── nf-themes.sty          # Système de thèmes (5 palettes)
 │   ├── nf-layout.sty          # Mise en page, géométrie
@@ -34,7 +34,10 @@ nfdevoirs/
 │   ├── nf-pagegarde-minimale.sty # Page de garde simple
 │   ├── nf-pagegarde-complete.sty # Page de garde avec consignes DM/DS
 │   └── nf-citations.sty       # Citations inspirantes
-├── test-simple.tex            # Document d'exemple avec QCM
+├── tests/                    # Fichiers de test
+│   ├── test-simple.tex       # Document d'exemple principal
+│   ├── test-qcm-end.tex      # Test QCM avec corrections fin
+│   └── ...                   # Autres tests
 ├── .latexmkrc                 # Configuration latexmk optimisée
 ├── Makefile                   # Automatisation de compilation
 ├── CLAUDE.md                  # Instructions pour Claude Code
@@ -157,7 +160,7 @@ Nécessite :
       \end{correction}
 
       % Question à choix multiples
-      \begin{qcm}{points=2, style=alpha, col=2, niveau=3}
+      \begin{qcm}{points=2, style=num, col=2, niveau=3}
         Énoncé du QCM...
         \begin{choix}
           \proposition{Réponse A}

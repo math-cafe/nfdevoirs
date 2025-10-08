@@ -40,7 +40,7 @@ make build FILE=test-simple  # Test de compilation
 
 ## 📁 Architecture du projet
 
-### Structure modulaire (13 modules)
+### Structure modulaire (14 modules)
 ```
 nfdevoirs/
 ├── nfdevoirs.cls                    # ⚠️  Classe principale (options et imports)
@@ -255,7 +255,7 @@ done
 
 # Test système QCM (3 styles + colonnes)
 # Vérifier que tous les styles QCM compilent
-for style in case alpha mix; do
+for style in case num mix; do
   echo "Test style QCM: $style"
   grep -q "style=$style" test-simple.tex && echo "✓ Style $style présent"
 done

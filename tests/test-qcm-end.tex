@@ -1,0 +1,41 @@
+\documentclass{nfdevoirs}
+
+\title{Test QCM}
+
+\begin{document}
+
+\begin{devoir}{
+    etablissement={Test},
+    classe={Test},
+    matiere={Mathématiques},
+    type={CONT},
+    duree={1h},
+    date={07/10/2025},
+    calculatrice={autorisee},
+    correction={end}
+}
+
+\begin{partie}{Test QCM avec corrections en fin}
+
+    \begin{exercice}{QCM Test}
+
+        \begin{qcm}{points=2, style=num}
+            Combien vaut $2 + 2$ ?
+            \begin{choix}
+                \proposition{3}
+                \proposition*{4}
+                \proposition{5}
+            \end{choix}
+        \end{qcm}
+
+        \begin{correction}
+            $2 + 2 = 4$ donc la bonne réponse est 2.
+        \end{correction}
+
+    \end{exercice}
+
+\end{partie}
+
+\end{devoir}
+
+\end{document}
