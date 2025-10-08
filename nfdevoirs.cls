@@ -28,51 +28,51 @@
 
 % Options de correction (avec migration douce)
 \DeclareOption{correction}{%
-  \@correctiontrue%
-  \renewcommand{\@nfcorrection}{inline}%
-  \PackageWarning{nfdevoirs}{Option 'correction' depreciee. Utilisez 'correction=inline' dans les options du devoir}%
+    \@correctiontrue%
+    \renewcommand{\@nfcorrection}{inline}%
+    \PackageWarning{nfdevoirs}{Option 'correction' depreciee. Utilisez 'correction=inline' dans les options du devoir}%
 }
 \DeclareOption{correctionfin}{%
-  \@correctionfintrue%
-  \renewcommand{\@nfcorrection}{end}%
-  \PackageWarning{nfdevoirs}{Option 'correctionfin' depreciee. Utilisez 'correction=end' dans les options du devoir}%
+    \@correctionfintrue%
+    \renewcommand{\@nfcorrection}{end}%
+    \PackageWarning{nfdevoirs}{Option 'correctionfin' depreciee. Utilisez 'correction=end' dans les options du devoir}%
 }
 
 % Options de thèmes avec gestion mutuelle exclusive
 \DeclareOption{theme=nb}{%
-  \@themenbtrue%
-  \@thememodernefalse%
-  \@themeorangefalse%
-  \@themevertfalse%
-  \@themevioletfalse%
+    \@themenbtrue%
+    \@thememodernefalse%
+    \@themeorangefalse%
+    \@themevertfalse%
+    \@themevioletfalse%
 }
 \DeclareOption{theme=moderne}{%
-  \@thememodernetrue%
-  \@themenbfalse%
-  \@themeorangefalse%
-  \@themevertfalse%
-  \@themevioletfalse%
+    \@thememodernetrue%
+    \@themenbfalse%
+    \@themeorangefalse%
+    \@themevertfalse%
+    \@themevioletfalse%
 }
 \DeclareOption{theme=orange}{%
-  \@themeorangetrue%
-  \@thememodernefalse%
-  \@themenbfalse%
-  \@themevertfalse%
-  \@themevioletfalse%
+    \@themeorangetrue%
+    \@thememodernefalse%
+    \@themenbfalse%
+    \@themevertfalse%
+    \@themevioletfalse%
 }
 \DeclareOption{theme=vert}{%
-  \@themeverttrue%
-  \@thememodernefalse%
-  \@themenbfalse%
-  \@themeorangefalse%
-  \@themevioletfalse%
+    \@themeverttrue%
+    \@thememodernefalse%
+    \@themenbfalse%
+    \@themeorangefalse%
+    \@themevioletfalse%
 }
 \DeclareOption{theme=violet}{%
-  \@themeviolettrue%
-  \@thememodernefalse%
-  \@themenbfalse%
-  \@themeorangefalse%
-  \@themevertfalse%
+    \@themeviolettrue%
+    \@thememodernefalse%
+    \@themenbfalse%
+    \@themeorangefalse%
+    \@themevertfalse%
 }
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}

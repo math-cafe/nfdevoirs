@@ -20,33 +20,33 @@
 \@nfindevoirenvfalse
 
 \NewDocumentEnvironment{devoir}{m}{%
-  \@nfindevoirenvtrue
-  % Parsing des options avec pgfkeys
-  \setkeys{nfdevoir}{#1}%
-  % Réinitialisation des compteurs
-  \setcounter{nfpartie}{0}%
-  \setcounter{nfptsdevoir}{0}%
-  \setcounter{nfbonusdevoir}{0}%
-  % Génération de la page de garde (sauf mode correction=only)
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : pas de page de garde
-  }{%
-    % Choix du type de page de garde selon @nfpagegardetype
-    \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
-      \nfpagegardeminimale
+    \@nfindevoirenvtrue
+    % Parsing des options avec pgfkeys
+    \setkeys{nfdevoir}{#1}%
+    % Réinitialisation des compteurs
+    \setcounter{nfpartie}{0}%
+    \setcounter{nfptsdevoir}{0}%
+    \setcounter{nfbonusdevoir}{0}%
+    % Génération de la page de garde (sauf mode correction=only)
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : pas de page de garde
     }{%
-      \nfpagegarde
-    }%
-  }
+        % Choix du type de page de garde selon @nfpagegardetype
+        \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
+            \nfpagegardeminimale
+        }{%
+            \nfpagegarde
+        }%
+    }
 }{%
-  % À la fin du devoir
-  % 1. Écriture des totaux dans .aux pour la prochaine compilation
-  \nfwritetotaux
-  % 2. Affichage de la citation finale
-  \nfcitationfin
-  % 3. Affichage des corrections si mode correctionfin
-  \nfaffichercorrections
-  \@nfindevoirenvfalse
+    % À la fin du devoir
+    % 1. Écriture des totaux dans .aux pour la prochaine compilation
+    \nfwritetotaux
+    % 2. Affichage de la citation finale
+    \nfcitationfin
+    % 3. Affichage des corrections si mode correctionfin
+    \nfaffichercorrections
+    \@nfindevoirenvfalse
 }
 
 % ============================================================================
@@ -76,28 +76,28 @@
 
 % Fonction qui applique les comportements par défaut selon le type
 \newcommand{\nfapplytypedefaults}[1]{%
-  \expandafter\ifstrequal\expandafter{#1}{DS}{%
-    % DS : Devoir Surveillé - page garde complète
-    \renewcommand{\@nfpagegardetype}{complete}%
-  }{%
-    \expandafter\ifstrequal\expandafter{#1}{EVA}{%
-      % EVA : Évaluation - page garde complète comme DS
-      \renewcommand{\@nfpagegardetype}{complete}%
+    \expandafter\ifstrequal\expandafter{#1}{DS}{%
+        % DS : Devoir Surveillé - page garde complète
+        \renewcommand{\@nfpagegardetype}{complete}%
     }{%
-      \expandafter\ifstrequal\expandafter{#1}{CONT}{%
-        % CONT : Contrôle court - page garde minimaliste
-        \renewcommand{\@nfpagegardetype}{minimale}%
-      }{%
-        \expandafter\ifstrequal\expandafter{#1}{DM}{%
-          % DM : Devoir Maison - page garde complète, logique spéciale
-          \renewcommand{\@nfpagegardetype}{complete}%
+        \expandafter\ifstrequal\expandafter{#1}{EVA}{%
+            % EVA : Évaluation - page garde complète comme DS
+            \renewcommand{\@nfpagegardetype}{complete}%
         }{%
-          % Type inconnu : comportement par défaut DS
-          \renewcommand{\@nfpagegardetype}{complete}%
+            \expandafter\ifstrequal\expandafter{#1}{CONT}{%
+                % CONT : Contrôle court - page garde minimaliste
+                \renewcommand{\@nfpagegardetype}{minimale}%
+            }{%
+                \expandafter\ifstrequal\expandafter{#1}{DM}{%
+                    % DM : Devoir Maison - page garde complète, logique spéciale
+                    \renewcommand{\@nfpagegardetype}{complete}%
+                }{%
+                    % Type inconnu : comportement par défaut DS
+                    \renewcommand{\@nfpagegardetype}{complete}%
+                }%
+            }%
         }%
-      }%
     }%
-  }%
 }
 
 \endinput

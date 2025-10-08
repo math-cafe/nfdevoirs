@@ -50,11 +50,11 @@
 
 % Commande pour formater l'année scolaire
 \newcommand{\nfformatanscol}[1]{%
-  \ifnum#1<100
-    \the\numexpr2000+#1\relax-\the\numexpr2000+#1+1\relax%
-  \else
-    \the\numexpr#1\relax-\the\numexpr#1+1\relax%
-  \fi
+    \ifnum#1<100
+        \the\numexpr2000+#1\relax-\the\numexpr2000+#1+1\relax%
+    \else
+        \the\numexpr#1\relax-\the\numexpr#1+1\relax%
+    \fi
 }
 
 % ============================================================================
@@ -69,35 +69,35 @@
 
 % Macro auxiliaire pour récupérer les points sauvegardés (avec valeur par défaut)
 \newcommand{\nfgetexopts}[1]{%
-  \ifcsname nfexo#1pts\endcsname
-    \csname nfexo#1pts\endcsname
-  \else
-    0%
-  \fi
+    \ifcsname nfexo#1pts\endcsname
+        \csname nfexo#1pts\endcsname
+    \else
+        0%
+    \fi
 }
 
 \newcommand{\nfgetexobonus}[1]{%
-  \ifcsname nfexo#1bonus\endcsname
-    \csname nfexo#1bonus\endcsname
-  \else
-    0%
-  \fi
+    \ifcsname nfexo#1bonus\endcsname
+        \csname nfexo#1bonus\endcsname
+    \else
+        0%
+    \fi
 }
 
 \newcommand{\nfgetpartiepts}[1]{%
-  \ifcsname nfpartie#1pts\endcsname
-    \csname nfpartie#1pts\endcsname
-  \else
-    0%
-  \fi
+    \ifcsname nfpartie#1pts\endcsname
+        \csname nfpartie#1pts\endcsname
+    \else
+        0%
+    \fi
 }
 
 \newcommand{\nfgetpartiebonus}[1]{%
-  \ifcsname nfpartie#1bonus\endcsname
-    \csname nfpartie#1bonus\endcsname
-  \else
-    0%
-  \fi
+    \ifcsname nfpartie#1bonus\endcsname
+        \csname nfpartie#1bonus\endcsname
+    \else
+        0%
+    \fi
 }
 
 % ============================================================================
@@ -106,14 +106,14 @@
 
 % Commande pour écrire les totaux dans le .aux
 \newcommand{\nfwritetotaux}{%
-  \if@filesw
-    \immediate\write\@auxout{%
-      \string\gdef\string\nftotalpts{\the\value{nfptsdevoir}}%
-    }%
-    \immediate\write\@auxout{%
-      \string\gdef\string\nftotalbonus{\the\value{nfbonusdevoir}}%
-    }%
-  \fi
+    \if@filesw
+        \immediate\write\@auxout{%
+            \string\gdef\string\nftotalpts{\the\value{nfptsdevoir}}%
+        }%
+        \immediate\write\@auxout{%
+            \string\gdef\string\nftotalbonus{\the\value{nfbonusdevoir}}%
+        }%
+    \fi
 }
 
 \endinput

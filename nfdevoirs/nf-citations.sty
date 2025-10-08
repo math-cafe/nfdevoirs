@@ -15,28 +15,28 @@
 % CITATION FINALE
 % ============================================================================
 \newcommand{\nfcitationfin}{%
-  % Ne pas afficher en mode correction=only
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : ne rien afficher
-  }{%
-    \vfill
-    \begin{center}
-      \rule{0.5\textwidth}{0.4pt}
+    % Ne pas afficher en mode correction=only
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : ne rien afficher
+    }{%
+        \vfill
+        \begin{center}
+            \rule{0.5\textwidth}{0.4pt}
 
-      \vspace{0.5cm}
+            \vspace{0.5cm}
 
-      {\Large\textbf{Fin du devoir}}
+            {\Large\textbf{Fin du devoir}}
 
-      \vspace{1cm}
+            \vspace{1cm}
 
-      \expandafter\ifstrempty\expandafter{\@nfcitation}{}{%
-        \parbox{0.8\textwidth}{%
-          \centering
-          \textit{\@nfcitation}
-        }%
-      }
-    \end{center}
-  }%
+            \expandafter\ifstrempty\expandafter{\@nfcitation}{}{%
+                \parbox{0.8\textwidth}{%
+                    \centering
+                    \textit{\@nfcitation}
+                }%
+            }
+        \end{center}
+    }%
 }
 
 \endinput

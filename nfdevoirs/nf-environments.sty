@@ -26,175 +26,175 @@
 
 % Commande pour afficher les étoiles de difficulté
 \newcommand{\nfafficheniveau}[1]{%
-  \ifnum#1>0
-    \par\vspace{2pt}
-    {\tiny\color{nfcolpoints}%
-      \ifcase#1
-      \or \faStar\faIcon[regular]{star}\faIcon[regular]{star}\faIcon[regular]{star}\faIcon[regular]{star}% 1 étoile
-      \or \faStar\faStar\faIcon[regular]{star}\faIcon[regular]{star}\faIcon[regular]{star}% 2 étoiles
-      \or \faStar\faStar\faStar\faIcon[regular]{star}\faIcon[regular]{star}% 3 étoiles
-      \or \faStar\faStar\faStar\faStar\faIcon[regular]{star}% 4 étoiles
-      \or \faStar\faStar\faStar\faStar\faStar% 5 étoiles
-      \fi
-    }
-  \fi
+    \ifnum#1>0
+        \par\vspace{2pt}
+        {\tiny\color{nfcolpoints}%
+            \ifcase#1
+            \or \faStar\faIcon[regular]{star}\faIcon[regular]{star}\faIcon[regular]{star}\faIcon[regular]{star}% 1 étoile
+            \or \faStar\faStar\faIcon[regular]{star}\faIcon[regular]{star}\faIcon[regular]{star}% 2 étoiles
+            \or \faStar\faStar\faStar\faIcon[regular]{star}\faIcon[regular]{star}% 3 étoiles
+            \or \faStar\faStar\faStar\faStar\faIcon[regular]{star}% 4 étoiles
+            \or \faStar\faStar\faStar\faStar\faStar% 5 étoiles
+            \fi
+        }
+    \fi
 }
 
 \NewEnviron{question}[1]{%
-  % Valeurs par défaut
-  \stepcounter{nfquestion}%
-  \setcounter{nfptsquestion}{0}%
-  \setcounter{nfbonusquestion}{0}%
-  \setcounter{nfniveauquestion}{0}%
-  % Parse des options key-value
-  \setkeys{nfquestion}{#1}%
-  % Ajout aux totaux de l'exercice
-  \addtocounter{nfptsexercice}{\value{nfptsquestion}}%
-  \addtocounter{nfbonusexercice}{\value{nfbonusquestion}}%
-  % Structure conditionnelle : masquée en mode correction=only
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : ne pas afficher le contenu de la question
-  }{%
-    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
-      % Mode sans barème : contenu sur toute la largeur
-      \noindent
-      \textbf{\alph{nfquestion})} \BODY
-      \par\medskip
+    % Valeurs par défaut
+    \stepcounter{nfquestion}%
+    \setcounter{nfptsquestion}{0}%
+    \setcounter{nfbonusquestion}{0}%
+    \setcounter{nfniveauquestion}{0}%
+    % Parse des options key-value
+    \setkeys{nfquestion}{#1}%
+    % Ajout aux totaux de l'exercice
+    \addtocounter{nfptsexercice}{\value{nfptsquestion}}%
+    \addtocounter{nfbonusexercice}{\value{nfbonusquestion}}%
+    % Structure conditionnelle : masquée en mode correction=only
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : ne pas afficher le contenu de la question
     }{%
-      % Mode avec barème : structure en deux colonnes
-      \noindent
-      \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-        \textbf{\alph{nfquestion})} \BODY
-      \end{minipage}%
-      \hfill
-      \begin{minipage}[t]{2.5cm}
-        \raggedleft
-        \textbf{%
-          \color{nfcolpoints}%
-          \ifnum\value{nfptsquestion}>0 /\the\value{nfptsquestion}\fi%
-          \ifnum\value{nfbonusquestion}>0 \space +\the\value{nfbonusquestion}\fi%
-        }
-        \nfafficheniveau{\value{nfniveauquestion}}
-      \end{minipage}%
-      \par\medskip
-    }%
-  }
+        \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
+            % Mode sans barème : contenu sur toute la largeur
+            \noindent
+            \textbf{\alph{nfquestion})} \BODY
+            \par\medskip
+        }{%
+            % Mode avec barème : structure en deux colonnes
+            \noindent
+            \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+                \textbf{\alph{nfquestion})} \BODY
+            \end{minipage}%
+            \hfill
+            \begin{minipage}[t]{2.5cm}
+                \raggedleft
+                \textbf{%
+                    \color{nfcolpoints}%
+                    \ifnum\value{nfptsquestion}>0 /\the\value{nfptsquestion}\fi%
+                    \ifnum\value{nfbonusquestion}>0 \space +\the\value{nfbonusquestion}\fi%
+                }
+                \nfafficheniveau{\value{nfniveauquestion}}
+            \end{minipage}%
+            \par\medskip
+        }%
+    }
 }
 
 % ============================================================================
 % ENVIRONNEMENT EXERCICE
 % ============================================================================
 \NewEnviron{exercice}[1]{%
-  % #1 = titre
-  \stepcounter{nfexercice}%
-  \stepcounter{nfexerciceabs}%
-  \setcounter{nfptsexercice}{0}%
-  \setcounter{nfbonusexercice}{0}%
+    % #1 = titre
+    \stepcounter{nfexercice}%
+    \stepcounter{nfexerciceabs}%
+    \setcounter{nfptsexercice}{0}%
+    \setcounter{nfbonusexercice}{0}%
 
-  % Mode correction=only : ne pas afficher le contenu de l'exercice
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : traiter le contenu pour les compteurs mais dans une boîte invisible
-    \setbox0=\vbox{\BODY}% Exécute le contenu dans une boîte qui ne sera pas affichée
-  }{%
-    % Modes normaux : afficher le titre et le contenu
-    \vspace{1em}%
-    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
-      % Mode sans barème : titre sur toute la largeur
-      \noindent
-      {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
-      \par\medskip
+    % Mode correction=only : ne pas afficher le contenu de l'exercice
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : traiter le contenu pour les compteurs mais dans une boîte invisible
+        \setbox0=\vbox{\BODY}% Exécute le contenu dans une boîte qui ne sera pas affichée
     }{%
-      % Mode avec barème : structure en deux colonnes
-      \noindent
-      \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-        {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
-      \end{minipage}%
-      \hfill
-      \begin{minipage}[t]{2.5cm}
-        \raggedleft
-        {\Large\textbf{%
-          \color{nfcolpoints}%
-          \edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}}%
-          \edef\tempbonus{\nfgetexobonus{\roman{nfexerciceabs}}}%
-          \ifnum\temppts>0 /\temppts\fi%
-          \ifnum\tempbonus>0 \space +\tempbonus\fi%
-        }}
-      \end{minipage}%
-      \par\medskip
+        % Modes normaux : afficher le titre et le contenu
+        \vspace{1em}%
+        \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
+            % Mode sans barème : titre sur toute la largeur
+            \noindent
+            {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
+            \par\medskip
+        }{%
+            % Mode avec barème : structure en deux colonnes
+            \noindent
+            \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+                {\Large\textbf{\color{nfcolexercice}\faEdit\ \arabic{nfexercice}. #1}}
+            \end{minipage}%
+            \hfill
+            \begin{minipage}[t]{2.5cm}
+                \raggedleft
+                {\Large\textbf{%
+                        \color{nfcolpoints}%
+                        \edef\temppts{\nfgetexopts{\roman{nfexerciceabs}}}%
+                        \edef\tempbonus{\nfgetexobonus{\roman{nfexerciceabs}}}%
+                        \ifnum\temppts>0 /\temppts\fi%
+                        \ifnum\tempbonus>0 \space +\tempbonus\fi%
+                    }}
+            \end{minipage}%
+            \par\medskip
+        }%
+        % Afficher le contenu de l'exercice
+        \BODY
+        \vspace{1em}%
     }%
-    % Afficher le contenu de l'exercice
-    \BODY
-    \vspace{1em}%
-  }%
 
-  % Sauvegarde des totaux dans le .aux pour la prochaine compilation
-  \if@filesw
-    \immediate\write\@auxout{%
-      \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}pts\string\endcsname{\the\value{nfptsexercice}}%
-    }%
-    \immediate\write\@auxout{%
-      \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}bonus\string\endcsname{\the\value{nfbonusexercice}}%
-    }%
-  \fi
-  % Ajout aux totaux de la partie
-  \addtocounter{nfptspartie}{\value{nfptsexercice}}%
-  \addtocounter{nfbonuspartie}{\value{nfbonusexercice}}%
+    % Sauvegarde des totaux dans le .aux pour la prochaine compilation
+    \if@filesw
+        \immediate\write\@auxout{%
+            \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}pts\string\endcsname{\the\value{nfptsexercice}}%
+        }%
+        \immediate\write\@auxout{%
+            \string\expandafter\string\gdef\string\csname\space nfexo\roman{nfexerciceabs}bonus\string\endcsname{\the\value{nfbonusexercice}}%
+        }%
+    \fi
+    % Ajout aux totaux de la partie
+    \addtocounter{nfptspartie}{\value{nfptsexercice}}%
+    \addtocounter{nfbonuspartie}{\value{nfbonusexercice}}%
 }
 
 % ============================================================================
 % ENVIRONNEMENT PARTIE
 % ============================================================================
 \NewDocumentEnvironment{partie}{m}{%
-  % #1 = titre
-  \stepcounter{nfpartie}%
-  \setcounter{nfptspartie}{0}%
-  \setcounter{nfbonuspartie}{0}%
-  \vspace{2em}%
-  % Affichage du titre conditionnel : masqué en mode correction=only
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : ne pas afficher le titre
-  }{%
-    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
-      % Mode sans barème : titre sur toute la largeur
-      \noindent
-      {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
-      \ifstrempty{#1}{}{ #1}}}
-      \par\bigskip
+    % #1 = titre
+    \stepcounter{nfpartie}%
+    \setcounter{nfptspartie}{0}%
+    \setcounter{nfbonuspartie}{0}%
+    \vspace{2em}%
+    % Affichage du titre conditionnel : masqué en mode correction=only
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : ne pas afficher le titre
     }{%
-      % Mode avec barème : structure en deux colonnes
-      \noindent
-      \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-        {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
-        \ifstrempty{#1}{}{ #1}}}
-      \end{minipage}%
-      \hfill
-      \begin{minipage}[t]{2.5cm}
-        \raggedleft
-        {\LARGE\textbf{%
-          \color{nfcolpoints}%
-          \edef\temppts{\nfgetpartiepts{\roman{nfpartie}}}%
-          \edef\tempbonus{\nfgetpartiebonus{\roman{nfpartie}}}%
-          \ifnum\temppts>0 /\temppts\fi%
-          \ifnum\tempbonus>0 \space +\tempbonus\fi%
-        }}
-      \end{minipage}%
-      \par\bigskip
-    }%
-  }
+        \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
+            % Mode sans barème : titre sur toute la largeur
+            \noindent
+            {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
+                    \ifstrempty{#1}{}{ #1}}}
+            \par\bigskip
+        }{%
+            % Mode avec barème : structure en deux colonnes
+            \noindent
+            \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+                {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
+                        \ifstrempty{#1}{}{ #1}}}
+            \end{minipage}%
+            \hfill
+            \begin{minipage}[t]{2.5cm}
+                \raggedleft
+                {\LARGE\textbf{%
+                        \color{nfcolpoints}%
+                        \edef\temppts{\nfgetpartiepts{\roman{nfpartie}}}%
+                        \edef\tempbonus{\nfgetpartiebonus{\roman{nfpartie}}}%
+                        \ifnum\temppts>0 /\temppts\fi%
+                        \ifnum\tempbonus>0 \space +\tempbonus\fi%
+                    }}
+            \end{minipage}%
+            \par\bigskip
+        }%
+    }
 }{%
-  % Sauvegarde des totaux dans le .aux pour la prochaine compilation
-  \if@filesw
-    \immediate\write\@auxout{%
-      \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}pts\string\endcsname{\the\value{nfptspartie}}%
-    }%
-    \immediate\write\@auxout{%
-      \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}bonus\string\endcsname{\the\value{nfbonuspartie}}%
-    }%
-  \fi
-  % Ajout aux totaux du devoir
-  \addtocounter{nfptsdevoir}{\value{nfptspartie}}%
-  \addtocounter{nfbonusdevoir}{\value{nfbonuspartie}}%
-  \vspace{2em}%
+    % Sauvegarde des totaux dans le .aux pour la prochaine compilation
+    \if@filesw
+        \immediate\write\@auxout{%
+            \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}pts\string\endcsname{\the\value{nfptspartie}}%
+        }%
+        \immediate\write\@auxout{%
+            \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}bonus\string\endcsname{\the\value{nfbonuspartie}}%
+        }%
+    \fi
+    % Ajout aux totaux du devoir
+    \addtocounter{nfptsdevoir}{\value{nfptspartie}}%
+    \addtocounter{nfbonusdevoir}{\value{nfbonuspartie}}%
+    \vspace{2em}%
 }
 
 % ============================================================================
@@ -204,33 +204,33 @@
 \@nfindevoirenvfalse
 
 \NewDocumentEnvironment{devoir}{m}{%
-  \@nfindevoirenvtrue
-  % Parsing des options avec pgfkeys
-  \setkeys{nfdevoir}{#1}%
-  % Réinitialisation des compteurs
-  \setcounter{nfpartie}{0}%
-  \setcounter{nfptsdevoir}{0}%
-  \setcounter{nfbonusdevoir}{0}%
-  % Génération de la page de garde (sauf mode correction=only)
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : pas de page de garde
-  }{%
-    % Choix du type de page de garde selon @nfpagegardetype
-    \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
-      \nfpagegardeminimale
+    \@nfindevoirenvtrue
+    % Parsing des options avec pgfkeys
+    \setkeys{nfdevoir}{#1}%
+    % Réinitialisation des compteurs
+    \setcounter{nfpartie}{0}%
+    \setcounter{nfptsdevoir}{0}%
+    \setcounter{nfbonusdevoir}{0}%
+    % Génération de la page de garde (sauf mode correction=only)
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : pas de page de garde
     }{%
-      \nfpagegarde
-    }%
-  }
+        % Choix du type de page de garde selon @nfpagegardetype
+        \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
+            \nfpagegardeminimale
+        }{%
+            \nfpagegarde
+        }%
+    }
 }{%
-  % À la fin du devoir
-  % 1. Écriture des totaux dans .aux pour la prochaine compilation
-  \nfwritetotaux
-  % 2. Affichage de la citation finale
-  \nfcitationfin
-  % 3. Affichage des corrections si mode correctionfin
-  \nfaffichercorrections
-  \@nfindevoirenvfalse
+    % À la fin du devoir
+    % 1. Écriture des totaux dans .aux pour la prochaine compilation
+    \nfwritetotaux
+    % 2. Affichage de la citation finale
+    \nfcitationfin
+    % 3. Affichage des corrections si mode correctionfin
+    \nfaffichercorrections
+    \@nfindevoirenvfalse
 }
 
 % ============================================================================
@@ -260,28 +260,28 @@
 
 % Fonction qui applique les comportements par défaut selon le type
 \newcommand{\nfapplytypedefaults}[1]{%
-  \expandafter\ifstrequal\expandafter{#1}{DS}{%
-    % DS : Devoir Surveillé - page garde complète
-    \renewcommand{\@nfpagegardetype}{complete}%
-  }{%
-    \expandafter\ifstrequal\expandafter{#1}{EVA}{%
-      % EVA : Évaluation - page garde complète comme DS
-      \renewcommand{\@nfpagegardetype}{complete}%
+    \expandafter\ifstrequal\expandafter{#1}{DS}{%
+        % DS : Devoir Surveillé - page garde complète
+        \renewcommand{\@nfpagegardetype}{complete}%
     }{%
-      \expandafter\ifstrequal\expandafter{#1}{CONT}{%
-        % CONT : Contrôle court - page garde minimaliste
-        \renewcommand{\@nfpagegardetype}{minimale}%
-      }{%
-        \expandafter\ifstrequal\expandafter{#1}{DM}{%
-          % DM : Devoir Maison - page garde complète, logique spéciale
-          \renewcommand{\@nfpagegardetype}{complete}%
+        \expandafter\ifstrequal\expandafter{#1}{EVA}{%
+            % EVA : Évaluation - page garde complète comme DS
+            \renewcommand{\@nfpagegardetype}{complete}%
         }{%
-          % Type inconnu : comportement par défaut DS
-          \renewcommand{\@nfpagegardetype}{complete}%
+            \expandafter\ifstrequal\expandafter{#1}{CONT}{%
+                % CONT : Contrôle court - page garde minimaliste
+                \renewcommand{\@nfpagegardetype}{minimale}%
+            }{%
+                \expandafter\ifstrequal\expandafter{#1}{DM}{%
+                    % DM : Devoir Maison - page garde complète, logique spéciale
+                    \renewcommand{\@nfpagegardetype}{complete}%
+                }{%
+                    % Type inconnu : comportement par défaut DS
+                    \renewcommand{\@nfpagegardetype}{complete}%
+                }%
+            }%
         }%
-      }%
     }%
-  }%
 }
 
 \endinput

@@ -17,56 +17,56 @@
 % ENVIRONNEMENT PARTIE
 % ============================================================================
 \NewDocumentEnvironment{partie}{m}{%
-  % #1 = titre
-  \stepcounter{nfpartie}%
-  \setcounter{nfptspartie}{0}%
-  \setcounter{nfbonuspartie}{0}%
-  \vspace{2em}%
-  % Affichage du titre conditionnel : masqué en mode correction=only
-  \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
-    % Mode only : ne pas afficher le titre
-  }{%
-    \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
-      % Mode sans barème : titre sur toute la largeur
-      \noindent
-      {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
-      \ifstrempty{#1}{}{ #1}}}
-      \par\bigskip
+    % #1 = titre
+    \stepcounter{nfpartie}%
+    \setcounter{nfptspartie}{0}%
+    \setcounter{nfbonuspartie}{0}%
+    \vspace{2em}%
+    % Affichage du titre conditionnel : masqué en mode correction=only
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+        % Mode only : ne pas afficher le titre
     }{%
-      % Mode avec barème : structure en deux colonnes
-      \noindent
-      \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
-        {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
-        \ifstrempty{#1}{}{ #1}}}
-      \end{minipage}%
-      \hfill
-      \begin{minipage}[t]{2.5cm}
-        \raggedleft
-        {\LARGE\textbf{%
-          \color{nfcolpoints}%
-          \edef\temppts{\nfgetpartiepts{\roman{nfpartie}}}%
-          \edef\tempbonus{\nfgetpartiebonus{\roman{nfpartie}}}%
-          \ifnum\temppts>0 /\temppts\fi%
-          \ifnum\tempbonus>0 \space +\tempbonus\fi%
-        }}
-      \end{minipage}%
-      \par\bigskip
-    }%
-  }
+        \expandafter\ifstrequal\expandafter{\@nfbareme}{false}{%
+            % Mode sans barème : titre sur toute la largeur
+            \noindent
+            {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
+                    \ifstrempty{#1}{}{ #1}}}
+            \par\bigskip
+        }{%
+            % Mode avec barème : structure en deux colonnes
+            \noindent
+            \begin{minipage}[t]{\dimexpr\textwidth-3cm\relax}
+                {\LARGE\textbf{\color{nfcolpartie}\faLayerGroup\ \Roman{nfpartie}.%
+                        \ifstrempty{#1}{}{ #1}}}
+            \end{minipage}%
+            \hfill
+            \begin{minipage}[t]{2.5cm}
+                \raggedleft
+                {\LARGE\textbf{%
+                        \color{nfcolpoints}%
+                        \edef\temppts{\nfgetpartiepts{\roman{nfpartie}}}%
+                        \edef\tempbonus{\nfgetpartiebonus{\roman{nfpartie}}}%
+                        \ifnum\temppts>0 /\temppts\fi%
+                        \ifnum\tempbonus>0 \space +\tempbonus\fi%
+                    }}
+            \end{minipage}%
+            \par\bigskip
+        }%
+    }
 }{%
-  % Sauvegarde des totaux dans le .aux pour la prochaine compilation
-  \if@filesw
-    \immediate\write\@auxout{%
-      \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}pts\string\endcsname{\the\value{nfptspartie}}%
-    }%
-    \immediate\write\@auxout{%
-      \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}bonus\string\endcsname{\the\value{nfbonuspartie}}%
-    }%
-  \fi
-  % Ajout aux totaux du devoir
-  \addtocounter{nfptsdevoir}{\value{nfptspartie}}%
-  \addtocounter{nfbonusdevoir}{\value{nfbonuspartie}}%
-  \vspace{2em}%
+    % Sauvegarde des totaux dans le .aux pour la prochaine compilation
+    \if@filesw
+        \immediate\write\@auxout{%
+            \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}pts\string\endcsname{\the\value{nfptspartie}}%
+        }%
+        \immediate\write\@auxout{%
+            \string\expandafter\string\gdef\string\csname\space nfpartie\roman{nfpartie}bonus\string\endcsname{\the\value{nfbonuspartie}}%
+        }%
+    \fi
+    % Ajout aux totaux du devoir
+    \addtocounter{nfptsdevoir}{\value{nfptspartie}}%
+    \addtocounter{nfbonusdevoir}{\value{nfbonuspartie}}%
+    \vspace{2em}%
 }
 
 \endinput

@@ -1,12 +1,12 @@
 # Makefile pour la classe nfdevoirs
 # Automatise la compilation des devoirs LaTeX avec latexmk
-# Usage: make [TARGET] FILE=nom_fichier_sans_extension
+# Usage: make [CIBLE] FILE=nom_fichier_sans_extension
 
-# ============================================================================
+# ============================================================================ 
 # CONFIGURATION
-# ============================================================================
-# Fichier par défaut si aucun FILE n'est spécifié
-FILE ?= test-simple
+# ============================================================================ 
+# Ce Makefile requiert que la variable FILE soit spécifiée pour la plupart des cibles.
+# Ex: make build FILE=mon-devoir
 
 # Variables dérivées du nom de fichier
 TEX = $(FILE).tex
@@ -14,76 +14,90 @@ PDF = $(FILE).pdf
 BUILD_DIR = build
 LOG = $(BUILD_DIR)/$(FILE).log
 
-# Déclare toutes les cibles comme "phony" (pas de fichiers correspondants)
-.PHONY: build view watch clean mrproper log help
+# Liste de toutes les sources LaTeX pour le formatage global
+LATEX_SOURCES := nfdevoirs.cls $(wildcard nfdevoirs/*.sty) $(wildcard tests/*.tex)
 
-# ============================================================================
-# AIDE ET DOCUMENTATION
-# ============================================================================
-help:
+# ============================================================================ 
+# VALIDATION DES PARAMÈTRES
+# ============================================================================ 
+# Cibles qui n'ont pas besoin du paramètre FILE
+PUBLIC_TARGETS := help mrproper format
+
+# Détermine la cible actuelle. Si 'make' est appelé sans argument, la cible par défaut est 'help'.
+CURRENT_GOAL := $(or $(MAKECMDGOALS),help)
+
+# Isole les cibles qui ne sont PAS publiques
+NEEDS_FILE_CHECK := $(filter-out $(PUBLIC_TARGETS),$(CURRENT_GOAL))
+
+# Si au moins une cible non-publique est appelée, on vérifie la présence de FILE
+ifneq ($(NEEDS_FILE_CHECK),)
+  ifndef FILE
+    $(error Le paramètre FILE est manquant. Essayez 'make help' pour plus d'informations.)
+  endif
+endif
+
+# Déclare toutes les cibles comme "phony" (pas de fichiers correspondants)
+.PHONY: help build view watch clean mrproper log lint format
+
+# ============================================================================ 
+# AIDE AUTO-DOCUMENTÉE (CIBLE PAR DÉFAUT)
+# ============================================================================ 
+help: ## Affiche cette aide
 	@echo "Makefile pour la compilation de devoirs LaTeX (classe nfdevoirs)"
 	@echo ""
-	@echo "Usage: make [TARGET] FILE=filename (sans extension .tex)"
+	@echo "Usage: make [CIBLE] FILE=filename (sans extension .tex)"
 	@echo ""
 	@echo "Cibles disponibles:"
-	@echo "  build     - Compile le PDF et le copie à la racine"
-	@echo "  view      - Compile et visualise le PDF avec evince"
-	@echo "  watch     - Compile en mode continu avec visualisation (recommandé)"
-	@echo "  clean     - Efface les fichiers temporaires du build"
-	@echo "  mrproper  - Nettoyage complet (build + PDF racine)"
-	@echo "  log       - Affiche le dernier log de compilation"
-	@echo "  help      - Affiche cette aide"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "; FMT = "  %-9s - %s\n"}; {printf FMT, $$1, $$2}'
 	@echo ""
 	@echo "Exemples:"
 	@echo "  make watch FILE=mon-devoir    # Mode développement"
 	@echo "  make build FILE=mon-devoir    # Compilation simple"
-	@echo "  make clean                    # Nettoyage"
+	@echo "  make clean FILE=mon-devoir    # Nettoyage pour un fichier spécifique"
+	@echo "  make log FILE=mon-devoir      # Consulter le log d'un fichier"
+	@echo "  make mrproper                 # Nettoyage complet du projet"
+	@echo "  make format                   # Formate tout le projet"
+	@echo "  make lint FILE=mon-devoir     # Vérifie la syntaxe d'un fichier"
 
-# ============================================================================
+# ============================================================================ 
 # CIBLES DE COMPILATION
-# ============================================================================
-# Compilation simple : génère le PDF dans build/ et le copie à la racine
-build:
+# ============================================================================ 
+build: ## Compile le PDF et le copie à la racine
 	@echo "🔨 Compilation de $(TEX)..."
 	@latexmk $(TEX)
 	@cp $(BUILD_DIR)/$(PDF) .
 	@echo "✓ PDF généré et copié: $(PDF)"
 
-# Compilation avec visualisation : ouvre automatiquement le PDF
-view:
+view: ## Compile et visualise le PDF avec evince
 	@echo "🔨 Compilation avec visualisation de $(TEX)..."
 	@latexmk -pv $(TEX)
 	@cp $(BUILD_DIR)/$(PDF) .
 	@echo "✓ PDF généré, copié et ouvert: $(PDF)"
 
-# Mode watch : recompile automatiquement à chaque modification
-# C'est le mode recommandé pour le développement
-watch:
+watch: ## Compile en mode continu avec visualisation (recommandé)
 	@echo "👀 Mode watch activé pour $(TEX)"
 	@echo "   Le PDF se recompile automatiquement à chaque sauvegarde"
 	@echo "   Appuyez sur Ctrl+C pour arrêter"
 	@latexmk -pvc $(TEX)
 
-# ============================================================================
+# ============================================================================ 
 # CIBLES DE NETTOYAGE
-# ============================================================================
-# Nettoie uniquement les fichiers temporaires (garde le PDF)
-clean:
-	@echo "🧹 Nettoyage des fichiers temporaires..."
+# ============================================================================ 
+clean: ## Efface les fichiers temporaires du build (pour le FILE en cours)
+	@echo "🧹 Nettoyage des fichiers temporaires pour $(TEX)..."
 	@latexmk -c $(TEX)
 	@echo "✓ Fichiers temporaires effacés"
 
-# Nettoyage complet : supprime aussi le PDF de la racine
-mrproper: clean
+mrproper: ## Nettoyage complet (vide le dossier build/ et efface tous les .pdf)
 	@echo "🧹 Nettoyage complet..."
-	@rm -f $(PDF)
+	@rm -rf $(BUILD_DIR)/*
+	@rm -f *.pdf
 	@echo "✓ Nettoyage complet terminé"
 
-# ============================================================================
-# UTILITAIRES DE DÉBOGAGE
-# ============================================================================
-# Affiche le log de compilation pour diagnostiquer les erreurs
-log:
+# ============================================================================ 
+# QUALITÉ DE CODE ET DÉBOGAGE
+# ============================================================================ 
+log: ## Affiche le dernier log de compilation pour un fichier
 	@if [ -f $(LOG) ]; then \
 		echo "📄 Affichage du log de compilation:"; \
 		less $(LOG); \
@@ -91,3 +105,18 @@ log:
 		echo "❌ Erreur: fichier log introuvable ($(LOG))"; \
 		echo "   Lancez d'abord une compilation avec 'make build'"; \
 	fi
+
+lint: ## Vérifie la syntaxe du code LaTeX avec chktex
+	@echo "🔍 Analyse de $(TEX) avec chktex..."
+	@chktex $(TEX)
+
+format: ## Formate le code LaTeX avec latexindent (tout le projet ou un seul fichier)
+	@echo "💅 Formatage du code LaTeX avec latexindent..."
+	@if [ -z "$(FILE)" ]; then \
+		echo "  -> Aucun FILE spécifié. Formatage de tout le projet..."; \
+		latexindent -s -wd -l -c $(BUILD_DIR) $(LATEX_SOURCES); \
+	else \
+		echo "  -> Formatage du fichier unique: $(TEX)..."; \
+		latexindent -s -wd -l -c $(BUILD_DIR) $(TEX); \
+	fi
+	@echo "✓ Formatage terminé."

@@ -18,10 +18,10 @@
 % CONFIGURATION DE LA PAGE
 % ============================================================================
 \geometry{
-  top=10mm,
-  left=10mm,
-  right=10mm,
-  bottom=15mm
+    top=10mm,
+    left=10mm,
+    right=10mm,
+    bottom=15mm
 }
 
 % ============================================================================
@@ -45,13 +45,13 @@
 
 % Affichage des points à droite du titre (dans le flux de texte)
 \newcommand{\nfaffichepts}[3]{% #1=taille, #2=pts, #3=bonus
-  \hfill%
-  \makebox[2.5cm][r]{%
-    \fontsize{#1}{#1}\selectfont
-    \color{nfcolpoints}%
-    \ifnum#2>0 /#2\fi%
-    \ifnum#3>0 \space +#3\fi%
-  }%
+    \hfill%
+    \makebox[2.5cm][r]{%
+        \fontsize{#1}{#1}\selectfont
+        \color{nfcolpoints}%
+        \ifnum#2>0 /#2\fi%
+        \ifnum#3>0 \space +#3\fi%
+    }%
 }
 
 \endinput

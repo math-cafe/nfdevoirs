@@ -1,0 +1,9 @@
+# nfdevoirs/.latexindent.yaml
+# Configuration locale pour le formatage du projet.
+
+# Indentation: 4 espaces
+defaultIndent: "    "
+
+# Comportement du backup:
+# Créer un seul fichier de backup (qui sera écrasé à chaque fois)
+onlyOneBackUp: 1
