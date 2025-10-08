@@ -72,3 +72,7 @@ test-*.log
 test-*.fdb_latexmk
 test-*.fls
 test-*.synctex.gz
+
+# Fichiers spécifiques à l'environnement de l'assistant
+CLAUDE.md
+GEMINI.md
