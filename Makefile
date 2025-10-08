@@ -21,7 +21,7 @@ LATEX_SOURCES := nfdevoirs.cls $(wildcard nfdevoirs/*.sty) $(wildcard tests/*.te
 # VALIDATION DES PARAMÈTRES
 # ============================================================================ 
 # Cibles qui n'ont pas besoin du paramètre FILE
-PUBLIC_TARGETS := help mrproper format
+PUBLIC_TARGETS := help mrproper format install-hooks
 
 # Détermine la cible actuelle. Si 'make' est appelé sans argument, la cible par défaut est 'help'.
 CURRENT_GOAL := $(or $(MAKECMDGOALS),help)
@@ -37,7 +37,7 @@ ifneq ($(NEEDS_FILE_CHECK),)
 endif
 
 # Déclare toutes les cibles comme "phony" (pas de fichiers correspondants)
-.PHONY: help build view watch clean mrproper log lint format
+.PHONY: help build view watch clean mrproper log lint format install-hooks
 
 # ============================================================================ 
 # AIDE AUTO-DOCUMENTÉE (CIBLE PAR DÉFAUT)
@@ -54,10 +54,10 @@ help: ## Affiche cette aide
 	@echo "  make watch FILE=mon-devoir    # Mode développement"
 	@echo "  make build FILE=mon-devoir    # Compilation simple"
 	@echo "  make clean FILE=mon-devoir    # Nettoyage pour un fichier spécifique"
-	@echo "  make log FILE=mon-devoir      # Consulter le log d'un fichier"
 	@echo "  make mrproper                 # Nettoyage complet du projet"
 	@echo "  make format                   # Formate tout le projet"
 	@echo "  make lint FILE=mon-devoir     # Vérifie la syntaxe d'un fichier"
+	@echo "  make install-hooks            # Installe les hooks Git pour le développement"
 
 # ============================================================================ 
 # CIBLES DE COMPILATION
@@ -120,3 +120,12 @@ format: ## Formate le code LaTeX avec latexindent (tout le projet ou un seul fic
 		latexindent -s -wd -l -c $(BUILD_DIR) $(TEX); \
 	fi
 	@echo "✓ Formatage terminé."
+
+# ============================================================================ 
+# GESTION DES HOOKS GIT
+# ============================================================================ 
+install-hooks: ## Installe les hooks Git du projet dans le dépôt local .git/
+	@echo "🔧 Installation des hooks Git..."
+	@cp scripts/hooks/* .git/hooks/
+	@chmod +x .git/hooks/*
+	@echo "✓ Hooks installés avec succès."

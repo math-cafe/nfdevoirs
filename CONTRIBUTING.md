@@ -21,9 +21,16 @@ Merci de votre intérêt pour contribuer à **nfdevoirs** ! Ce guide vous aidera
 
 ### Installation pour développement
 ```bash
+# 1. Cloner le dépôt
 git clone <votre-fork>
 cd nfdevoirs
-make build FILE=test-simple  # Test de compilation
+
+# 2. Installer les hooks Git (recommandé)
+# Active le formatage automatique du code avant chaque commit.
+make install-hooks
+
+# 3. Lancer une compilation de test
+make build FILE=test-simple
 ```
 
 ## 📁 Architecture du projet

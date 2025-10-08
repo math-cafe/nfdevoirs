@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Hook de pre-commit pour formater le code LaTeX avec latexindent
+
+# 1. Trouver les fichiers LaTeX (.tex, .sty, .cls) qui sont "stagés" pour le commit.
+# --diff-filter=ACM : ne considère que les fichiers Ajoutés, Copiés, ou Modifiés.
+STAGED_LATEX_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(tex|sty|cls)$')
+
+# 2. Si aucun fichier LaTeX n'est concerné, on quitte le script avec succès.
+if [ -z "$STAGED_LATEX_FILES" ]; then
+  exit 0
+fi
+
+# 3. Lancer latexindent sur les fichiers concernés.
+# L'option -wd est cruciale : elle ne modifie les fichiers que si nécessaire.
+echo "[pre-commit hook] Lancement de latexindent sur les fichiers stagés..."
+latexindent -s -wd -l -c build/ $STAGED_LATEX_FILES
+
+# 4. Vérifier si latexindent a modifié des fichiers.
+# `git diff --quiet` renvoie un code de sortie non nul s'il y a des changements.
+if ! git diff --quiet; then
+  echo "-----------------------------------------------------------------"
+  echo "ERREUR : Des fichiers ont été reformatés par latexindent."
+  echo ""
+  echo "Veuillez vérifier les modifications et les ajouter au commit."
+  echo "Utilisez 'git add .' puis relancez votre commande de commit."
+  echo "-----------------------------------------------------------------"
+  exit 1 # Annule le commit
+fi
+
+# 5. Si on arrive ici, tout était déjà bien formaté. Le commit peut continuer.
+exit 0
