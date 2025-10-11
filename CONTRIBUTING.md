@@ -53,7 +53,6 @@ nfdevoirs/
 │   ├── nf-question.sty     # ❓ Environnement question
 │   ├── nf-pagegarde-complete.sty   # 📄 Page de garde complète
 │   ├── nf-pagegarde-minimale.sty   # 📄 Page de garde compacte
-│   ├── nf-corrections.sty  # ✅ Système de corrections (legacy)
 │   ├── nf-environments.sty # 🏗️  Environnements (legacy)
 │   └── nf-pagegarde.sty    # 📄 Page de garde (legacy)
 └── test-simple.tex         # 🧪 Document de test

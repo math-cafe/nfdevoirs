@@ -120,14 +120,6 @@ Nécessite :
 }
 ```
 
-**Ancien système (déprécié, mais maintenu pour compatibilité) :**
-- `correction` : Équivalent à `correction=inline`
-- `correctionfin` : Équivalent à `correction=end`
-
-```latex
-\documentclass[correction]{nfdevoirs}        % Déprécié
-\documentclass[correctionfin]{nfdevoirs}     % Déprécié
-```
 
 ### Thèmes visuels
 

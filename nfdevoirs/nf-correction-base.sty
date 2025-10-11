@@ -74,46 +74,6 @@
         }%
     }%
 
-    % Compatibilité avec l'ancien système
-    \if@correction
-    \expandafter\ifstrequal\expandafter{\@nfcorrection}{none}{%
-            % Si nouvelle variable = none mais ancienne option = true, forcer inline
-            \begin{tcolorbox}[
-                    enhanced,
-                    breakable=false,
-                    colback=nfcolbglight,
-                    colframe=nfcolpartie,
-                    arc=3pt,
-                    boxrule=1pt,
-                    left=5pt,
-                    right=5pt,
-                    top=5pt,
-                    bottom=5pt,
-                    title={\small\textcolor{nfcolpartie}{\faCheck\ Correction}},
-                    fonttitle=\bfseries,
-                    coltitle=nfcolpartie,
-                    attach boxed title to top left={yshift=-2mm, xshift=5mm},
-                    boxed title style={
-                            colback=white,
-                            colframe=nfcolpartie,
-                            boxrule=1pt,
-                            arc=2pt
-                        }
-                ]
-                \BODY
-            \end{tcolorbox}
-        }{}%
-    \fi
-    \if@correctionfin
-    \expandafter\ifstrequal\expandafter{\@nfcorrection}{none}{%
-            % Si nouvelle variable = none mais ancienne option = true, forcer end
-            \stepcounter{nfcorrection}%
-            \expandafter\xdef\csname nfcorr\the\value{nfcorrection}partie\endcsname{\Roman{nfpartie}}%
-            \expandafter\xdef\csname nfcorr\the\value{nfcorrection}exo\endcsname{\arabic{nfexercice}}%
-            \expandafter\xdef\csname nfcorr\the\value{nfcorrection}quest\endcsname{\alph{nfquestion}}%
-            \expandafter\global\expandafter\let\csname nfcorr\the\value{nfcorrection}body\endcsname\BODY
-        }{}%
-    \fi
-}
+    }
 
 \endinput

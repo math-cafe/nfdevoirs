@@ -17,7 +17,7 @@
 % COMMANDE POUR AFFICHER TOUTES LES CORRECTIONS EN FIN DE DOCUMENT
 % ============================================================================
 \newcommand{\nfaffichercorrections}{%
-    % Nouveau système : vérifier @nfcorrection=end ou only
+    % Le système ne dépend plus que de la variable @nfcorrection
     \expandafter\ifstrequal\expandafter{\@nfcorrection}{end}{%
         \ifnum\value{nfcorrection}>0
             \clearpage
@@ -32,14 +32,7 @@
                 \nfaffichercorrectionsloop
             \fi
         }{%
-            % Ancien système : compatibilité avec @correctionfin
-            \if@correctionfin
-                \ifnum\value{nfcorrection}>0
-                    \clearpage
-                    \section*{\faClipboardCheck\ Corrections}
-                    \nfaffichercorrectionsloop
-                \fi
-            \fi
+            % Ne rien faire pour les modes 'none' et 'inline'
         }%
     }%
 }
