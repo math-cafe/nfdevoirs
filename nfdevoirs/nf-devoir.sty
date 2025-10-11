@@ -24,10 +24,10 @@
 
 \NewDocumentEnvironment{devoir}{m}{
     \@nfindevoirenvtrue
-    
+
     % 1. On définit une valeur par défaut pour le thème de ce devoir
     \renewcommand{\@nfdevoirtheme}{moderne}%
-    
+
     % 2. On parse toutes les options. Si `theme` est présent, \@nfdevoirtheme est mis à jour.
     \setkeys{nfdevoir}{#1}%
 

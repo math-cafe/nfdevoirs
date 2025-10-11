@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{nfdevoirs}[2025/10/06 Classe modulaire pour devoirs surveillés]
+\ProvidesClass{nfdevoirs}[2025/10/08 Classe modulaire pour devoirs surveillés]
 
 % ============================================================================
 % OPTIONS DE CLASSE

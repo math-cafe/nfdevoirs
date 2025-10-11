@@ -4,7 +4,7 @@ Classe LaTeX modulaire et professionnelle pour les devoirs surveillés de mathé
 
 ## Caractéristiques principales
 
-- **Architecture modulaire** : Code organisé en 16 modules spécialisés
+- **Architecture modulaire** : Code organisé en 15 modules spécialisés
 - **Système de thèmes** : 5 palettes de couleurs (moderne, nb, orange, vert, violet)
 - **Bandeau d'établissement** : Design 3 colonnes configurable (haut/bas/aucun)
 - **Syntaxe moderne** : Questions avec paramètres key-value et difficulté 5 étoiles
@@ -26,7 +26,6 @@ nfdevoirs/
 │   ├── nf-citations.sty           # Citations en fin de devoir
 │   ├── nf-correction-base.sty     # Base du système de corrections
 │   ├── nf-correction-display.sty  # Affichage des corrections
-│   ├── nf-corrections.sty         # Système de corrections (legacy)
 │   ├── nf-devoir.sty              # Environnement devoir principal
 │   ├── nf-environments.sty        # Environnements (legacy)
 │   ├── nf-exercice.sty            # Environnement exercice
