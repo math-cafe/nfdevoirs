@@ -1,130 +1,142 @@
 # Makefile pour la classe nfdevoirs
 # Automatise la compilation des devoirs LaTeX avec latexmk
-# Usage: make [CIBLE] FILE=nom_fichier_sans_extension
 
-# ============================================================================ 
+# ============================================================================
 # CONFIGURATION
-# ============================================================================ 
-# Ce Makefile requiert que la variable FILE soit spécifiée pour la plupart des cibles.
-# Ex: make build FILE=mon-devoir
+# ============================================================================
 
-# Variables dérivées du nom de fichier
-TEX = $(FILE).tex
-PDF = $(FILE).pdf
 BUILD_DIR = build
-LOG = $(BUILD_DIR)/$(FILE).log
 
-# Liste de toutes les sources LaTeX pour le formatage global
+# Logique pour gérer l'extension de fichier
+HAS_EXT = $(filter %.tex %.sty, $(FILE))
+TEX_SRC = $(if $(HAS_EXT), $(FILE), $(FILE).tex)
+
+# Logique pour les chemins de sortie
+BASENAME = $(notdir $(FILE))
+OUT_DIR = $(BUILD_DIR)/$(dir $(FILE))
+PDF_PATH = $(OUT_DIR)/$(BASENAME).pdf
+LOG_PATH = $(OUT_DIR)/$(BASENAME).log
+
+# Sources pour le formatage global
 LATEX_SOURCES := nfdevoirs.cls $(wildcard nfdevoirs/*.sty) $(wildcard tests/*.tex)
 
-# ============================================================================ 
+# Commande latexmk avec les chemins d'inclusion pour TeX et Lua.
+LATEXMK = LUAINPUTS=./nfdevoirs//: TEXINPUTS=.: latexmk
+
+# ============================================================================
 # VALIDATION DES PARAMÈTRES
-# ============================================================================ 
-# Cibles qui n'ont pas besoin du paramètre FILE
+# ============================================================================
 PUBLIC_TARGETS := help mrproper format install-hooks
-
-# Détermine la cible actuelle. Si 'make' est appelé sans argument, la cible par défaut est 'help'.
 CURRENT_GOAL := $(or $(MAKECMDGOALS),help)
-
-# Isole les cibles qui ne sont PAS publiques
 NEEDS_FILE_CHECK := $(filter-out $(PUBLIC_TARGETS),$(CURRENT_GOAL))
 
-# Si au moins une cible non-publique est appelée, on vérifie la présence de FILE
 ifneq ($(NEEDS_FILE_CHECK),)
   ifndef FILE
     $(error Le paramètre FILE est manquant. Essayez 'make help' pour plus d'informations.)
   endif
+  # Validation du chemin de FILE : le chemin doit être à la racine ou sous tests/
+  # La regex vérifie si le chemin commence par 'tests/' OU ne contient aucun '/'.
+  ifeq ($(shell echo "$(FILE)" | grep -q -E '^(tests/|[^/]*$$)' && echo 1),)
+    $(error Le fichier doit se trouver à la racine ou dans le dossier 'tests/')
+  endif
 endif
 
-# Déclare toutes les cibles comme "phony" (pas de fichiers correspondants)
+# Déclare toutes les cibles comme "phony"
 .PHONY: help build view watch clean mrproper log lint format install-hooks
 
-# ============================================================================ 
+# ============================================================================
 # AIDE AUTO-DOCUMENTÉE (CIBLE PAR DÉFAUT)
-# ============================================================================ 
-help: ## Affiche cette aide
+# ============================================================================
+help: ## @aide Affiche cette aide
 	@echo "Makefile pour la compilation de devoirs LaTeX (classe nfdevoirs)"
 	@echo ""
-	@echo "Usage: make [CIBLE] FILE=filename (sans extension .tex)"
+	@echo "Usage: make [CIBLE] [FILE=<chemin/fichier>]"
 	@echo ""
-	@echo "Cibles disponibles:"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "; FMT = "  %-9s - %s\n"}; {printf FMT, $$1, $$2}'
+	@echo "  Le paramètre FILE est requis pour la plupart des cibles (build, view, etc.)."
+	@echo "  L'extension .tex est optionnelle."
+	@echo ""
+	@echo "Cibles de Compilation :"
+	@grep -E '^[a-zA-Z_-]+:.*?## @compilation' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## @compilation "}; {printf "  %-15s - %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Qualité & Outils :"
+	@grep -E '^[a-zA-Z_-]+:.*?## @outils' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## @outils "}; {printf "  %-15s - %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Cibles de Nettoyage :"
+	@grep -E '^[a-zA-Z_-]+:.*?## @nettoyage' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## @nettoyage "}; {printf "  %-15s - %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Aide :"
+	@grep -E '^[a-zA-Z_-]+:.*?## @aide' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## @aide "}; {printf "  %-15s - %s\n", $$1, $$2}'
 	@echo ""
 	@echo "Exemples:"
-	@echo "  make watch FILE=mon-devoir    # Mode développement"
-	@echo "  make build FILE=mon-devoir    # Compilation simple"
-	@echo "  make clean FILE=mon-devoir    # Nettoyage pour un fichier spécifique"
-	@echo "  make mrproper                 # Nettoyage complet du projet"
-	@echo "  make format                   # Formate tout le projet"
-	@echo "  make lint FILE=mon-devoir     # Vérifie la syntaxe d'un fichier"
-	@echo "  make install-hooks            # Installe les hooks Git pour le développement"
+	@echo "  make watch FILE=tests/test-simple   # Mode développement"
+	@echo "  make build FILE=tests/test-simple   # Compilation simple"
+	@echo "  make mrproper                     # Nettoyage complet du projet"
 
-# ============================================================================ 
+# ============================================================================
 # CIBLES DE COMPILATION
-# ============================================================================ 
-build: ## Compile le PDF et le copie à la racine
-	@echo "🔨 Compilation de $(TEX)..."
-	@latexmk $(TEX)
-	@cp $(BUILD_DIR)/$(PDF) .
-	@echo "✓ PDF généré et copié: $(PDF)"
+# ============================================================================
+build: ## @compilation Compile le PDF dans son sous-dossier de build/
+	@echo "🔨 Compilation de $(TEX_SRC)..."
+	@mkdir -p $(OUT_DIR)
+	@$(LATEXMK) -output-directory=$(OUT_DIR) $(TEX_SRC)
+	@echo "✓ PDF généré dans: $(PDF_PATH)"
 
-view: ## Compile et visualise le PDF avec evince
-	@echo "🔨 Compilation avec visualisation de $(TEX)..."
-	@latexmk -pv $(TEX)
-	@cp $(BUILD_DIR)/$(PDF) .
-	@echo "✓ PDF généré, copié et ouvert: $(PDF)"
+view: ## @compilation Compile et visualise le PDF
+	@echo "🔨 Compilation et visualisation de $(TEX_SRC)..."
+	@mkdir -p $(OUT_DIR)
+	@$(LATEXMK) -pv -output-directory=$(OUT_DIR) $(TEX_SRC)
+	@echo "✓ PDF ouvert dans le viewer."
 
-watch: ## Compile en mode continu avec visualisation (recommandé)
-	@echo "👀 Mode watch activé pour $(TEX)"
-	@echo "   Le PDF se recompile automatiquement à chaque sauvegarde"
-	@echo "   Appuyez sur Ctrl+C pour arrêter"
-	@latexmk -pvc $(TEX)
+watch: ## @compilation Compile en mode continu avec visualisation
+	@echo "👀 Mode watch activé pour $(TEX_SRC)..."
+	@mkdir -p $(OUT_DIR)
+	@$(LATEXMK) -pvc -output-directory=$(OUT_DIR) $(TEX_SRC)
 
-# ============================================================================ 
+# ============================================================================
 # CIBLES DE NETTOYAGE
-# ============================================================================ 
-clean: ## Efface les fichiers temporaires du build (pour le FILE en cours)
-	@echo "🧹 Nettoyage des fichiers temporaires pour $(TEX)..."
-	@latexmk -c $(TEX)
+# ============================================================================
+clean: ## @nettoyage Efface les fichiers temporaires pour une cible
+	@echo "🧹 Nettoyage des fichiers temporaires pour $(TEX_SRC)..."
+	@$(LATEXMK) -c $(TEX_SRC)
 	@echo "✓ Fichiers temporaires effacés"
 
-mrproper: ## Nettoyage complet (vide le dossier build/ et efface tous les .pdf)
+mrproper: ## @nettoyage Nettoyage complet (supprime tout le dossier build/)
 	@echo "🧹 Nettoyage complet..."
-	@rm -rf $(BUILD_DIR)/*
+	@rm -rf $(BUILD_DIR)
 	@rm -f *.pdf
 	@echo "✓ Nettoyage complet terminé"
 
-# ============================================================================ 
+# ============================================================================
 # QUALITÉ DE CODE ET DÉBOGAGE
-# ============================================================================ 
-log: ## Affiche le dernier log de compilation pour un fichier
-	@if [ -f $(LOG) ]; then \
+# ============================================================================
+log: ## @outils Affiche le dernier log de compilation pour un fichier
+	@if [ -f $(LOG_PATH) ]; then \
 		echo "📄 Affichage du log de compilation:"; \
-		less $(LOG); \
+		less $(LOG_PATH); \
 	else \
-		echo "❌ Erreur: fichier log introuvable ($(LOG))"; \
+		echo "❌ Erreur: fichier log introuvable ($(LOG_PATH))"; \
 		echo "   Lancez d'abord une compilation avec 'make build'"; \
 	fi
 
-lint: ## Vérifie la syntaxe du code LaTeX avec chktex
-	@echo "🔍 Analyse de $(TEX) avec chktex..."
-	@chktex $(TEX)
+lint: ## @outils Vérifie la syntaxe LaTeX avec chktex
+	@echo "🔍 Analyse de $(TEX_SRC) avec chktex..."
+	@chktex $(TEX_SRC)
 
-format: ## Formate le code LaTeX avec latexindent (tout le projet ou un seul fichier)
+format: ## @outils Formate le code LaTeX avec latexindent
 	@echo "💅 Formatage du code LaTeX avec latexindent..."
 	@if [ -z "$(FILE)" ]; then \
 		echo "  -> Aucun FILE spécifié. Formatage de tout le projet..."; \
 		latexindent -s -wd -l -c $(BUILD_DIR) $(LATEX_SOURCES); \
 	else \
-		echo "  -> Formatage du fichier unique: $(TEX)..."; \
-		latexindent -s -wd -l -c $(BUILD_DIR) $(TEX); \
+		echo "  -> Formatage du fichier unique: $(TEX_SRC)..."; \
+		latexindent -s -wd -l -c $(BUILD_DIR) $(TEX_SRC); \
 	fi
 	@echo "✓ Formatage terminé."
 
-# ============================================================================ 
+# ============================================================================
 # GESTION DES HOOKS GIT
-# ============================================================================ 
-install-hooks: ## Installe les hooks Git du projet dans le dépôt local .git/
+# ============================================================================
+install-hooks: ## @outils Installe les hooks Git du projet
 	@echo "🔧 Installation des hooks Git..."
 	@cp scripts/hooks/* .git/hooks/
 	@chmod +x .git/hooks/*

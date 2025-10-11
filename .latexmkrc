@@ -12,7 +12,7 @@ $pdf_mode = 4;
 # ============================================================================
 # Tous les fichiers temporaires et le PDF sont générés dans build/
 # Cela maintient le répertoire racine propre
-$out_dir = 'build';
+
 
 # ============================================================================
 # VISUALISEUR PDF
