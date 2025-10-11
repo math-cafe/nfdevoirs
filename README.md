@@ -123,6 +123,8 @@ Nécessite :
 
 ### Thèmes visuels
 
+L'option `theme` se passe maintenant à l'environnement `devoir`.
+
 - `theme=moderne` (défaut) : Palette bleue professionnelle
 - `theme=nb` : Dégradés de gris optimisés pour impression monochrome
 - `theme=orange` : Palette chaleureuse et énergique
@@ -130,8 +132,11 @@ Nécessite :
 - `theme=violet` : Palette créative et moderne
 
 ```latex
-\documentclass[theme=vert]{nfdevoirs}           % Thème vert
-\documentclass[correctionfin,theme=orange]{nfdevoirs}  % Combinaison d'options
+\begin{devoir}{
+  type=DS,
+  theme=vert,
+  ...
+}
 ```
 
 ## Environnements disponibles

@@ -1,44 +1,55 @@
-% ============================================================================
+% ============================================================================ 
 % nf-devoir.sty - Environnement devoir pour nfdevoirs
 % Contient l'environnement devoir avec logique des types et configuration
-% ============================================================================
+% ============================================================================ 
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{nfdevoirs/nf-devoir}[2025/10/06 Environnement devoir nfdevoirs]
 
-% ============================================================================
+% ============================================================================ 
 % PACKAGES REQUIS
-% ============================================================================
+% ============================================================================ 
 \RequirePackage{xparse}
 \RequirePackage{etoolbox}
 \RequirePackage{keyval}
 
-% ============================================================================
+% ============================================================================ 
 % ENVIRONNEMENT DEVOIR
-% ============================================================================
+% ============================================================================ 
 \newif\if@nfindevoirenv
 \@nfindevoirenvfalse
 
-\NewDocumentEnvironment{devoir}{m}{%
+% Macro pour stocker le thème du devoir en cours
+\newcommand{\@nfdevoirtheme}{moderne}
+
+\NewDocumentEnvironment{devoir}{m}{
     \@nfindevoirenvtrue
-    % Parsing des options avec pgfkeys
+    
+    % 1. On définit une valeur par défaut pour le thème de ce devoir
+    \renewcommand{\@nfdevoirtheme}{moderne}%
+    
+    % 2. On parse toutes les options. Si `theme` est présent, \@nfdevoirtheme est mis à jour.
     \setkeys{nfdevoir}{#1}%
-    % Réinitialisation des compteurs
+
+    % 3. On applique le thème en utilisant la valeur stockée dans \@nfdevoirtheme
+    \expandafter\nf@applytheme\expandafter{\@nfdevoirtheme}%
+
+    % 4. Le reste de la logique...
     \setcounter{nfpartie}{0}%
     \setcounter{nfptsdevoir}{0}%
     \setcounter{nfbonusdevoir}{0}%
     % Génération de la page de garde (sauf mode correction=only)
-    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{%
+    \expandafter\ifstrequal\expandafter{\@nfcorrection}{only}{
         % Mode only : pas de page de garde
-    }{%
+    }{
         % Choix du type de page de garde selon @nfpagegardetype
-        \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{%
+        \expandafter\ifstrequal\expandafter{\@nfpagegardetype}{minimale}{
             \nfpagegardeminimale
-        }{%
+        }{
             \nfpagegarde
-        }%
+        }
     }
-}{%
+}{
     % À la fin du devoir
     % 1. Écriture des totaux dans .aux pour la prochaine compilation
     \nfwritetotaux
@@ -49,9 +60,9 @@
     \@nfindevoirenvfalse
 }
 
-% ============================================================================
+% ============================================================================ 
 % CONFIGURATION DES CLÉS POUR L'ENVIRONNEMENT DEVOIR
-% ============================================================================
+% ============================================================================ 
 \define@key{nfdevoir}{calculatrice}{\renewcommand{\@nfcalculatrice}{#1}}
 \define@key{nfdevoir}{classe}{\renewcommand{\@nfclasse}{#1}}
 \define@key{nfdevoir}{date}{\renewcommand{\@nfdate}{#1}}
@@ -69,35 +80,37 @@
 \define@key{nfdevoir}{pagegarde}{\renewcommand{\@nfpagegardetype}{#1}}
 \define@key{nfdevoir}{bareme}{\renewcommand{\@nfbareme}{#1}}
 \define@key{nfdevoir}{correction}{\renewcommand{\@nfcorrection}{#1}}
+% La clé `theme` ne fait que stocker la valeur dans notre nouvelle macro
+\define@key{nfdevoir}{theme}{\renewcommand{\@nfdevoirtheme}{#1}}
 
-% ============================================================================
+% ============================================================================ 
 % LOGIQUE DES TYPES DE DEVOIRS
-% ============================================================================
+% ============================================================================ 
 
 % Fonction qui applique les comportements par défaut selon le type
-\newcommand{\nfapplytypedefaults}[1]{%
-    \expandafter\ifstrequal\expandafter{#1}{DS}{%
+\newcommand{\nfapplytypedefaults}[1]{
+    \expandafter\ifstrequal\expandafter{#1}{DS}{
         % DS : Devoir Surveillé - page garde complète
-        \renewcommand{\@nfpagegardetype}{complete}%
-    }{%
-        \expandafter\ifstrequal\expandafter{#1}{EVA}{%
+        \renewcommand{\@nfpagegardetype}{complete}
+    }{
+        \expandafter\ifstrequal\expandafter{#1}{EVA}{
             % EVA : Évaluation - page garde complète comme DS
-            \renewcommand{\@nfpagegardetype}{complete}%
-        }{%
-            \expandafter\ifstrequal\expandafter{#1}{CONT}{%
+            \renewcommand{\@nfpagegardetype}{complete}
+        }{
+            \expandafter\ifstrequal\expandafter{#1}{CONT}{
                 % CONT : Contrôle court - page garde minimaliste
-                \renewcommand{\@nfpagegardetype}{minimale}%
-            }{%
-                \expandafter\ifstrequal\expandafter{#1}{DM}{%
+                \renewcommand{\@nfpagegardetype}{minimale}
+            }{
+                \expandafter\ifstrequal\expandafter{#1}{DM}{
                     % DM : Devoir Maison - page garde complète, logique spéciale
-                    \renewcommand{\@nfpagegardetype}{complete}%
-                }{%
+                    \renewcommand{\@nfpagegardetype}{complete}
+                }{
                     % Type inconnu : comportement par défaut DS
-                    \renewcommand{\@nfpagegardetype}{complete}%
-                }%
-            }%
-        }%
-    }%
+                    \renewcommand{\@nfpagegardetype}{complete}
+                }
+            }
+        }
+    }
 }
 
 \endinput

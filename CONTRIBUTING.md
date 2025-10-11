@@ -78,33 +78,21 @@ nfdevoirs/
 
 ## 🎨 Ajouter un nouveau thème
 
-### 1. Définir la palette
-Créez votre palette en respectant la nomenclature sémantique :
+L'architecture a été simplifiée. Pour ajouter un nouveau thème, il suffit de modifier un seul fichier : `nfdevoirs/nf-themes.sty`.
+
+Ajoutez une nouvelle condition `\ifstrequal` à la chaîne existante pour votre nouveau thème :
 
 ```latex
 % Dans nfdevoirs/nf-themes.sty
-\else\if@thememontheme
-  % Thème MonTheme - Description de l'ambiance
-  \definecolor{nfcolpartie}{RGB}{...}      % Couleur principale (plus foncée)
-  \definecolor{nfcolexercice}{RGB}{...}    % Couleur secondaire
-  \definecolor{nfcolpoints}{RGB}{100,100,100}    % Gris pour points (recommandé)
-  \definecolor{nfcolaccent}{RGB}{...}      % Couleur d'accent
-  \definecolor{nfcolbglight}{RGB}{...}     % Arrière-plan très clair
-```
-
-### 2. Ajouter l'option de classe
-```latex
-% Dans nfdevoirs.cls
-\newif\if@thememontheme
-\@thememonthemefalse
-
-\DeclareOption{theme=montheme}{%
-  \@thememonthemetrue%
-  % Désactiver tous les autres thèmes
-  \@thememodernefalse%
-  \@themenbfalse%
-  % ... etc
-}
+\newcommand{\nf@applytheme}[1]{%
+    \ifstrequal{#1}{mon-nouveau-theme}{%
+        % Définir ici les couleurs de votre thème
+        \definecolor{nfcolpartie}{RGB}{...}%
+        \definecolor{nfcolexercice}{RGB}{...}%
+    }{%
+        % ... (autres thèmes)
+    }%
+}%
 ```
 
 ### 3. Tester et documenter

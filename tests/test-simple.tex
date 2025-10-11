@@ -1,71 +1,61 @@
-% \documentclass{nfdevoirs}
-% \documentclass[theme=vert]{nfdevoirs}
-\documentclass[theme=nb]{nfdevoirs}
-
-\title{Équations du second degré}
+\documentclass{nfdevoirs}
+\title{Test des thèmes}
 
 \begin{document}
 
+% Devoir 1 : utilise le thème 'vert'
 \begin{devoir}{
-        type=DM,
-        auteur={M. Nouvier},
-        etablissement={LPO Alfred Mézières},
-        anscol=25,
-        matiere={Mathématiques},
-        classe={1MATHS 2},
-        date={12 octobre 2025},
-        calculatrice=true,
-        duree={90 minutes},
-        bandeaupos=haut,
-        logo={assets/logo-lpoam.png},
-        correction=none,
-        citation={blabla}
-    }
+  type=DS,
+  classe={Test Thèmes},
+  auteur={Gemini},
+  correction=none,
+  theme=vert
+}
+\begin{partie}{Partie avec le thème vert}
+    \begin{exercice}{Exercice 1}
+        \begin{question}{points=2}
+            Question...
+        \end{question}
+    \end{exercice}
+\end{partie}
+\end{devoir}
 
-    \begin{partie}{Équations du second degré}
+\newpage
 
-        \begin{exercice}{Application directe}
+% Devoir 1a : utilise le thème 'orange'
+\begin{devoir}{
+  type=DS,
+  classe={Test Thèmes},
+  auteur={Gemini},
+  correction=none,
+  theme=orange
+}
+\begin{partie}{Partie avec le thème orange}
+    \begin{exercice}{Exercice 1}
+        \begin{question}{points=2}
+            Question...
+        \end{question}
+    \end{exercice}
+\end{partie}
+\end{devoir}
 
-            Résolvez les équations suivantes :
+\newpage
 
-            \begin{question}{points=3, niveau=2}
-                $3x^2 - 2x + 1 = 0$
-            \end{question}
-
-            \begin{correction}
-                Calculons le discriminant : $\Delta = b^2 - 4ac = 4 - 12 = -8 < 0$
-
-                L'équation n'a pas de solution réelle.
-            \end{correction}
-
-            \begin{question}{points=3}
-                $x^2 - 6x + 9 = 0$
-            \end{question}
-
-            \begin{correction}
-                $\Delta = 36 - 36 = 0$
-
-                Une solution double : $x_0 = \frac{6}{2} = 3$
-            \end{correction}
-
-        \end{exercice}
-
-        \begin{exercice}{Exercice Bonus}
-
-            Cet exercice est entièrement bonus.
-
-            \begin{question}{bonus=5, niveau=5}
-                Montrez que $(2\sqrt{3} + 1)^2 = 13 + 4\sqrt{3}$
-            \end{question}
-
-            \begin{correction}
-                $(2\sqrt{3} + 1)^2 = 4 \times 3 + 2 \times 2\sqrt{3} + 1 = 12 + 4\sqrt{3} + 1 = 13 + 4\sqrt{3}$
-            \end{correction}
-
-        \end{exercice}
-
-    \end{partie}
-
+% Devoir 2 : utilise le thème 'violet' dans le même document
+\begin{devoir}{
+  type=DS,
+  classe={Test Thèmes},
+  auteur={Gemini},
+  correction=none,
+  theme=violet
+}
+\begin{partie}{Partie avec le thème violet}
+    \begin{exercice}{Exercice 2}
+        \begin{question}{points=2}
+            Question...
+        \end{question}
+    \end{exercice}
+\end{partie}
 \end{devoir}
 
 \end{document}
